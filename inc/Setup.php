@@ -152,7 +152,7 @@ class Setup {
 			'manage_options',
 			POD_TEXTDOMAIN,
 			[$this, 'settings_page'],
-			POD_PLUGIN_ROOT_URL . 'assets/images/podro-logo.svg',
+			POD_PLUGIN_ROOT_URL . 'assets/images/podro.png',
 			200
 		);
 
