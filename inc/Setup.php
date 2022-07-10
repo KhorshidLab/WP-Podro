@@ -80,6 +80,9 @@ class Setup {
 
 		$this->loader = new Loader();
 
+		// Register shipping method
+		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
+
 	}
 
 	/**
