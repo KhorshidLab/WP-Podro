@@ -78,7 +78,9 @@ class Setup {
 	 */
 	private function load_dependencies() {
 
+		$Api_Key = new Api_Key;
 		$this->loader = new Loader();
+		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
 
 		// Register shipping method
 		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
@@ -191,6 +193,38 @@ class Setup {
 
 	public function about_us_page() {
 		require_once( POD_PLUGIN_ROOT . 'admin/views/pages/about-us.php' );
+	}
+
+	/**
+	 * Print plugin status
+	 *
+	 * @return string
+	 */
+	public static function plugin_status() {
+
+		$credentials_status = get_option( 'podro_plugin_status' );
+		switch ($credentials_status) {
+			case 'activated':
+				$status = '<span class="active">' . esc_html__( 'Active', POD_TEXTDOMAIN ) . '</span>';
+				break;
+			default:
+				$status = '<span class="disable">' . esc_html__( 'Disable', POD_TEXTDOMAIN ) . '</span>';
+				break;
+		}
+
+		return wp_kses_post($status);
+
+	}
+
+	/**
+	 * Check if plugin Setup is done and activated
+	 *
+	 * @return boolean
+	 */
+	public static function is_plugin_setup_done() {
+		$status = get_option( 'podro_plugin_status' );
+
+		return $status === 'activated' ? true : false;
 	}
 
 }
