@@ -1,3 +1,109 @@
 #adminmenu #toplevel_page_wp_podro > a img {
 	width: 18px;
 }
+
+.pod-footer {
+	background-color: #883df2;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    max-width: 1202px;
+    width: calc(100% - 30px);
+	color: #fff;
+
+	.pod-footer-links {
+		width: 70%;
+		float: left;
+
+		ul {
+			width: 100%;
+
+			li {
+				display: inline-block;
+				margin-inline-end: 15px;
+				margin-bottom: 0;
+
+				a {
+					color: #fff;
+					opacity: .7;
+					text-decoration: none !important;
+				}
+			}
+		}
+	}
+
+	.pod-footer-social {
+		width: 30%;
+		float: right;
+
+		.footer__social-icons {
+			float: right;
+			width: 180px;
+			text-align: left;
+			direction: ltr;
+			flex-direction: row;
+			justify-content: space-between;
+			display: flex;
+
+			.footer__social-icons__link {
+				display: block;
+
+				svg {
+					width: 30px;
+					height: 30px;
+				}
+			}
+		}
+	}
+}
+
+.pdo-wrapper {
+    max-width: 1232px;
+    width: 100%;
+
+	.pdo-card {
+		max-width: 1232px;
+		width: calc(100% - 48px);
+		background: #fff;
+		background-color: #fff;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+		border-radius: 5px;
+		padding: 24px;
+		margin-bottom: 20px;
+	}
+}
+
+.pdo-box {
+	width: 390px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+	margin-bottom: 12px;
+
+	label {
+		display: inline-block;
+		height: 22px;
+		cursor: pointer;
+		font-weight: bold;
+	}
+
+	input {
+		width: 325px;
+		text-align: left;
+		direction: ltr;
+	}
+
+	.get-api-key {
+		display: block;
+		width: 100%;
+		text-align: right;
+		margin-top: 10px;
+		text-decoration: none !important;
+	}
+}
+
+pre.xdebug-var-dump {
+    margin-left: 320px;
+}
+
