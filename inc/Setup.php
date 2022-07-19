@@ -182,9 +182,9 @@ class Setup {
 	}
 
 	public function settings_page() {
-		$podro_status = get_option('wp_podro_status');
+		$podro_status = self::is_plugin_setup_done();
 		$action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : false;
-		if (  empty($podro_status) || ($podro_status != 'connected' && $podro_status != 'connected-channel') || $action == 'config-api' ) {
+		if ( !$podro_status || $action == 'config-api' ) {
 			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
 		} else {
 			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/settings.php' );
@@ -204,7 +204,7 @@ class Setup {
 
 		$credentials_status = get_option( 'podro_plugin_status' );
 		switch ($credentials_status) {
-			case 'activated':
+			case 'connected':
 				$status = '<span class="active">' . esc_html__( 'Active', POD_TEXTDOMAIN ) . '</span>';
 				break;
 			default:
@@ -217,14 +217,14 @@ class Setup {
 	}
 
 	/**
-	 * Check if plugin Setup is done and activated
+	 * Check if plugin Setup is done and connected
 	 *
 	 * @return boolean
 	 */
 	public static function is_plugin_setup_done() {
 		$status = get_option( 'podro_plugin_status' );
 
-		return $status === 'activated' ? true : false;
+		return $status === 'connected' ? true : false;
 	}
 
 }
