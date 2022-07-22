@@ -79,8 +79,10 @@ class Setup {
 	private function load_dependencies() {
 
 		$Api_Key = new Api_Key;
+		$MetaBox = new MetaBox;
 		$this->loader = new Loader();
 		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
+		$this->loader->add_action( 'add_meta_boxes', $MetaBox, 'add_meta_boxes' );
 
 		// Register shipping method
 		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
@@ -225,6 +227,19 @@ class Setup {
 		$status = get_option( 'podro_plugin_status' );
 
 		return $status === 'connected' ? true : false;
+	}
+
+	public function check_delivery_options() {
+		$delivery_options = get_option( 'podro_delivery_options' );
+		if ( !$delivery_options ) {
+			$delivery_options = [
+				'link' => 1,
+				'pishropost' => 1,
+				'post' => 1,
+				'mahex' => 1,
+			];
+			update_option( 'podro_delivery_options', $delivery_options );
+		}
 	}
 
 }
