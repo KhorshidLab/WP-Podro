@@ -31,6 +31,14 @@ define( 'POD_PLUGIN_ROOT_URL', plugin_dir_url( __FILE__ ) );
 define( 'POD_MIN_PHP_VERSION', '7.0' );
 define( 'POD_WP_VERSION', '5.3' );
 
+function write_log( $log ) {
+	if ( is_array( $log ) || is_object( $log ) ) {
+		error_log( print_r( $log, true ) );
+	} else {
+		error_log( $log );
+	}
+}
+
 add_action(
 	'init',
 	static function () {

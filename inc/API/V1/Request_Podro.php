@@ -16,9 +16,8 @@ class Request_Podro
 			];
 		}
 
-        $api_key = 'Apikey ' . (substr($api_key, 0, 6) == 'Apikey' || substr($api_key, 0, 6) == 'apikey' ? substr($api_key, 6) : $api_key);
         $headers = array(
-            'Authorization' => $api_key,
+            'Authorization' => 'Bearer ' . $api_key,
             'Content-Type' => 'application/json',
         );
         return $headers;

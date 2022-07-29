@@ -84,6 +84,10 @@ class Setup {
 		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
 		$this->loader->add_action( 'add_meta_boxes', $MetaBox, 'add_meta_boxes' );
 
+		// Ajax
+		$this->loader->add_action( 'wp_ajax_pod_delivery_step_1', $MetaBox, 'ajax_saving_options_step_1' );
+
+
 		// Register shipping method
 		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
 

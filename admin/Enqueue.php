@@ -47,7 +47,18 @@ class Enqueue {
 	 * @return void
 	 */
 	public function enqueue_admin_scripts() {
-
+		\wp_enqueue_script( POD_TEXTDOMAIN . '-admin-scripts', \plugins_url( 'assets/js/admin.js', POD_PLUGIN_ABSOLUTE ), array( 'jquery' ), POD_VERSION, true );
+		\wp_localize_script(
+			POD_TEXTDOMAIN . '-admin-scripts',
+			'wp_podro_ajax_object',
+			[
+				'ajax_url'  => admin_url( 'admin-ajax.php' ),
+				'security'  => wp_create_nonce( 'pod-options-nonce' ),
+				'is_rtl'=> is_rtl(),
+				'strings'	  => [
+				],
+			],
+		);
 	}
 
 }
