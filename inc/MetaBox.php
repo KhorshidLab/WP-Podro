@@ -220,6 +220,30 @@ class MetaBox {
 
 	}
 
+	public function ajax_saving_options_step_3() {
+
+		// checking for nonce
+		$this->validate_nonce( 'pod-options-nonce' );
+
+		// checking for required fields
+		if ( !isset($_POST['delivery_order_id']) ) {
+			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
+			wp_die();
+		}
+
+		$order_id = $_POST['delivery_order_id'];
+
+		$response = (new Orders)->get_finalize_order($order_id);
+
+		if ( !$response || is_wp_error($response) ) {
+			wp_send_json_error( $response->get_error_message(), 403 );
+			wp_die();
+		}
+
+		wp_send_json_success( $response );
+		wp_die();
+	}
+
 	public function validate_nonce( $nonce_key ) {
 		if ( ! check_ajax_referer( $nonce_key, 'security', false ) ) {
 

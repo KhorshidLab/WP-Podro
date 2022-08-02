@@ -1,23 +1,20 @@
 (function( $ ) {
 	'use strict';
 
-	$(document).ready(function() {
-		$(document).on('click', '.pod-delivery-step-1', function(e) {
-			e.preventDefault()
-			var data = {
-				action: 'pod_delivery_step_1',
-				security: wp_podro_ajax_object.security,
-				weight: $('input[name=pod_weight]').val(),
-				totalprice: $('input[name=pod_totalprice]').val(),
-				width: $('input[name=pod_width]').val(),
-				height: $('input[name=pod_height]').val(),
-				depth: $('input[name=pod_depth]').val(),
-				order_id: $('input[name=pod_order_id]').val(),
-			};
+	$(document).on('click', '.pod-delivery-step-1', function(e) {
+		e.preventDefault()
+		var data = {
+			action: 'pod_delivery_step_1',
+			security: wp_podro_ajax_object.security,
+			weight: $('input[name=pod_weight]').val(),
+			totalprice: $('input[name=pod_totalprice]').val(),
+			width: $('input[name=pod_width]').val(),
+			height: $('input[name=pod_height]').val(),
+			depth: $('input[name=pod_depth]').val(),
+			order_id: $('input[name=pod_order_id]').val(),
+		};
 
-			pod_ajax( data, _callback_step_1 );
-		})
-
+		pod_ajax( data, _callback_step_1 );
 	})
 
 	$(document).on('click', '.pod-delivery-step-2', function(e) {
@@ -35,6 +32,17 @@
 		};
 
 		pod_ajax( data, _callback_step_2 );
+	})
+
+	$(document).on('click', '.pod-delivery-step-3', function(e) {
+		e.preventDefault()
+		var data = {
+			action: 'pod_delivery_step_3',
+			security: wp_podro_ajax_object.security,
+			delivery_order_id: $('input[name=pod_delivery_order_id]').val(),
+		};
+
+		pod_ajax( data, _callback_step_3 );
 	})
 
 	$(document).on('click', '.pod-delivery-step-2-option', function(e) {
@@ -57,6 +65,10 @@
 				error_callback( response )
 			}
 		})
+	}
+
+	function _callback_step_3( response ) {
+		console.log(response)
 	}
 
 	function _callback_step_2( response ) {

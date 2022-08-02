@@ -17,11 +17,18 @@ class Orders {
 		return $res;
 	}
 
-	public function finalize_order( $order_id ) {
+	public function get_finalize_order( $order_id ) {
 		$url = Routes::BuildRoute( Routes::ORDER_SUBMIT, array( 'order_id' => $order_id ) );
 
-		$response = Request_Podro::get( $url );
+		$response = Request_Podro::get( $url, false );
 
-		return $response;
+		if (is_wp_error($response) || !isset($response['body'])) {
+            return false;
+        }
+
+        $res = json_decode($response['body'], true);
+        $res['status_code'] = wp_remote_retrieve_response_code($response);
+
+		return $res;
 	}
 }

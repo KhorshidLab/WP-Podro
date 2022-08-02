@@ -87,6 +87,7 @@ class Setup {
 		// Ajax
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_1', $MetaBox, 'ajax_saving_options_step_1' );
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_2', $MetaBox, 'ajax_saving_options_step_2' );
+		$this->loader->add_action( 'wp_ajax_pod_delivery_step_3', $MetaBox, 'ajax_saving_options_step_3' );
 
 
 		// Register shipping method
