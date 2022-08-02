@@ -236,6 +236,28 @@ ul.pod-delivery-step {
 		}
 	}
 }
+.pod-delivery-step-3-option-wrapper {
+	display: flex;
+    flex-wrap: wrap;
+
+	.pod-delivery-step-3-option {
+		padding: 10px;
+		margin-inline-end: 10px;
+		margin-bottom: 10px;
+		box-shadow: 0px 0px 11px -1px #893df24d;
+		border-radius: 6px;
+		cursor: pointer;
+
+		input {
+			display: none;
+		}
+
+		&.active {
+			border: solid 1px #893df2;
+    		box-shadow: 0px 0px 11px -1px #893df24d;
+		}
+	}
+}
 
 .rtl {
 	.delivery_options {

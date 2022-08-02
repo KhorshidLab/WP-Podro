@@ -52,6 +52,14 @@
 		$(this).addClass('active').siblings().removeClass('active')
 	})
 
+	$(document).on('click', '.pod-delivery-step-3-option', function(e) {
+		$(this).find('input[type=radio]').prop('checked', true)
+		$(this).find('input[type=radio]').trigger('change')
+
+		$('.pod-delivery-step-3-option.active').removeClass('active')
+		$(this).addClass('active')
+	})
+
 	function pod_ajax( data, callback, error_callback = null ) {
 		$.ajax({
 			url: wp_podro_ajax_object.ajax_url,
@@ -69,6 +77,46 @@
 
 	function _callback_step_3( response ) {
 		console.log(response)
+		$('.pod-delivery-step-2-wrapper').remove()
+
+
+		let options = ''
+
+		response.data.available_options.forEach( function( time ) {
+			const time2 = new Date( time.date )
+			options += `<p>${time.date} -- ${time2.toLocaleDateString('fa-IR', {
+				weekday: 'long',
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+			  })}</p>`
+
+			options += `<div class="pod-delivery-step-3-option-wrapper">`
+			time.option_ids.forEach( function( option ) {
+				// get option data where option_id = option
+				let option_data = response.data.options.find( function( option_data ) {
+					return option_data.option_id == option
+				})
+
+				options += `<div class="pod-delivery-step-3-option">
+								<input type="radio" name="pod_delivery_option" value="${time.date}:${option_data.option_id}" />
+								<label>${option_data.title}</label>
+							</div>`
+			})
+			options += `</div>`
+		})
+
+
+		let html = `<div class="pod-delivery-step-3-wrapper">
+			<fildset class="pod-delivery-step-3-wrapper">
+				${options}
+			</fildset>
+		</div>`
+
+		$('#woocommerce-order-podro .inside').prepend( html )
+
+		$('.pod-delivery-step-button').removeClass('pod-delivery-step-3').addClass('pod-delivery-step-4').html('تایید نهایی')
+		$('.pod-delivery-step-3-cancel').remove()
 	}
 
 	function _callback_step_2( response ) {
@@ -104,7 +152,7 @@
 		$('#woocommerce-order-podro .inside').prepend( html )
 
 		$('.pod-delivery-step-button').removeClass('pod-delivery-step-2').addClass('pod-delivery-step-3').html('تایید سفارش')
-		$('.pod-delivery-step-button').after('<a href="#" class="pod-delivery-step-1">لغو</a>')
+		$('.pod-delivery-step-button').after('<button class="pod-delivery-step-3-cancel">لغو</button>')
 
 	}
 
