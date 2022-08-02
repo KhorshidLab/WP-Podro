@@ -1,6 +1,7 @@
 <?php
 namespace WP_PODRO\Engine;
 
+use WP_PODRO\Engine\API\V1\Orders;
 use WP_PODRO\Engine\API\V1\Providers;
 
 class MetaBox {
@@ -94,17 +95,13 @@ class MetaBox {
 	}
 
 	public function ajax_saving_options_step_1() {
+
 		// checking for nonce
-		if ( ! check_ajax_referer( 'pod-options-nonce', 'security', false ) ) {
-
-			wp_send_json_error( __('Invalid security token sent.', POD_TEXTDOMAIN ), 403 );
-			wp_die();
-
-		}
+		$this->validate_nonce( 'pod-options-nonce' );
 
 		if (! isset($_POST['weight']) && ! isset($_POST['totalprice']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth'])) {
 
-			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 403 );
+			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
 			wp_die();
 
 		}
@@ -137,9 +134,6 @@ class MetaBox {
 
 		$response = (new Providers)->get_providers($data);
 
-		write_log($response);
-		write_log('hi');
-
 		if (is_wp_error($response)) {
 			wp_send_json_error( $response->get_error_message(), 403 );
 			wp_die();
@@ -148,5 +142,116 @@ class MetaBox {
 		wp_send_json_success( $response );
 		wp_die();
 
+	}
+
+
+	public function ajax_saving_options_step_2() {
+
+		// checking for nonce
+		$this->validate_nonce( 'pod-options-nonce' );
+
+		// checking for required fields
+		if (! isset($_POST['weight']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth']) && ! isset($_POST['provider_code'])) {
+
+			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
+			wp_die();
+
+		}
+
+		$order_id = $_POST['order_id'];
+		$order = \wc_get_order($order_id);
+
+		$store_state = $this->get_store_state();
+		$source_city = Location::get_province_by_code($store_state);
+		$source_city = Location::get_city_by_name($source_city['name']);
+
+		$destination_city = $order->get_shipping_city();
+		$destination_city = Location::get_city_by_name($destination_city);
+
+		$data = [
+			'sender' => [
+				'name' => $this->get_store_name(),
+				'contact' => [
+					'postal_code' => $this->get_store_postal_code(),
+					'address' => $this->get_store_address(),
+					'city' => $source_city['code'],
+					'phone_number' => $this->get_store_phone_number(),
+				],
+			],
+			'receiver' => [
+				'name' => $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name(),
+				'contact' => [
+					'postal_code' => $order->get_shipping_postcode(),
+					'address' => $order->get_shipping_address_1(),
+					'city' => $destination_city['code'],
+					'phone_number' => $order->get_billing_phone(),
+				],
+			],
+			'parcels' => [
+				[
+					'id' => $order_id,
+					'weight' => sanitize_text_field( $_POST['weight'] ),
+					'value' => sanitize_text_field( $_POST['totalprice'] ),
+					'content' => $this->get_products_name_by_order_id($order_id),
+					'dimension' => [
+						'width' => sanitize_text_field( $_POST['width'] ),
+						'height' => sanitize_text_field( $_POST['height'] ),
+						'depth' => sanitize_text_field( $_POST['depth'] )
+					]
+				]
+			],
+			'payment_type' => 1,
+			'receiver_comment' => $order->get_customer_note(),
+			'service_type' => 'regular',
+			'provider_code' => sanitize_text_field( $_POST['provider_code'] ),
+		];
+
+		$response = (new Orders)->submit_order($data);
+
+		if (is_wp_error($response) || !isset($response['order_id'])) {
+			wp_send_json_error( $response->get_error_message(), 403 );
+			wp_die();
+		}
+
+		$data['podro_order_id'] = $response['order_id'];
+
+		wp_send_json_success( $data );
+		wp_die();
+
+	}
+
+	public function validate_nonce( $nonce_key ) {
+		if ( ! check_ajax_referer( $nonce_key, 'security', false ) ) {
+
+			wp_send_json_error( __('Invalid security token sent.', POD_TEXTDOMAIN ), 403 );
+			wp_die();
+
+		}
+	}
+
+	private function get_store_name() {
+		return get_bloginfo('name');
+	}
+
+	public function get_products_name_by_order_id( $order_id ) {
+		$order = \wc_get_order($order_id);
+		$items = $order->get_items();
+		$products_name = '';
+		foreach ($items as $item) {
+			$products_name .= $item['name'] . ' ';
+		}
+		return $products_name;
+	}
+
+	private function get_store_postal_code() {
+		return get_option('woocommerce_store_postcode');
+	}
+
+	private function get_store_address() {
+		return get_option('woocommerce_store_address');
+	}
+
+	private function get_store_phone_number() {
+		return get_option('woocommerce_store_phone');
 	}
 }

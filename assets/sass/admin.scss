@@ -187,7 +187,7 @@ ul.pod-delivery-step {
 	text-decoration: none !important;
 }
 
-.pod-delivery-step-2 {
+.pod-delivery-step-2-wrapper {
 	display: flex;
     flex-direction: column;
 
@@ -201,6 +201,7 @@ ul.pod-delivery-step {
 		border-radius: 12px;
 		background-color: #f3f3f3;
 		padding: 20px;
+		cursor: pointer;
 
 		input {
 			margin-left: 10px;
