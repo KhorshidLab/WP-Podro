@@ -1,6 +1,8 @@
 (function( $ ) {
 	'use strict';
 
+	var delivery_options = [];
+
 	$(document).on('click', '.pod-delivery-step-1', function(e) {
 		e.preventDefault()
 		var data = {
@@ -45,6 +47,44 @@
 		pod_ajax( data, _callback_step_3 );
 	})
 
+	$(document).on('click', '.pod-delivery-step-4', function(e) {
+		e.preventDefault()
+		alert('under construction')
+	})
+
+	$(document).on('change', 'select[name=pod_delivery_option_day]', function(e) {
+		$('.pod-delivery-step-3-wrapper + h4.pod-hide').removeClass('pod-hide').addClass('pod-show')
+
+		$('input[name=pod_delivery_option]').prop('checked', false);
+
+		let options = ''
+		let d = this.value
+
+		if ( d == '' || d == '0' || d == null ) {
+			$('.pod-delivery-step-3-wrapper + h4.pod-show').removeClass('pod-show').addClass('pod-hide')
+			$('fildset.pod-delivery-step-3-option-wrapper').html('')
+			return;
+		}
+
+		let index = delivery_options.available_options.findIndex(function(item) {
+			return item.date == d
+		})
+
+
+		delivery_options.available_options[index].option_ids.forEach(function(item) {
+			delivery_options.options.forEach(function(option) {
+				if (option.option_id == item) {
+					options += `<div class="pod-delivery-step-3-option">
+									<input type="radio" name="pod_delivery_option" value="${d}:${option.option_id}" />
+									<label>${option.title}</label>
+								</div>`
+				}
+			})
+		})
+
+		$('fildset.pod-delivery-step-3-option-wrapper').html( options )
+	})
+
 	$(document).on('click', '.pod-delivery-step-2-option', function(e) {
 		$(this).find('input[type=radio]').prop('checked', true)
 		$(this).find('input[type=radio]').trigger('change')
@@ -76,40 +116,33 @@
 	}
 
 	function _callback_step_3( response ) {
+		delivery_options = response.data
 		console.log(response)
 		$('.pod-delivery-step-2-wrapper').remove()
 
 
-		let options = ''
 
-		response.data.available_options.forEach( function( time ) {
-			const time2 = new Date( time.date )
-			options += `<p>${time.date} -- ${time2.toLocaleDateString('fa-IR', {
+		let select_html = '<select name="pod_delivery_option_day">'
+		select_html += '<option value="">انتخاب</option>'
+
+		delivery_options.available_options.forEach( function( time ) {
+			let persian_time = (new Date( time.date )).toLocaleDateString('fa-IR', {
 				weekday: 'long',
 				year: 'numeric',
 				month: 'long',
 				day: 'numeric',
-			  })}</p>`
-
-			options += `<div class="pod-delivery-step-3-option-wrapper">`
-			time.option_ids.forEach( function( option ) {
-				// get option data where option_id = option
-				let option_data = response.data.options.find( function( option_data ) {
-					return option_data.option_id == option
-				})
-
-				options += `<div class="pod-delivery-step-3-option">
-								<input type="radio" name="pod_delivery_option" value="${time.date}:${option_data.option_id}" />
-								<label>${option_data.title}</label>
-							</div>`
-			})
-			options += `</div>`
+			  })
+			select_html += '<option value="' + time.date + '">' + persian_time + '</option>'
 		})
+
+		select_html += '</select>'
 
 
 		let html = `<div class="pod-delivery-step-3-wrapper">
-			<fildset class="pod-delivery-step-3-wrapper">
-				${options}
+			<h4>لطفا روز تحویل را انتخاب کنید</h4>
+			${select_html}
+			<h4 class="pod-hide">لطفا زمان پیکاپ را انتخاب کنید</h4>
+			<fildset class="pod-delivery-step-3-option-wrapper">
 			</fildset>
 		</div>`
 
@@ -168,7 +201,7 @@
 			};
 
 			$('.pod-delivery-step').remove()
-			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('ثبت درخواست')
+			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('مرحله بعد')
 
 			const delivery_options = response.data.quotes;
 
