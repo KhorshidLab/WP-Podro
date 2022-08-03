@@ -2,7 +2,6 @@
 $credentials_status = get_option( 'podro_plugin_status' );
 $credentials = get_option( 'podro_plugin_credentials', true );
 
-var_dump($credentials);
 ?>
 
 
