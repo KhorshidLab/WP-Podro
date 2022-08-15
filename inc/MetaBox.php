@@ -204,6 +204,8 @@ class MetaBox {
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 
+		write_log( $_POST );
+
 		$data = [
 			'sender' => [
 				'name' => $this->get_store_name(),
@@ -250,6 +252,8 @@ class MetaBox {
 		}
 
 		$data['podro_order_id'] = $response['order_id'];
+		$data['provider_name'] = sanitize_text_field( $_POST['provider_name'] );
+		$data['provider_delivery_time'] = sanitize_text_field( $_POST['provider_delivery_time'] );
 
 		wp_send_json_success( $data );
 		wp_die();

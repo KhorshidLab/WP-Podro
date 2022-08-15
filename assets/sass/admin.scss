@@ -189,7 +189,7 @@ ul.pod-delivery-step {
 	text-decoration: none !important;
 }
 
-.pod-delivery-step-3-cancel {
+.pod-delivery-cancel {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -343,7 +343,8 @@ select[name="pod_delivery_option_day"] {
 		bottom: 0;
 	}
 
-	h3 {
+	h3,
+	h4 {
 		margin-top: 0;
 	}
 

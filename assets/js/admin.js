@@ -30,6 +30,8 @@
 			height: $('input[name=pod_height]').val(),
 			depth: $('input[name=pod_depth]').val(),
 			provider_code: $('input[name=pod_delivery_option]:checked').val(),
+			provider_name: $('input[name=pod_delivery_option]:checked + label > .pod_delivery_option > span').html(),
+			provider_delivery_time: $('input[name=pod_delivery_option]:checked + label > .description span').html(),
 			order_id: $('input[name=pod_order_id]').val(),
 		};
 
@@ -50,6 +52,11 @@
 	$(document).on('click', '.pod-delivery-step-4', function(e) {
 		e.preventDefault()
 		alert('under construction')
+	})
+
+	$(document).on('click', '.pod-delivery-cancel', function(e) {
+		e.preventDefault()
+		location.reload();
 	})
 
 	$(document).on('change', 'select[name=pod_delivery_option_day]', function(e) {
@@ -162,7 +169,7 @@
 		$('#woocommerce-order-podro .inside').prepend( html )
 
 		$('.pod-delivery-step-button').removeClass('pod-delivery-step-3').addClass('pod-delivery-step-4').html('تایید نهایی')
-		$('.pod-delivery-step-3-cancel').remove()
+		$('.pod-delivery-cancel').remove()
 	}
 
 	function _callback_step_2( response ) {
@@ -173,11 +180,11 @@
 				<ul>
 					<li>
 						<span>روش ارسال: </span>
-						<span>${response.data.provider_code}</span>
+						<span>${response.data.provider_name}</span>
 					</li>
 					<li>
-						<span>زمان ارسال: </span>
-						<span>${response.data.delivery_time}</span>
+					<span>زمان تحویل: </span>
+						<span>${response.data.provider_delivery_time}</span>
 					</li>
 					<li>
 						<span>مبلغ کل: </span>
@@ -189,7 +196,7 @@
 					</li>
 					<li>
 						<span>ابعاد: </span>
-						<span>${response.data.parcels[0].dimension.width}x${response.data.parcels[0].dimension.height}x${response.data.parcels[0].dimension.depth}</span>
+						<span>${response.data.parcels[0].dimension.width}x${response.data.parcels[0].dimension.depth}x${response.data.parcels[0].dimension.height}</span>
 					</li>
 				</ul>
 			</div>
@@ -198,7 +205,7 @@
 		$('#woocommerce-order-podro .inside').prepend( html )
 
 		$('.pod-delivery-step-button').removeClass('pod-delivery-step-2').addClass('pod-delivery-step-3').html('تایید سفارش')
-		$('.pod-delivery-step-button').after('<button class="pod-delivery-step-3-cancel">لغو</button>')
+		$('.pod-delivery-step-button').after('<button class="pod-delivery-cancel">لغو</button>')
 
 	}
 
@@ -227,7 +234,7 @@
 					<label for="pod_delivery_option_${delivery_options[i].provider_code}">
 						<div class="pod_delivery_option">
 							<img src="${delivery_options[i].provider_logo}" alt="${delivery_options[i].provider_name}">
-							${delivery_options[i].provider_name} <small> (${delivery_options[i].service_type_label})</small>
+							<span>${delivery_options[i].provider_name}</span> <small> (${delivery_options[i].service_type_label})</small>
 						</div>
 						<p class="price">
 							<strong>قیمت: </strong>
@@ -235,7 +242,7 @@
 						</p>
 						<p class="description">
 							<strong>زمان تحویل: </strong>
-							${delivery_options[i].from_hours} تا ${delivery_options[i].to_hours} ساعت
+							<span>${delivery_options[i].from_hours} تا ${delivery_options[i].to_hours} ساعت</span>
 						</p>
 					</label>
 					</div>`
