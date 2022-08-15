@@ -100,18 +100,31 @@
 		$(this).addClass('active')
 	})
 
+	function podro_show_loader() {
+		$('#woocommerce-order-podro #lock-modal').show()
+		$('#woocommerce-order-podro #loading-circle').show()
+	}
+
+	function podro_hide_loader() {
+		$('#woocommerce-order-podro #lock-modal').hide()
+		$('#woocommerce-order-podro #loading-circle').hide()
+	}
+
 	function pod_ajax( data, callback, error_callback = null ) {
+		podro_show_loader();
 		$.ajax({
 			url: wp_podro_ajax_object.ajax_url,
 			type: 'POST',
 			data: data,
 			success: function( response ) {
 				callback( response )
+			podro_hide_loader();
 			}
 		}).fail( function( response ) {
 			if ( error_callback ) {
 				error_callback( response )
 			}
+			podro_hide_loader();
 		})
 	}
 

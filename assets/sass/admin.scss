@@ -139,6 +139,7 @@ ul.pod-delivery-step {
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 20px;
+	margin-top: 0;
 
 	li {
 		display: flex;
@@ -222,6 +223,7 @@ ul.pod-delivery-step {
 		border-radius: 12px;
 		background-color: #f3f3f3;
 		padding: 20px;
+		border: solid 1px transparent;
 		cursor: pointer;
 
 		input {
@@ -307,3 +309,43 @@ select[name="pod_delivery_option_day"] {
     width: 100%;
     margin-bottom: 20px;
 }
+
+#woocommerce-order-podro {
+
+	.inside {
+		padding-top: 12px;
+	}
+
+	#loading-circle {
+		display: none;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+		width: 50px;
+		height: 50px;
+		border: 8px solid #f3f3f3;
+		border-top: 8px solid #893df2;
+		border-radius: 50%;
+		animation: spin 0.6s ease-in infinite;
+	}
+
+	#lock-modal {
+		display: none;
+		background-color: #06282e9e;
+		opacity: 1;
+		position: absolute;
+		top: -6px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	h3 {
+		margin-top: 0;
+	}
+
+}
+

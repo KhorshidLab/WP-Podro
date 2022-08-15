@@ -125,6 +125,8 @@ class MetaBox {
 
 		<input type="hidden" name="pod_order_id" value="<?php echo $order_id; ?>">
 		<button class="pod-delivery-step-button pod-delivery-step-1">مرحله بعد</button>
+		<div id="lock-modal"></div>
+		<div id="loading-circle"></div>
 		<?php
 	}
 
