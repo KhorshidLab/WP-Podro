@@ -51,7 +51,41 @@ class MetaBox {
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 
-		?>
+
+		$total_weight = 0;
+		$weight_unit = 1;
+
+		if ( get_option('woocommerce_weight_unit') == 'kg' ) {
+			$weight_unit = 1000;
+		}
+
+		foreach( $order->get_items() as $item_id => $product_item ){
+			$quantity = $product_item->get_quantity(); // get quantity
+			$product = $product_item->get_product(); // get the WC_Product object
+			$product_weight = $product->get_weight(); // get the product weight
+			if ( $product_weight > 0 ) {
+				$total_weight += floatval( $product_weight * $weight_unit * $quantity );
+			}
+		}
+
+		$display_dimensions = get_option( 'woocommerce_dimension_unit' ) == 'cm';
+		$width  = 0;
+		$height = 0;
+		$length = 0;
+		// For non variable products (separated dimensions)
+		if ( $display_dimensions && $product->has_dimensions() && ! $product->is_type('variable') ) {
+			$width = !empty($product->get_width()) ? $product->get_width() : 0;
+			$height = !empty($product->get_height()) ? $product->get_height() : 0;
+			$length = !empty($product->get_length()) ? $product->get_length() : 0;
+
+		// For variable products (we keep the default formatted dimensions)
+		} else if ( $display_dimensions && $product->has_dimensions() && $product->is_type('variable') ) {
+			$dimensions = $product->get_dimensions( false );
+			$width = $dimensions['width'];
+			$height = $dimensions['height'];
+			$length = $dimensions['length'];
+		}
+			?>
 		<ul class="pod-delivery-step">
 			<li>
 				<label for="pod_source_city">مبدا</label>
@@ -65,7 +99,7 @@ class MetaBox {
 			</li>
 			<li>
 				<label for="pod_weight">وزن مرسوله به گرم</label>
-				<input type="number" name="pod_weight" id="pod_weight" value="" />
+				<input type="number" name="pod_weight" id="pod_weight" value="<?php echo $total_weight; ?>" />
 			</li>
 			<li>
 				<label for="pod_totalprice">ارزش مرسوله</label>
@@ -75,15 +109,15 @@ class MetaBox {
 				<p>ابعاد به سانتی‌متر</p>
 				<div>
 					<label for="pod_width">طول</label>
-					<input type="number" name="pod_width" id="pod_width" value="" />
-				</div>
-				<div>
-					<label for="pod_height">ارتفاع</label>
-					<input type="number" name="pod_height" id="pod_height" value="" />
+					<input type="number" name="pod_width" id="pod_width" value="<?php echo $length; ?>" />
 				</div>
 				<div>
 					<label for="pod_depth">عرض</label>
-					<input type="number" name="pod_depth" id="pod_depth" value="" />
+					<input type="number" name="pod_depth" id="pod_depth" value="<?php echo $width; ?>" />
+				</div>
+				<div>
+					<label for="pod_height">ارتفاع</label>
+					<input type="number" name="pod_height" id="pod_height" value="<?php echo $height; ?>" />
 				</div>
 			</li>
 
