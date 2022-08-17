@@ -375,3 +375,17 @@ select.pod-error  {
 		}
 	}
 }
+
+.pdo-about {
+	font-size: 18px;
+}
+
+.rtl {
+	.pod-footer .pod-footer-social {
+		float: left;
+
+		.footer__social-icons {
+			float: left;
+		}
+	}
+}

@@ -21,7 +21,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					$this->id                    = 'podro_method';
 					$this->instance_id           = absint( $instance_id );
 					$this->method_title          = __( 'Podro Shipping Method', POD_TEXTDOMAIN );
-					$this->method_description    = __( '@TODO', POD_TEXTDOMAIN );
+					$this->method_description    = __( 'پادروپین؛ ‌مارکت‌پلیس خدمات پستی است و به فروشگاه‌های آنلاین کمک می‌کند تا فرآیند ارسال سفارش‌های اینترنتی را مدیریت کنند. در پادروپین، بدون مراجعه و یا ثبت قرارداد با شرکت‌های پستی، می‌توان سفارش‌های اینترنتی را با هر یک از شرکت‌های پستی ارسال کرد', POD_TEXTDOMAIN );
 					$this->supports              = array(
 						'shipping-zones',
 						'instance-settings',
