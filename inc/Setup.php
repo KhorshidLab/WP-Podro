@@ -89,6 +89,7 @@ class Setup {
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_2', $MetaBox, 'ajax_saving_options_step_2' );
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_3', $MetaBox, 'ajax_saving_options_step_3' );
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_4', $MetaBox, 'ajax_saving_options_step_4' );
+		$this->loader->add_action( 'wp_ajax_pod_order_pdf', $MetaBox, 'ajax_get_order_pdf' );
 
 
 		// Register shipping method
@@ -160,24 +161,55 @@ class Setup {
 
 	public function setup_admin_menu() {
 
-		add_menu_page(
-			__( 'Podro Setting', POD_TEXTDOMAIN ),
-			__( 'Podro', POD_TEXTDOMAIN),
-			'manage_options',
-			POD_TEXTDOMAIN,
-			[$this, 'settings_page'],
-			POD_PLUGIN_ROOT_URL . 'assets/images/podro.png',
-			200
-		);
+		if (self::is_plugin_setup_done()) {
+			add_menu_page(
+				__( 'Podro Setting', POD_TEXTDOMAIN ),
+				__( 'Podro', POD_TEXTDOMAIN),
+				'manage_options',
+				POD_TEXTDOMAIN,
+				[$this, 'delivery_page'],
+				POD_PLUGIN_ROOT_URL . 'assets/images/podro.png',
+				200
+			);
+			add_submenu_page(
+				POD_TEXTDOMAIN,
+				__( 'Podro Orders', POD_TEXTDOMAIN ),
+				__( 'Orders', POD_TEXTDOMAIN ),
+				'manage_options',
+				POD_TEXTDOMAIN,
+				[$this, 'delivery_page'],
+			);
 
-		add_submenu_page(
-			POD_TEXTDOMAIN,
-			__( 'Podro Setting', POD_TEXTDOMAIN ),
-			__( 'Setting', POD_TEXTDOMAIN ),
-			'manage_options',
-			POD_TEXTDOMAIN,
-			[$this, 'settings_page'],
-		);
+			add_submenu_page(
+				POD_TEXTDOMAIN,
+				__( 'Podro Setting', POD_TEXTDOMAIN ),
+				__( 'Setting', POD_TEXTDOMAIN ),
+				'manage_options',
+				POD_TEXTDOMAIN . '-setting',
+				[$this, 'settings_page'],
+			);
+		} else {
+
+			add_menu_page(
+				__( 'Podro Setting', POD_TEXTDOMAIN ),
+				__( 'Podro', POD_TEXTDOMAIN),
+				'manage_options',
+				POD_TEXTDOMAIN,
+				[$this, 'settings_page'],
+				POD_PLUGIN_ROOT_URL . 'assets/images/podro.png',
+				200
+			);
+
+			add_submenu_page(
+				POD_TEXTDOMAIN,
+				__( 'Podro Setting', POD_TEXTDOMAIN ),
+				__( 'Setting', POD_TEXTDOMAIN ),
+				'manage_options',
+				POD_TEXTDOMAIN,
+				[$this, 'settings_page'],
+			);
+
+		}
 
 		add_submenu_page(
 			POD_TEXTDOMAIN,
@@ -202,6 +234,10 @@ class Setup {
 
 	public function about_us_page() {
 		require_once( POD_PLUGIN_ROOT . 'admin/views/pages/about-us.php' );
+	}
+
+	public function delivery_page() {
+		require_once( POD_PLUGIN_ROOT . 'admin/views/pages/delivery.php' );
 	}
 
 	/**
