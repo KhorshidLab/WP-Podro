@@ -3,6 +3,7 @@ namespace WP_PODRO\Engine;
 
 use WP_PODRO\Engine\API\V1\Orders;
 use WP_PODRO\Engine\API\V1\Providers;
+use WP_Encryption\Encryption;
 
 class MetaBox {
 	public function add_meta_boxes () {
@@ -89,7 +90,13 @@ class MetaBox {
 				<th><?php _e( 'Order Total Value', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['order_detail']['parcel_total']['total_value']; ?></td>
 			</tr>
+			<tr>
+				<th><?php _e( 'PDF', POD_TEXTDOMAIN ); ?></th>
+				<td><a id="get_order_pdf" data-order_id="<?php echo $response['id'] ?>"><?php _e( 'Download PDF', POD_TEXTDOMAIN ); ?></a></td>
+			</tr>
 		</table>
+		<div id="lock-modal"></div>
+		<div id="loading-circle"></div>
 
 		<?php
 
@@ -388,6 +395,21 @@ class MetaBox {
 
 		update_post_meta( $post_id, 'pod_order_id', $order_id );
 		wp_send_json_success( $response );
+		wp_die();
+	}
+
+	public function ajax_get_token() {
+		// checking for nonce
+		$this->validate_nonce( 'pod-options-nonce' );
+
+		$api_key = (new Encryption)->decrypt(get_option('podro_api_key'));
+
+		$data = array(
+			'token' => $api_key,
+			'order_id' => sanitize_text_field( $_POST['order_id'] ),
+		);
+
+		wp_send_json_success( $data );
 		wp_die();
 	}
 

@@ -89,7 +89,7 @@ class Setup {
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_2', $MetaBox, 'ajax_saving_options_step_2' );
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_3', $MetaBox, 'ajax_saving_options_step_3' );
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_4', $MetaBox, 'ajax_saving_options_step_4' );
-		$this->loader->add_action( 'wp_ajax_pod_order_pdf', $MetaBox, 'ajax_get_order_pdf' );
+		$this->loader->add_action( 'wp_ajax_pod_token', $MetaBox, 'ajax_get_token' );
 
 
 		// Register shipping method

@@ -4,6 +4,67 @@
 	var delivery_options = [];
 	var has_delivery_date = false;
 
+	$('#get_order_pdf, .get_order_pdf').on('click', function(e) {
+		e.preventDefault();
+		var order_id = $(this).attr('data-order_id');
+
+		const data = {
+			'action': 'pod_token',
+			security: wp_podro_ajax_object.security,
+			'order_id': order_id
+		};
+
+		pod_ajax( data, _callback_pdf );
+	})
+
+	function _callback_pdf( response ) {
+		var myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+		myHeaders.append("Accept", "application/json");
+		myHeaders.append("Authorization", "Bearer " + response.data.token);
+
+		var requestOptions = {
+		method: 'GET',
+		headers: myHeaders,
+		redirect: 'follow'
+		};
+		fetch("https://portal.podro.com/api/v1/orders/"+ response.data.order_id +"/pdf", requestOptions)
+		// Retrieve its body as ReadableStream
+		.then(response => response.body)
+		.then(rs => {
+			const reader = rs.getReader();
+
+			return new ReadableStream({
+			async start(controller) {
+				while (true) {
+				const { done, value } = await reader.read();
+
+				// When no more data needs to be consumed, break the reading
+				if (done) {
+					break;
+				}
+
+				// Enqueue the next data chunk into our target stream
+				controller.enqueue(value);
+				}
+
+				// Close the stream
+				controller.close();
+				reader.releaseLock();
+			}
+			})
+		})
+		// Create a new response out of the stream
+		.then(rs => new Response(rs))
+		// Create an object URL for the response
+		.then(response => response.arrayBuffer())
+		.then(arrayBuffer => {
+			var file = new Blob([arrayBuffer], { type: 'application/pdf;charset-UTF-8' });
+				var fileURL = URL.createObjectURL(file);
+				window.open(fileURL);
+		});
+	}
+
 	$(document).on('click', '.pod-delivery-step-1', function(e) {
 		e.preventDefault()
 
@@ -202,6 +263,7 @@
 			url: wp_podro_ajax_object.ajax_url,
 			type: 'POST',
 			data: data,
+			responseType: 'arraybuffer',
 			success: function( response ) {
 				callback( response )
 			podro_hide_loader();
