@@ -44,4 +44,16 @@ class Orders {
 
 		return $res;
 	}
+
+	public function get_order( $order_id ) {
+		$url = Routes::BuildRoute( Routes::ORDER_DETAILS, array( 'order_id' => $order_id ) );
+		$response = Request_Podro::get( $url, false );
+		if (is_wp_error($response) || !isset($response['body'])) {
+            return false;
+        }
+
+        $res = json_decode($response['body'], true);
+        $res['status_code'] = wp_remote_retrieve_response_code($response);
+		return $res;
+	}
 }

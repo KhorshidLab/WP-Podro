@@ -44,6 +44,55 @@ class MetaBox {
 		$pod_order_id = get_post_meta( get_the_ID(), 'pod_order_id', true );
 		$order_id = $_GET[ 'post' ];
 
+		$response = (new Orders)->get_order( $pod_order_id );
+
+		if ( !$response ) {
+			echo '<p>' . __( 'No Podro order found', POD_TEXTDOMAIN ) . '</p>';
+			return;
+		}
+		?>
+
+		<table class="pod_order_details">
+			<tr>
+				<th><?php _e( 'Order ID', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['order_detail']['tracking_id']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Provider', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['provider_code']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Order Status', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['status']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Pickup in', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['pickup_time']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Pickup to', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['pickup_to_time']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Order Total', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['sale_price']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Order Discount', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['discount']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Order Weight', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['order_detail']['parcel_total']['total_weight']; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'Order Total Value', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $response['order_detail']['parcel_total']['total_value']; ?></td>
+			</tr>
+		</table>
+
+		<?php
+
 
 	}
 
