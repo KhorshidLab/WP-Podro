@@ -240,7 +240,8 @@ ul.pod-delivery-step {
 		}
 
 		label {
-			.pod_delivery_option {
+			.pod_delivery_option,
+			.pod_pickup_option {
 				display: flex;
 				align-items: center;
 				flex-wrap: wrap;
@@ -259,10 +260,12 @@ ul.pod-delivery-step {
 		}
 	}
 }
+.pod-pickup-step-3-option-wrapper,
 .pod-delivery-step-3-option-wrapper {
 	display: flex;
     flex-wrap: wrap;
 
+	.pod-pickup-step-3-option,
 	.pod-delivery-step-3-option {
 		padding: 10px;
 		margin-inline-end: 10px;
@@ -350,3 +353,7 @@ select[name="pod_delivery_option_day"] {
 
 }
 
+input.pod-error,
+select.pod-error  {
+	border: solid 1px #ff0000;
+}

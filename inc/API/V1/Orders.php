@@ -31,4 +31,17 @@ class Orders {
 
 		return $res;
 	}
+
+	public function post_finalize_order( $order_id, $params = null ) {
+		$url = Routes::BuildRoute( Routes::ORDER_SUBMIT, array( 'order_id' => $order_id ) );
+		$url .= '/';
+		$response = Request_Podro::post( $url, json_encode( $params ) );
+
+		if (is_wp_error($response) || !isset($response->body)) {
+			return false;
+		}
+		$res = json_decode($response->body, true);
+
+		return $res;
+	}
 }

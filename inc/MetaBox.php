@@ -14,17 +14,37 @@ class MetaBox {
 			if ( !$order->has_shipping_method('podro_method') ) {
 				return;
 			}
-
-			add_meta_box(
-				'woocommerce-order-podro',
-				__( 'Podro', POD_TEXTDOMAIN ),
-				array($this, 'order_my_custom'),
-				'shop_order',
-				'side',
-				'default'
-			);
-			// var_dump($order);
+			if ( $this->has_podro_order( $order_id ) ) {
+				add_meta_box(
+					'woocommerce-order-podro',
+					__( 'Podro Order Details', POD_TEXTDOMAIN ),
+					array($this, 'pod_order_details'),
+					'shop_order',
+					'side',
+					'default'
+				);
+			} else {
+				add_meta_box(
+					'woocommerce-order-podro',
+					__( 'Podro', POD_TEXTDOMAIN ),
+					array($this, 'order_my_custom'),
+					'shop_order',
+					'side',
+					'default'
+				);
+			}
 		}
+	}
+
+	public function has_podro_order( $order_id ) {
+		return !empty( get_post_meta( $order_id, 'pod_order_id', true ) );
+	}
+
+	public function pod_order_details () {
+		$pod_order_id = get_post_meta( get_the_ID(), 'pod_order_id', true );
+		$order_id = $_GET[ 'post' ];
+
+
 	}
 
 	public function order_my_custom() {
@@ -271,7 +291,7 @@ class MetaBox {
 			wp_die();
 		}
 
-		$order_id = $_POST['delivery_order_id'];
+		$order_id = sanitize_text_field( $_POST['delivery_order_id'] );
 
 		$response = (new Orders)->get_finalize_order($order_id);
 
@@ -280,6 +300,49 @@ class MetaBox {
 			wp_die();
 		}
 
+		$response['order_id'] = $order_id;
+
+		wp_send_json_success( $response );
+		wp_die();
+	}
+
+	public function ajax_saving_options_step_4() {
+		// checking for nonce
+		$this->validate_nonce( 'pod-options-nonce' );
+
+		// checking for required fields
+		if ( !isset($_POST['delivery_order_id']) ) {
+			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
+			wp_die();
+		}
+
+		$order_id = sanitize_text_field( $_POST['delivery_order_id'] );
+		$post_id = sanitize_text_field( $_POST['pod_order_id'] );
+
+		$params = array(
+			'option_id' => sanitize_text_field( $_POST['option_id'] ),
+			'pickup_date' => sanitize_text_field( $_POST['pickup_date'] ),
+			'payment_approach' => sanitize_text_field( $_POST['payment_approach'] ),
+			'comment' => 'data',
+		);
+
+		if ( isset($_POST['delivery_date']) ) {
+			$params['delivery_date'] = sanitize_text_field( $_POST['delivery_date'] );
+			$params['delivery_option_id'] = sanitize_text_field( $_POST['delivery_option_id'] );
+		}
+
+		write_log( $params );
+		write_log( $_POST );
+
+		$response = (new Orders)->post_finalize_order( $order_id, $params );
+
+		if ( !$response || is_wp_error($response) ) {
+			wp_send_json_error( $response['message'], 403 );
+			wp_die();
+		}
+
+
+		update_post_meta( $post_id, 'pod_order_id', $order_id );
 		wp_send_json_success( $response );
 		wp_die();
 	}

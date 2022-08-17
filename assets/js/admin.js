@@ -2,10 +2,13 @@
 	'use strict';
 
 	var delivery_options = [];
+	var has_delivery_date = false;
 
 	$(document).on('click', '.pod-delivery-step-1', function(e) {
 		e.preventDefault()
-		var data = {
+
+
+		const data = {
 			action: 'pod_delivery_step_1',
 			security: wp_podro_ajax_object.security,
 			weight: $('input[name=pod_weight]').val(),
@@ -16,12 +19,14 @@
 			order_id: $('input[name=pod_order_id]').val(),
 		};
 
-		pod_ajax( data, _callback_step_1 );
+		if ( pod_validate_step_1( data ) ) {
+			pod_ajax( data, _callback_step_1 );
+		}
 	})
 
 	$(document).on('click', '.pod-delivery-step-2', function(e) {
 		e.preventDefault()
-		var data = {
+		const data = {
 			action: 'pod_delivery_step_2',
 			security: wp_podro_ajax_object.security,
 			weight: $('input[name=pod_weight]').val(),
@@ -35,7 +40,11 @@
 			order_id: $('input[name=pod_order_id]').val(),
 		};
 
-		pod_ajax( data, _callback_step_2 );
+		if ( pod_validate_step_2( data ) ) {
+			pod_ajax( data, _callback_step_2 );
+		} else {
+			alert('لطفا یک روش ارسال انتخاب کنید');
+		}
 	})
 
 	$(document).on('click', '.pod-delivery-step-3', function(e) {
@@ -44,6 +53,7 @@
 			action: 'pod_delivery_step_3',
 			security: wp_podro_ajax_object.security,
 			delivery_order_id: $('input[name=pod_delivery_order_id]').val(),
+			order_id: $('input[name=pod_order_id]').val(),
 		};
 
 		pod_ajax( data, _callback_step_3 );
@@ -51,7 +61,32 @@
 
 	$(document).on('click', '.pod-delivery-step-4', function(e) {
 		e.preventDefault()
-		alert('under construction')
+
+		let pickup_date = $('input[name=pod_pickup_option]').val();
+		pickup_date = pickup_date.split(':');
+
+		const data = {
+			action: 'pod_delivery_step_4',
+			security: wp_podro_ajax_object.security,
+			delivery_order_id: $('input[name=pod_delivery_order_id]').val(),
+			pickup_date: pickup_date[0],
+			option_id: pickup_date[1],
+			payment_approach: 'CASH',
+			pod_order_id: $('input[name=pod_order_id]').val(),
+		}
+
+		if ( has_delivery_date ) {
+			let delivery_date = $('input[name=pod_delivery_option]').val();
+			delivery_date = delivery_date.split(':');
+			data.delivery_date = delivery_date[0];
+			data.delivery_option_id = delivery_date[1];
+		}
+
+		if ( pod_validate_step_4( data ) ) {
+			pod_ajax( data, _callback_step_4 );
+		} else {
+			alert('لطفا زمان تحویل را انتخاب کنید')
+		}
 	})
 
 	$(document).on('click', '.pod-delivery-cancel', function(e) {
@@ -60,16 +95,17 @@
 	})
 
 	$(document).on('change', 'select[name=pod_delivery_option_day]', function(e) {
-		$('.pod-delivery-step-3-wrapper + h4.pod-hide').removeClass('pod-hide').addClass('pod-show')
+		$('.pod-delivery-step-3-wrapper .pod-pickup.pod-hide').removeClass('pod-hide').addClass('pod-show')
+		$(this).removeClass('pod-error')
 
-		$('input[name=pod_delivery_option]').prop('checked', false);
+		$('input[name=pod_pickup_option]').prop('checked', false);
 
 		let options = ''
 		let d = this.value
 
 		if ( d == '' || d == '0' || d == null ) {
-			$('.pod-delivery-step-3-wrapper + h4.pod-show').removeClass('pod-show').addClass('pod-hide')
-			$('fildset.pod-delivery-step-3-option-wrapper').html('')
+			$('.pod-delivery-step-3-wrapper .pod-pickup.pod-show').removeClass('pod-show').addClass('pod-hide')
+			$('fildset.pod-pickup-step-3-option-wrapper').html('')
 			return;
 		}
 
@@ -81,15 +117,15 @@
 		delivery_options.available_options[index].option_ids.forEach(function(item) {
 			delivery_options.options.forEach(function(option) {
 				if (option.option_id == item) {
-					options += `<div class="pod-delivery-step-3-option">
-									<input type="radio" name="pod_delivery_option" value="${d}:${option.option_id}" />
+					options += `<div class="pod-pickup-step-3-option">
+									<input type="radio" name="pod_pickup_option" value="${d}:${option.option_id}" />
 									<label>${option.title}</label>
 								</div>`
 				}
 			})
 		})
 
-		$('fildset.pod-delivery-step-3-option-wrapper').html( options )
+		$('fildset.pod-pickup-step-3-option-wrapper').html( options )
 	})
 
 	$(document).on('click', '.pod-delivery-step-2-option', function(e) {
@@ -103,7 +139,50 @@
 		$(this).find('input[type=radio]').prop('checked', true)
 		$(this).find('input[type=radio]').trigger('change')
 
-		$('.pod-delivery-step-3-option.active').removeClass('active')
+		$(this).addClass('active').siblings().removeClass('active')
+	})
+
+	$(document).on('click', '.pod-pickup-step-3-option', function(e) {
+		$(this).find('input[name="pod_pickup_option"]').prop('checked', true)
+		$(this).find('input[name="pod_pickup_option"]').trigger('change')
+
+
+		if ( has_delivery_date ) {
+			$('.pod-delivery-step-3-wrapper .pod-delivery').removeClass('pod-hide').addClass('pod-show');
+
+			const $delivery_wrapper = $('.pod-delivery-step-3-wrapper .pod-delivery-step-3-option-wrapper');
+
+			let current_pickup_option = $(this).find('input[name="pod_pickup_option"]').val()
+			current_pickup_option = current_pickup_option.split(':');
+
+			let html = '';
+
+			let index = delivery_options.available_options.findIndex(function(item) {
+				return item.date == current_pickup_option[0]
+			})
+
+			delivery_options.available_options[index].deliveries.forEach(function(item) {
+				delivery_options.options.forEach(function(option) {
+					if (option.option_id == item.option_id) {
+						let persian_time = (new Date( item.date )).toLocaleDateString('fa-IR', {
+							weekday: 'long',
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+						})
+						html += `<div class="pod-delivery-step-3-option">
+										<input type="radio" name="pod_delivery_option" value="${item.date}:${option.option_id}" />
+										<label>${ persian_time + ' - ' + option.title}</label>
+									</div>`
+					}
+				})
+			})
+
+			$delivery_wrapper.html( html )
+
+		}
+
+		$('.pod-pickup-step-3-option.active').removeClass('active')
 		$(this).addClass('active')
 	})
 
@@ -135,6 +214,20 @@
 		})
 	}
 
+	function _callback_step_4( response ) {
+		console.log(response)
+
+		$('#woocommerce-order-podro .inside .pod-delivery-step-3-wrapper').remove()
+		$('#woocommerce-order-podro .inside button').remove()
+
+		$('#woocommerce-order-podro .inside').prepend('<h3 style="text-align=center;">ثبت سفارش با موفقیت انجام شد.</h3>')
+
+		setTimeout(function() {
+			location.reload();
+		}, 3000);
+
+	}
+
 	function _callback_step_3( response ) {
 		delivery_options = response.data
 		console.log(response)
@@ -155,15 +248,21 @@
 			select_html += '<option value="' + time.date + '">' + persian_time + '</option>'
 		})
 
+		has_delivery_date = delivery_options.available_options[0].deliveries != undefined;
+
 		select_html += '</select>'
 
 
 		let html = `<div class="pod-delivery-step-3-wrapper">
-			<h4>لطفا روز تحویل را انتخاب کنید</h4>
+			<h4>لطفا روز پیکاپ را انتخاب کنید</h4>
 			${select_html}
-			<h4 class="pod-hide">لطفا زمان پیکاپ را انتخاب کنید</h4>
+			<h4 class="pod-pickup pod-hide">لطفا زمان پیکاپ را انتخاب کنید</h4>
+			<fildset class="pod-pickup-step-3-option-wrapper">
+			</fildset>
+			${has_delivery_date ? '<h4 class="pod-delivery pod-hide">لطفا زمان تحویل را انتخاب کنید</h4>' : ''}
 			<fildset class="pod-delivery-step-3-option-wrapper">
 			</fildset>
+			<input type="hidden" name="pod_delivery_order_id" value="${response.data.order_id}" />
 		</div>`
 
 		$('#woocommerce-order-podro .inside').prepend( html )
@@ -262,4 +361,58 @@
 			$('#woocommerce-order-podro .inside').prepend( html )
 		}
 	}
+
+	function pod_validate_step_1( data ) {
+		let valid = true;
+		if ( data.weight == '' ) {
+			valid = false;
+			$('input[name=pod_weight]').addClass('pod-error');
+		}
+		if ( data.totalprice == '' ) {
+			valid = false;
+			$('input[name=pod_totalprice]').addClass('pod-error');
+		}
+		if ( data.width == '') {
+			valid = false;
+			$('input[name=pod_width]').addClass('pod-error');
+		}
+		if ( data.height == '') {
+			valid = false;
+			$('input[name=pod_height]').addClass('pod-error');
+		}
+		if ( data.depth == '') {
+			valid = false;
+			$('input[name=pod_depth]').addClass('pod-error');
+		}
+		return valid;
+	}
+
+	function pod_validate_step_2( data ) {
+		let valid = true;
+		if ( data.provider_code == '' || data.provider_code == undefined ) {
+			valid = false;
+		}
+		return valid;
+	}
+
+	function pod_validate_step_4( data ) {
+		let valid = true;
+		if ( data.pickup_date == '' || data.pickup_date == undefined ) {
+			valid = false;
+			$('select[name=pod_delivery_option_day]').addClass('pod-error');
+		}
+		if ( data.option_id == '' || data.option_id == undefined ) {
+			valid = false;
+		}
+		if ( has_delivery_date && ( data.delivery_date == '' || data.delivery_date == undefined ) ) {
+			valid = false;
+		}
+		console.log(data)
+		return valid;
+	}
+
+	$(document).on('change', 'input.pod-error', function(e) {
+		$(this).removeClass('pod-error');
+	})
+
 })( jQuery );
