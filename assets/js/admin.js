@@ -215,7 +215,6 @@
 	}
 
 	function _callback_step_4( response ) {
-		console.log(response)
 
 		$('#woocommerce-order-podro .inside .pod-delivery-step-3-wrapper').remove()
 		$('#woocommerce-order-podro .inside button').remove()
@@ -230,10 +229,7 @@
 
 	function _callback_step_3( response ) {
 		delivery_options = response.data
-		console.log(response)
 		$('.pod-delivery-step-2-wrapper').remove()
-
-
 
 		let select_html = '<select name="pod_delivery_option_day">'
 		select_html += '<option value="">انتخاب</option>'
@@ -407,7 +403,6 @@
 		if ( has_delivery_date && ( data.delivery_date == '' || data.delivery_date == undefined ) ) {
 			valid = false;
 		}
-		console.log(data)
 		return valid;
 	}
 

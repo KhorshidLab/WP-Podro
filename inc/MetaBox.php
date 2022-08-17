@@ -273,8 +273,6 @@ class MetaBox {
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 
-		write_log( $_POST );
-
 		$data = [
 			'sender' => [
 				'name' => $this->get_store_name(),
@@ -379,9 +377,6 @@ class MetaBox {
 			$params['delivery_date'] = sanitize_text_field( $_POST['delivery_date'] );
 			$params['delivery_option_id'] = sanitize_text_field( $_POST['delivery_option_id'] );
 		}
-
-		write_log( $params );
-		write_log( $_POST );
 
 		$response = (new Orders)->post_finalize_order( $order_id, $params );
 
