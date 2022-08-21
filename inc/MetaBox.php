@@ -18,7 +18,7 @@ class MetaBox {
 			if ( $this->has_podro_order( $order_id ) ) {
 				add_meta_box(
 					'woocommerce-order-podro',
-					__( 'Podro Order Details', POD_TEXTDOMAIN ),
+					__( 'جزئیات سفارش پادرو', POD_TEXTDOMAIN ),
 					array($this, 'pod_order_details'),
 					'shop_order',
 					'side',
@@ -27,7 +27,7 @@ class MetaBox {
 			} else {
 				add_meta_box(
 					'woocommerce-order-podro',
-					__( 'Podro', POD_TEXTDOMAIN ),
+					__( 'پادرو', POD_TEXTDOMAIN ),
 					array($this, 'order_my_custom'),
 					'shop_order',
 					'side',
@@ -48,46 +48,46 @@ class MetaBox {
 		$response = (new Orders)->get_order( $pod_order_id );
 
 		if ( !$response ) {
-			echo '<p>' . __( 'No Podro order found', POD_TEXTDOMAIN ) . '</p>';
+			echo '<p>' . __( 'هیچ سفارش پادرویی یافت نشد!', POD_TEXTDOMAIN ) . '</p>';
 			return;
 		}
 		?>
 
 		<table class="pod_order_details">
 			<tr>
-				<th><?php _e( 'Order ID', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'ایدی سفارش', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['order_detail']['tracking_id']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Provider', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'پروایدر', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['provider_code']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Order Status', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'وضعیت سفارش', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['status']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Pickup in', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'پیکاپ از', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['pickup_time']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Pickup to', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'پیکاپ تا', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['pickup_to_time']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Order Total', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'هزینه ارسال', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['sale_price']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Order Discount', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'تخفیف', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['discount']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Order Weight', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'وزن', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['order_detail']['parcel_total']['total_weight']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'Order Total Value', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'ارزش مرسوله', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['order_detail']['parcel_total']['total_value']; ?></td>
 			</tr>
 			<tr>
@@ -213,7 +213,7 @@ class MetaBox {
 
 		if (! isset($_POST['weight']) && ! isset($_POST['totalprice']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth'])) {
 
-			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
 			wp_die();
 
 		}
@@ -265,7 +265,7 @@ class MetaBox {
 		// checking for required fields
 		if (! isset($_POST['weight']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth']) && ! isset($_POST['provider_code'])) {
 
-			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
 			wp_die();
 
 		}
@@ -341,7 +341,7 @@ class MetaBox {
 
 		// checking for required fields
 		if ( !isset($_POST['delivery_order_id']) ) {
-			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
 			wp_die();
 		}
 
@@ -366,7 +366,7 @@ class MetaBox {
 
 		// checking for required fields
 		if ( !isset($_POST['delivery_order_id']) ) {
-			wp_send_json_error( __('Invalid item sent.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
 			wp_die();
 		}
 
@@ -416,7 +416,7 @@ class MetaBox {
 	public function validate_nonce( $nonce_key ) {
 		if ( ! check_ajax_referer( $nonce_key, 'security', false ) ) {
 
-			wp_send_json_error( __('Invalid security token sent.', POD_TEXTDOMAIN ), 403 );
+			wp_send_json_error( __('توکن امنیتی اشتباه است.', POD_TEXTDOMAIN ), 403 );
 			wp_die();
 
 		}

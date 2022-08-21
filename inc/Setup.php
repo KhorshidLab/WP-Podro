@@ -199,8 +199,8 @@ class Setup {
 
 		if (self::is_plugin_setup_done()) {
 			add_menu_page(
-				__( 'Podro Setting', POD_TEXTDOMAIN ),
-				__( 'Podro', POD_TEXTDOMAIN),
+				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
+				__( 'پادرو', POD_TEXTDOMAIN),
 				'manage_options',
 				POD_TEXTDOMAIN,
 				[$this, 'delivery_page'],
@@ -209,8 +209,8 @@ class Setup {
 			);
 			add_submenu_page(
 				POD_TEXTDOMAIN,
-				__( 'Podro Orders', POD_TEXTDOMAIN ),
-				__( 'Orders', POD_TEXTDOMAIN ),
+				__( 'سفارشات پادرو', POD_TEXTDOMAIN ),
+				__( 'سفارشات', POD_TEXTDOMAIN ),
 				'manage_options',
 				POD_TEXTDOMAIN,
 				[$this, 'delivery_page'],
@@ -218,8 +218,8 @@ class Setup {
 
 			add_submenu_page(
 				POD_TEXTDOMAIN,
-				__( 'Podro Setting', POD_TEXTDOMAIN ),
-				__( 'Setting', POD_TEXTDOMAIN ),
+				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
+				__( 'تنظیمات', POD_TEXTDOMAIN ),
 				'manage_options',
 				POD_TEXTDOMAIN . '-setting',
 				[$this, 'settings_page'],
@@ -227,8 +227,8 @@ class Setup {
 		} else {
 
 			add_menu_page(
-				__( 'Podro Setting', POD_TEXTDOMAIN ),
-				__( 'Podro', POD_TEXTDOMAIN),
+				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
+				__( 'تنظیمات', POD_TEXTDOMAIN),
 				'manage_options',
 				POD_TEXTDOMAIN,
 				[$this, 'settings_page'],
@@ -238,8 +238,8 @@ class Setup {
 
 			add_submenu_page(
 				POD_TEXTDOMAIN,
-				__( 'Podro Setting', POD_TEXTDOMAIN ),
-				__( 'Setting', POD_TEXTDOMAIN ),
+				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
+				__( 'تنظیمات', POD_TEXTDOMAIN ),
 				'manage_options',
 				POD_TEXTDOMAIN,
 				[$this, 'settings_page'],
@@ -249,8 +249,8 @@ class Setup {
 
 		add_submenu_page(
 			POD_TEXTDOMAIN,
-			__( 'About Podro', POD_TEXTDOMAIN ),
-			__( 'About us', POD_TEXTDOMAIN ),
+			__( 'درباره پادرو', POD_TEXTDOMAIN ),
+			__( 'درباره', POD_TEXTDOMAIN ),
 			'manage_options',
 			POD_TEXTDOMAIN . '-about-us',
 			[$this, 'about_us_page'],
@@ -286,10 +286,10 @@ class Setup {
 		$credentials_status = get_option( 'podro_plugin_status' );
 		switch ($credentials_status) {
 			case 'connected':
-				$status = '<span class="active">' . esc_html__( 'Active', POD_TEXTDOMAIN ) . '</span>';
+				$status = '<span class="active">' . esc_html__( 'فعال', POD_TEXTDOMAIN ) . '</span>';
 				break;
 			default:
-				$status = '<span class="disable">' . esc_html__( 'Disable', POD_TEXTDOMAIN ) . '</span>';
+				$status = '<span class="disable">' . esc_html__( 'غیرفعال', POD_TEXTDOMAIN ) . '</span>';
 				break;
 		}
 

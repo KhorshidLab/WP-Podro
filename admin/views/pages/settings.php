@@ -36,7 +36,7 @@ $delivery_options = [
 
 <div class="wrap">
 
-	<h1><?php echo esc_html_e( 'Podro General Settings', POD_TEXTDOMAIN ) ?></h1>
+	<h1><?php echo esc_html_e( 'تنظیمات عمومی پادرو', POD_TEXTDOMAIN ) ?></h1>
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
 			<h3><?php echo esc_html_e( 'Configure Podro API', POD_TEXTDOMAIN ) ?></h3>

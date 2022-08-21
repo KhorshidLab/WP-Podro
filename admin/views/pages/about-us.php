@@ -1,5 +1,5 @@
 <div class="wrap">
-	<h1><?php echo esc_html_e( 'About Podro', POD_TEXTDOMAIN ) ?></h1>
+	<h1><?php echo esc_html_e( 'درباره پادرو', POD_TEXTDOMAIN ) ?></h1>
 	<div class="pdo-wrapper">
 		<div class="pdo-card pdo-about">
 			<p>پادرو پلتفرمی هوشمند در زمینه <strong>تسهیل فرآیند فروش و ارسال در شبکه‌های اجتماعی</strong> و <strong>ارسال محصولات برای فروشگاه‌های آنلاین و سازمان‌های بزرگ</strong> است.

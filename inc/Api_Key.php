@@ -30,7 +30,7 @@ class Api_Key {
 		if ( !$response ) {
 			add_action( 'admin_notices', function (){
 				echo wp_kses_post('<div class="notice notice-error is-dismissible">
-					<p>'. esc_html__( 'user is unauthorized.', POD_TEXTDOMAIN ) .'</p>
+					<p>'. esc_html__( 'کاربر غیر مجاز است.', POD_TEXTDOMAIN ) .'</p>
 				</div>');
 			} );
 		}
@@ -40,13 +40,13 @@ class Api_Key {
 		if ($http_code == 500) {
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-error is-dismissible">
-						<p>'. esc_html__( 'Podro is not responding right now. please try again later.', POD_TEXTDOMAIN ) .'</p>
+						<p>'. esc_html__( 'پادرو در حال حاضر پاسخی نمی دهد. لطفا بعدا دوباره امتحان کنید', POD_TEXTDOMAIN ) .'</p>
 					</div>');
 			} );
 		} else if ($http_code == 401) {
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-error is-dismissible">
-					<p>'. esc_html__( 'Podro API key is invalid. Please try again.', POD_TEXTDOMAIN ) .'</p>
+					<p>'. esc_html__( 'کلید Podro API نامعتبر است. لطفا دوباره تلاش کنید.', POD_TEXTDOMAIN ) .'</p>
 				</div>');
 			} );
 
@@ -85,7 +85,7 @@ class Api_Key {
 		if ( $pdo_email == null || $pdo_password == null || ( ! empty( $pdo_email ) && !empty( $pdo_password ) && $pdo_password === __( "-- not shown --", POD_TEXTDOMAIN )) ) {
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-error is-dismissible">
-						<p>'. esc_html__( "Enter your Credentials.", POD_TEXTDOMAIN ) .'</p>
+						<p>'. esc_html__( "لطفا موارد موردنیاز را وارد کنید.", POD_TEXTDOMAIN ) .'</p>
 					</div>');
 			} );
 			return false;
@@ -106,7 +106,7 @@ class Api_Key {
 
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-success is-dismissible">
-						<p>'. esc_html__( "settings saved.", POD_TEXTDOMAIN ) .'</p>
+						<p>'. esc_html__( "تنظیمات ذخیره شد.", POD_TEXTDOMAIN ) .'</p>
 					</div>');
 			} );
 		}
