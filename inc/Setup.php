@@ -83,9 +83,40 @@ class Setup {
 		$WC_City_Select = new WC_City_Select;
 		$this->loader = new Loader();
 
-		$this->loader->add_filter( 'woocommerce_billing_fields', $WC_City_Select, 'billing_fields', 10, 2 );
-		$this->loader->add_filter( 'woocommerce_shipping_fields', $WC_City_Select, 'shipping_fields', 10, 2 );
-		$this->loader->add_filter( 'woocommerce_form_field_city', $WC_City_Select, 'form_field_city', 10, 4 );
+
+		// Disable Persian Woocommerce City Select
+		if ( function_exists( 'PW' ) && PW()->get_options( 'enable_iran_cities' ) != 'no' ) {
+			$settings                       = PW()->get_options();
+			$settings['enable_iran_cities'] = 'no';
+			update_option( 'PW_Options', $settings );
+		}
+
+		// Disable Persian Woocommerce shipping City Select
+		if ( function_exists( 'PWS' ) || class_exists('PWS_Core') || in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			remove_filter( 'woocommerce_form_field_shipping_city', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
+			remove_filter( 'woocommerce_form_field_billing_city', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
+			remove_filter( 'woocommerce_form_field_billing_district', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
+			remove_filter( 'woocommerce_form_field_shipping_district', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
+			remove_filter( 'manage_state_city_custom_column', [ \PWS_Core::class, 'edit_state_city_rows_taxonomy' ], 10 );
+			remove_filter( 'manage_edit-state_city_columns', [ \PWS_Core::class, 'edit_state_city_columns_taxonomy' ], 10 );
+			remove_filter( 'woocommerce_states', [ \PWS_Core::class, 'iran_states' ], 20 );
+			remove_filter( 'wp_ajax_mahdiy_load_cities', [ \PWS_Core::class, 'load_cities_callback' ]);
+			remove_filter( 'wp_ajax_nopriv_mahdiy_load_cities', [ \PWS_Core::class, 'load_cities_callback' ]);
+			remove_filter( 'wp_ajax_nopriv_mahdiy_load_districts', [ \PWS_Core::class, 'load_districts_callback' ]);
+			remove_filter( 'wp_ajax_mahdiy_load_districts', [ \PWS_Core::class, 'load_districts_callback' ]);
+			remove_filter( 'wp_ajax_mahdiy_load_districts', [ \PWS_Core::class, 'load_districts_callback' ]);
+
+
+
+			add_action( 'wp_enqueue_scripts', function() {
+				wp_dequeue_script( 'pwsCheckout' );
+			}, 999999 );
+		}
+
+
+		$this->loader->add_filter( 'woocommerce_billing_fields', $WC_City_Select, 'billing_fields', 999999, 2 );
+		$this->loader->add_filter( 'woocommerce_shipping_fields', $WC_City_Select, 'shipping_fields', 999999, 2 );
+		$this->loader->add_filter( 'woocommerce_form_field_city', $WC_City_Select, 'form_field_city', 999999, 4 );
 
 		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
 		$this->loader->add_action( 'add_meta_boxes', $MetaBox, 'add_meta_boxes' );
