@@ -215,15 +215,6 @@ class Setup {
 				POD_TEXTDOMAIN,
 				[$this, 'delivery_page'],
 			);
-
-			add_submenu_page(
-				POD_TEXTDOMAIN,
-				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
-				__( 'تنظیمات', POD_TEXTDOMAIN ),
-				'manage_options',
-				POD_TEXTDOMAIN . '-setting',
-				[$this, 'settings_page'],
-			);
 		} else {
 
 			add_menu_page(
