@@ -65,4 +65,13 @@ class Orders {
 		}
 		return $response;
 	}
+
+	public function delete_order( $order_id ) {
+		$url = Routes::BuildRoute( Routes::ORDER_DELETE, array( 'order_id' => $order_id ) );
+		$response = Request_Podro::delete( $url, false );
+		if (is_wp_error($response) || !isset($response->body)) {
+			return false;
+		}
+		return $response;
+	}
 }

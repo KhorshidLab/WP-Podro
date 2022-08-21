@@ -447,4 +447,27 @@ class MetaBox {
 	private function get_store_phone_number() {
 		return get_option('woocommerce_store_phone');
 	}
+
+	public function ajax_cancel_order() {
+		// checking for nonce
+		$this->validate_nonce( 'pod-options-nonce' );
+		// checking for required fields
+		if ( !isset($_POST['order_id']) ) {
+			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
+			wp_die();
+		}
+
+		$order_id = sanitize_text_field( $_POST['order_id'] );
+
+		$response = (new Orders)->delete_order( $order_id);
+
+		if ( !$response || is_wp_error($response) ) {
+			wp_send_json_error( $response['message'], 403 );
+			wp_die();
+		}
+
+
+		wp_send_json_success( $response );
+		wp_die();
+}
 }

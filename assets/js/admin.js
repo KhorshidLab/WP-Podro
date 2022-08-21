@@ -17,6 +17,23 @@
 		pod_ajax( data, _callback_pdf );
 	})
 
+	$('#pod-cancel-order, .pod-cancel-order').on('click', function(e) {
+		e.preventDefault();
+		var order_id = $(this).attr('data-order_id');
+
+		const data = {
+			'action': 'cancel_order',
+			security: wp_podro_ajax_object.security,
+			'order_id': order_id
+		};
+
+		pod_ajax( data, _callback_cancel_order );
+	})
+
+	function _callback_cancel_order( response ) {
+		location.reload();
+	}
+
 	function _callback_pdf( response ) {
 		var myHeaders = new Headers();
 		myHeaders.append("Content-Type", "application/json");

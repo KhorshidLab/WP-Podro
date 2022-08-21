@@ -43,13 +43,14 @@ class Podro_Order_Table extends \WP_List_Table {
     public function get_columns()
     {
         $columns = array(
-            'id'          => 'ID',
-            'provider'    => 'Provider',
-            'order_status' => 'Order Status',
-            'pickup_in'    => 'Pickup in',
-            'pickup_to'    => 'Pickup to',
-            'order'      => 'Order',
-			'pdf'			=> 'PDF'
+            'id'          => 'شناسه',
+            'provider'    => 'پروایدر',
+            'order_status' => 'وضعیت',
+            'pickup_in'    => 'پیکاپ در',
+            'pickup_to'    => 'پیکاپ تا',
+            'order'      => 'سفارش',
+			'pdf'			=> 'PDF',
+			'cancel'		=> 'لغو',
         );
 
         return $columns;
@@ -105,7 +106,8 @@ class Podro_Order_Table extends \WP_List_Table {
 				'pickup_in'        => $details['pickup_time'],
 				'pickup_to'    => $details['pickup_to_time'],
 				'order'      => '<a href="'. get_edit_post_link( $order_id ) .'">'. $order->post_title .'</a>',
-				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $details['id'] . '">دریافت بارنامه</a>'
+				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $details['id'] . '">دریافت بارنامه</a>',
+				'cancel'			=> '<a class="pod-cancel-order" data-order_id="' . $details['id'] . '">لغو ارسال</a>'
 			);
 		}
 
@@ -130,6 +132,7 @@ class Podro_Order_Table extends \WP_List_Table {
             case 'pickup_to':
             case 'order':
 			case 'pdf':
+			case 'cancel':
                 return $item[ $column_name ];
 
             default:

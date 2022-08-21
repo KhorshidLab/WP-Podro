@@ -127,6 +127,7 @@ class Setup {
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_3', $MetaBox, 'ajax_saving_options_step_3' );
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_4', $MetaBox, 'ajax_saving_options_step_4' );
 		$this->loader->add_action( 'wp_ajax_pod_token', $MetaBox, 'ajax_get_token' );
+		$this->loader->add_action( 'wp_ajax_cancel_order', $MetaBox, 'ajax_cancel_order' );
 
 		// Register shipping method
 		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );

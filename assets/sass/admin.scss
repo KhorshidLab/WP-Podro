@@ -391,6 +391,8 @@ select.pod-error  {
 }
 
 #get_order_pdf,
-.get_order_pdf {
+.get_order_pdf,
+#pod-cancel-order,
+.pod-cancel-order {
 	cursor: pointer;
 }
