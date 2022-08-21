@@ -36,7 +36,7 @@ add_action(
 	static function () {
 		load_plugin_textdomain( POD_TEXTDOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
-	);
+);
 
 if ( version_compare( PHP_VERSION, POD_MIN_PHP_VERSION, '<=' ) ) {
 	add_action(
@@ -61,4 +61,11 @@ if ( version_compare( PHP_VERSION, POD_MIN_PHP_VERSION, '<=' ) ) {
 	return;
 }
 require_once(POD_PLUGIN_ROOT . 'vendor/autoload.php');
-new WP_PODRO\Engine\Setup;
+$GLOBALS['wc_city_select'] = new WP_PODRO\Engine\WC_City_Select();
+$Setup = new WP_PODRO\Engine\Setup;
+register_activation_hook( __FILE__, 'activate_podro' );
+
+function activate_podro() {
+	$Setup = new WP_PODRO\Engine\Setup;
+	$Setup->activate();
+}

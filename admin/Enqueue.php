@@ -10,6 +10,7 @@
 
 namespace WP_PODRO\Admin;
 
+use WP_PODRO\Engine\WC_City_Select;
 
 /**
  * This class contain the Enqueue stuff for the backend
@@ -25,6 +26,8 @@ class Enqueue {
 
 		\add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		\add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+
+		\add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_styles' ) );
 	}
 
 
@@ -59,6 +62,31 @@ class Enqueue {
 				],
 			],
 		);
+	}
+
+	public function enqueue_public_styles() {
+
+		if ( is_cart() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
+			$city_select_path = POD_PLUGIN_ROOT_URL . 'assets/js/city-select.js';
+			wp_enqueue_script(
+				'wc-city-select',
+				$city_select_path,
+				array( 'jquery', 'woocommerce' ),
+				POD_VERSION,
+				true
+			);
+
+			$cities = json_encode( (new WC_City_Select)->get_cities() );
+			wp_localize_script(
+				'wc-city-select',
+				'wc_city_select_params',
+				array(
+					'cities' => $cities,
+					'i18n_select_city_text' => esc_attr__( 'Select an option&hellip;', 'woocommerce' )
+				)
+			);
+		}
+
 	}
 
 }

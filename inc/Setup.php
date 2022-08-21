@@ -80,7 +80,13 @@ class Setup {
 
 		$Api_Key = new Api_Key;
 		$MetaBox = new MetaBox;
+		$WC_City_Select = new WC_City_Select;
 		$this->loader = new Loader();
+
+		$this->loader->add_filter( 'woocommerce_billing_fields', $WC_City_Select, 'billing_fields', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_shipping_fields', $WC_City_Select, 'shipping_fields', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_form_field_city', $WC_City_Select, 'form_field_city', 10, 4 );
+
 		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
 		$this->loader->add_action( 'add_meta_boxes', $MetaBox, 'add_meta_boxes' );
 
@@ -90,7 +96,6 @@ class Setup {
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_3', $MetaBox, 'ajax_saving_options_step_3' );
 		$this->loader->add_action( 'wp_ajax_pod_delivery_step_4', $MetaBox, 'ajax_saving_options_step_4' );
 		$this->loader->add_action( 'wp_ajax_pod_token', $MetaBox, 'ajax_get_token' );
-
 
 		// Register shipping method
 		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );

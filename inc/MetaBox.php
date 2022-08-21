@@ -165,12 +165,12 @@ class MetaBox {
 		<ul class="pod-delivery-step">
 			<li>
 				<label for="pod_source_city">مبدا</label>
-				<input type="text" name="pod_source_city" id="pod_source_city" value="<?php echo $source_city['label']; ?>" disabled />
+				<input type="text" name="pod_source_city" id="pod_source_city" value="<?php echo $source_city['name']; ?>" disabled />
 				<input type="hidden" name="pod_source_city_code" value="<?php echo $source_city['code']; ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
-				<input type="text" name="pod_destination_city" id="pod_destination_city" value="<?php echo $destination_city['label']; ?>" disabled />
+				<input type="text" name="pod_destination_city" id="pod_destination_city" value="<?php echo $destination_city['name']; ?>" disabled />
 				<input type="hidden" name="pod_destination_city_code" value="<?php echo $destination_city['code']; ?>">
 			</li>
 			<li>
