@@ -18,11 +18,17 @@ class Podro_Order_Table extends \WP_List_Table {
         $sortable = $this->get_sortable_columns();
 
         $data = $this->table_data();
+		$totalItems = count((array)$data);
+
+		if ( $totalItems < 1 ) {
+			$this->items = array();
+			return;
+		}
         usort( $data, array( &$this, 'sort_data' ) );
 
         $perPage = 10;
         $currentPage = $this->get_pagenum();
-        $totalItems = count($data);
+
 
         $this->set_pagination_args( array(
             'total_items' => $totalItems,
@@ -83,6 +89,7 @@ class Podro_Order_Table extends \WP_List_Table {
      */
     private function table_data()
     {
+		$data = array();
         $args = array(
 			'post_type' => 'shop_order',
 			'meta_query' => array(
