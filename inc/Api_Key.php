@@ -104,6 +104,8 @@ class Api_Key {
 				'password' => (new Encryption)->encrypt($pdo_password),
 			]);
 
+			wp_redirect( home_url( '/wp-admin/admin.php?page=wp_podro' ) );
+
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-success is-dismissible">
 						<p>'. esc_html__( "تنظیمات ذخیره شد.", POD_TEXTDOMAIN ) .'</p>

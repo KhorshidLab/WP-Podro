@@ -60,12 +60,9 @@ if ( version_compare( PHP_VERSION, POD_MIN_PHP_VERSION, '<=' ) ) {
 	// Return early to prevent loading the plugin.
 	return;
 }
-require_once(POD_PLUGIN_ROOT . 'vendor/autoload.php');
-$GLOBALS['wc_city_select'] = new WP_PODRO\Engine\WC_City_Select();
-$Setup = new WP_PODRO\Engine\Setup;
-register_activation_hook( __FILE__, 'activate_podro' );
 
-function activate_podro() {
-	$Setup = new WP_PODRO\Engine\Setup;
-	$Setup->activate();
+require_once(POD_PLUGIN_ROOT . 'vendor/autoload.php');
+if ( class_exists('WC_Payment_Gateway') ) {
+	$GLOBALS['wc_city_select'] = new WP_PODRO\Engine\WC_City_Select();
 }
+$Setup = new WP_PODRO\Engine\Setup;

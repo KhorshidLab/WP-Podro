@@ -47,6 +47,9 @@ class Setup {
 	 */
 	protected $version;
 
+
+	public static $IS_WC_ACTIVE = false;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -54,6 +57,10 @@ class Setup {
 	 * @since    0.0.1
 	 */
 	public function __construct() {
+
+		if ( class_exists('WC_Payment_Gateway') ) {
+			self::$IS_WC_ACTIVE = true;
+		}
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -80,7 +87,6 @@ class Setup {
 
 		$Api_Key = new Api_Key;
 		$MetaBox = new MetaBox;
-		$WC_City_Select = new WC_City_Select;
 		$this->loader = new Loader();
 
 
@@ -112,11 +118,15 @@ class Setup {
 				wp_dequeue_script( 'pwsCheckout' );
 			}, 999999 );
 		}
+		if ( class_exists('WC_City_Select') ) {
 
+			$WC_City_Select = new WC_City_Select;
 
-		$this->loader->add_filter( 'woocommerce_billing_fields', $WC_City_Select, 'billing_fields', 999999, 2 );
-		$this->loader->add_filter( 'woocommerce_shipping_fields', $WC_City_Select, 'shipping_fields', 999999, 2 );
-		$this->loader->add_filter( 'woocommerce_form_field_city', $WC_City_Select, 'form_field_city', 999999, 4 );
+			$this->loader->add_filter( 'woocommerce_billing_fields', $WC_City_Select, 'billing_fields', 999999, 2 );
+			$this->loader->add_filter( 'woocommerce_shipping_fields', $WC_City_Select, 'shipping_fields', 999999, 2 );
+			$this->loader->add_filter( 'woocommerce_form_field_city', $WC_City_Select, 'form_field_city', 999999, 4 );
+
+		}
 
 		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
 		$this->loader->add_action( 'add_meta_boxes', $MetaBox, 'add_meta_boxes' );
@@ -219,8 +229,8 @@ class Setup {
 		} else {
 
 			add_menu_page(
-				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
-				__( 'تنظیمات', POD_TEXTDOMAIN),
+				__( 'پادرو', POD_TEXTDOMAIN ),
+				__( 'پادرو', POD_TEXTDOMAIN),
 				'manage_options',
 				POD_TEXTDOMAIN,
 				[$this, 'settings_page'],
@@ -256,7 +266,7 @@ class Setup {
 		if ( !$podro_status || $action == 'config-api' ) {
 			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
 		} else {
-			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/settings.php' );
+			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/delivery.php' );
 		}
 	}
 
