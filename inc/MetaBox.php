@@ -91,8 +91,8 @@ class MetaBox {
 				<td><?php echo $response['order_detail']['parcel_total']['total_value']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'PDF', POD_TEXTDOMAIN ); ?></th>
-				<td><a id="get_order_pdf" data-order_id="<?php echo $response['id'] ?>"><?php _e( 'Download PDF', POD_TEXTDOMAIN ); ?></a></td>
+				<th><?php _e( 'فایل بارنامه', POD_TEXTDOMAIN ); ?></th>
+				<td><a id="get_order_pdf" data-order_id="<?php echo $response['id'] ?>"><?php _e( 'دانلود بارنامه', POD_TEXTDOMAIN ); ?></a></td>
 			</tr>
 		</table>
 		<div id="lock-modal"></div>

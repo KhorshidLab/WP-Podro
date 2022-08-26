@@ -10,14 +10,14 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 	<h1><?php echo esc_html_e( 'تنظیمات عمومی پادرو', POD_TEXTDOMAIN ) ?></h1>
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
-			<h3><?php echo esc_html_e( 'تنظیم کردن API پادرو', POD_TEXTDOMAIN ) ?></h3>
+			<h3><?php echo esc_html_e( 'پیکربندی اتصال به پادرو پین', POD_TEXTDOMAIN ) ?></h3>
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=wp_podro' )); ?>">
 				<div class="pdo-box">
-					<label for="pdo_email">Email</label>
+					<label for="pdo_email">ایمیل</label>
 					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? $credentials['email'] : '' ?>">
 				</div>
 				<div class="pdo-box">
-					<label for="pdo_password">password</label>
+					<label for="pdo_password">کلمه عبور</label>
 					<input type="password" name="pdo_password" id="pdo_password" autocomplete="off">
 				</div>
 				<div class="pdo-box">

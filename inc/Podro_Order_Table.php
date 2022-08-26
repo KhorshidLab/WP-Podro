@@ -55,7 +55,7 @@ class Podro_Order_Table extends \WP_List_Table {
             'pickup_in'    => 'پیکاپ در',
             'pickup_to'    => 'پیکاپ تا',
             'order'      => 'سفارش',
-			'pdf'			=> 'PDF',
+			'pdf'			=> 'بارنامه',
 			'cancel'		=> 'لغو',
         );
 
@@ -113,7 +113,7 @@ class Podro_Order_Table extends \WP_List_Table {
 				'pickup_in'        => $details['pickup_time'],
 				'pickup_to'    => $details['pickup_to_time'],
 				'order'      => '<a href="'. get_edit_post_link( $order_id ) .'">'. $order->post_title .'</a>',
-				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $details['id'] . '">دریافت بارنامه</a>',
+				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $details['id'] . '">دانلود بارنامه</a>',
 				'cancel'			=> '<a class="pod-cancel-order" data-order_id="' . $details['id'] . '">لغو ارسال</a>'
 			);
 		}
