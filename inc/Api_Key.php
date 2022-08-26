@@ -82,7 +82,7 @@ class Api_Key {
 
 		$pdo_email = sanitize_email( $_POST[ 'pdo_email' ] );
 		$pdo_password = sanitize_text_field( $_POST[ 'pdo_password' ] );
-		if ( $pdo_email == null || $pdo_password == null || ( ! empty( $pdo_email ) && !empty( $pdo_password ) && $pdo_password === __( "-- not shown --", POD_TEXTDOMAIN )) ) {
+		if ( $pdo_email == null || $pdo_password == null || ( ! empty( $pdo_email ) && !empty( $pdo_password ) && $pdo_password === "**************" ) ) {
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-error is-dismissible">
 						<p>'. esc_html__( "لطفا موارد موردنیاز را وارد کنید.", POD_TEXTDOMAIN ) .'</p>

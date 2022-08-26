@@ -7,9 +7,9 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 
 <div class="wrap">
 
-	<h1><?php echo esc_html_e( 'تنظیمات عمومی پادرو', POD_TEXTDOMAIN ) ?></h1>
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
+			<h1><?php echo esc_html_e( 'تنظیمات عمومی پادرو', POD_TEXTDOMAIN ) ?></h1>
 			<h3><?php echo esc_html_e( 'پیکربندی اتصال به پادرو پین', POD_TEXTDOMAIN ) ?></h3>
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=wp_podro' )); ?>">
 				<div class="pdo-box">
