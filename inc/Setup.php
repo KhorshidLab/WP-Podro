@@ -214,17 +214,27 @@ class Setup {
 				__( 'پادرو', POD_TEXTDOMAIN),
 				'manage_options',
 				POD_TEXTDOMAIN,
-				[$this, 'settings_page'],
+				[$this, 'delivery_page'],
 				POD_PLUGIN_ROOT_URL . 'assets/images/podro.png',
 				200
 			);
+
 			add_submenu_page(
 				POD_TEXTDOMAIN,
 				__( 'سفارشات پادرو', POD_TEXTDOMAIN ),
 				__( 'سفارشات', POD_TEXTDOMAIN ),
 				'manage_options',
-				POD_TEXTDOMAIN . '-orders',
+				POD_TEXTDOMAIN,
 				[$this, 'delivery_page'],
+			);
+
+			add_submenu_page(
+				POD_TEXTDOMAIN,
+				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
+				__( 'تنظیمات', POD_TEXTDOMAIN ),
+				'manage_options',
+				POD_TEXTDOMAIN . '-settings',
+				[$this, 'settings_page'],
 			);
 		} else {
 
@@ -266,7 +276,7 @@ class Setup {
 		if ( !$podro_status || $action == 'config-api' ) {
 			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
 		} else {
-			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/settings.php' );
+			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/delivery.php' );
 		}
 	}
 
