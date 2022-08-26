@@ -11,7 +11,7 @@ $doaction = $wp_list_table->current_action();
 
 $wp_list_table->prepare_items();
 ?>
-<div class="wrap">
+<div class="wrap pod-wrap">
 <h1 class="wp-heading-inline">سفارشات پادرو</h1>
 	<form id="posts-filter" method="get">
 

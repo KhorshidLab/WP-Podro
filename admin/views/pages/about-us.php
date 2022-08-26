@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="wrap pod-wrap">
 	<div class="pdo-wrapper">
 		<div class="pdo-card pdo-about">
 			<h1><?php echo esc_html_e( 'درباره پادرو', POD_TEXTDOMAIN ) ?></h1>

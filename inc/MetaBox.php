@@ -55,7 +55,7 @@ class MetaBox {
 
 		<table class="pod_order_details">
 			<tr>
-				<th><?php _e( 'ایدی سفارش', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'شناسه سفارش', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['order_detail']['tracking_id']; ?></td>
 			</tr>
 			<tr>

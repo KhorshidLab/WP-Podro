@@ -4,7 +4,7 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 ?>
 
 
-<div class="wrap">
+<div class="wrap pod-wrap">
 
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
