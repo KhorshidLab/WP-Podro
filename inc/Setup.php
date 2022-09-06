@@ -276,7 +276,7 @@ class Setup {
 		if ( !$podro_status || $action == 'config-api' ) {
 			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
 		} else {
-			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/delivery.php' );
+			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
 		}
 	}
 
