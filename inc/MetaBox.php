@@ -134,7 +134,8 @@ class MetaBox {
 		$order_id = $order->get_id();
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
-
+		$destination_address = $destination_city['name'] . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
+		$store_address =  get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
 
 		$total_weight = 0;
 		$weight_unit = 1;
@@ -173,12 +174,13 @@ class MetaBox {
 		<ul class="pod-delivery-step">
 			<li>
 				<label for="pod_source_city">مبدا</label>
-				<input type="text" name="pod_source_city" id="pod_source_city" value="<?php echo $source_city['name']; ?>" disabled />
+				<input type="text" name="pod_source_city" id="pod_source_city" value="<?php echo $store_address; ?>" disabled />
+				<?php if (empty($store_address)) echo '<p style="color:red">لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.</p>'; ?>
 				<input type="hidden" name="pod_source_city_code" value="<?php echo $source_city['code']; ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
-				<input type="text" name="pod_destination_city" id="pod_destination_city" value="<?php echo $destination_city['name']; ?>" disabled />
+				<input type="text" name="pod_destination_city" id="pod_destination_city" value="<?php echo $destination_address; ?>" disabled />
 				<input type="hidden" name="pod_destination_city_code" value="<?php echo $destination_city['code']; ?>">
 			</li>
 			<li>
