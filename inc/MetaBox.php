@@ -51,11 +51,19 @@ class MetaBox {
 			echo '<p>' . __( 'هیچ سفارش پادرویی یافت نشد!', POD_TEXTDOMAIN ) . '</p>';
 			return;
 		}
+
+		$pickup_time = new \DateTime( $response['pickup_time'] );
+		$pickup_time_S = (new SDate)->toShaDate( $pickup_time->format('Y-m-d') );
+
 		?>
 
 		<table class="pod_order_details">
 			<tr>
 				<th><?php _e( 'شناسه سفارش', POD_TEXTDOMAIN ); ?></th>
+				<td><?php echo $pod_order_id; ?></td>
+			</tr>
+			<tr>
+				<th><?php _e( 'کد پیگیری سفارش', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['order_detail']['tracking_id']; ?></td>
 			</tr>
 			<tr>
@@ -68,7 +76,7 @@ class MetaBox {
 			</tr>
 			<tr>
 				<th><?php _e( 'پیکاپ از', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['pickup_time']; ?></td>
+				<td><?php echo $pickup_time_S ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'پیکاپ تا', POD_TEXTDOMAIN ); ?></th>
