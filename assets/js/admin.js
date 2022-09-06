@@ -358,7 +358,7 @@
 					</li>
 					<li>
 					<span>زمان تحویل: </span>
-						<span>${response.data.provider_delivery_time}</span>
+						<span>${response.data.provider_delivery_time} ساعت بعد از جمع آوری</span>
 					</li>
 					<li>
 						<span>مبلغ کل: </span>
