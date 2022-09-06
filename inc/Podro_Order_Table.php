@@ -49,7 +49,8 @@ class Podro_Order_Table extends \WP_List_Table {
     public function get_columns()
     {
         $columns = array(
-            'id'          => 'شناسه',
+            'id'          => 'شناسه سفارش',
+			'tracking_id' => 'شناسه پیگیری',
             'provider'    => 'پروایدر',
             'order_status' => 'وضعیت',
             'pickup_in'    => 'پیکاپ در',
@@ -106,13 +107,27 @@ class Podro_Order_Table extends \WP_List_Table {
 			$order_id = $order->ID;
 			$pod_order_id = get_post_meta( $order_id, 'pod_order_id', true );
 			$details = (new Orders)->get_order($pod_order_id);
+
+
+			$pickup_time = new \DateTime( $details['pickup_time'] );
+			$pickup_time_S = (new SDate)->toShaDate( $pickup_time->format('Y-m-d') );
+
+			// Get the user ID from an Order ID
+			$user_id = get_post_meta( $order_id, '_customer_user', true );
+
+			// Get an instance of the WC_Customer Object from the user ID
+			$customer = new \WC_Customer( $user_id );
+
+			$display_name = $customer->get_display_name();
+
 			$data[] = array(
-				'id'          => $details['order_detail']['tracking_id'] ?? '',
+				'id'          => $pod_order_id,
+				'tracking_id'          => $details['order_detail']['tracking_id'] ?? '',
 				'provider'       => $details['provider_code'],
 				'order_status' => '<mark class="order-status status-processing"><span>'. $details['status'] .'</span></mark>',
-				'pickup_in'        => $details['pickup_time'],
+				'pickup_in'        => $pickup_time_S . ' ' . $pickup_time->format('H:i'),
 				'pickup_to'    => $details['pickup_to_time'],
-				'order'      => '<a href="'. get_edit_post_link( $order_id ) .'">'. $order->post_title .'</a>',
+				'order'      => '<a href="'. get_edit_post_link( $order_id ) .'">#'. $order->ID . ' ' . $display_name .'</a>',
 				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $details['id'] . '">دانلود بارنامه</a>',
 				'cancel'			=> '<a class="pod-cancel-order" data-order_id="' . $details['id'] . '">لغو ارسال</a>'
 			);
@@ -133,6 +148,7 @@ class Podro_Order_Table extends \WP_List_Table {
     {
         switch( $column_name ) {
             case 'id':
+			case 'tracking_id':
             case 'provider':
             case 'order_status':
             case 'pickup_in':
