@@ -120,6 +120,12 @@ class Podro_Order_Table extends \WP_List_Table {
 
 			$display_name = $customer->get_display_name();
 
+			if ( $details['status'] == 'لغو شده') {
+				$cancel_order = 'از پیش لغو شده';
+			} else {
+				$cancel_order = '<a class="pod-cancel-order" data-order_id="' . $details['id'] . '">لغو ارسال</a>';
+			}
+
 			$data[] = array(
 				'id'          => $pod_order_id,
 				'tracking_id'          => $details['order_detail']['tracking_id'] ?? '',
@@ -129,7 +135,7 @@ class Podro_Order_Table extends \WP_List_Table {
 				'pickup_to'    => $details['pickup_to_time'],
 				'order'      => '<a href="'. get_edit_post_link( $order_id ) .'">#'. $order->ID . ' ' . $display_name .'</a>',
 				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $details['id'] . '">دانلود بارنامه</a>',
-				'cancel'			=> '<a class="pod-cancel-order" data-order_id="' . $details['id'] . '">لغو ارسال</a>'
+				'cancel'			=> $cancel_order
 			);
 		}
 
