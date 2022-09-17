@@ -75,11 +75,11 @@ class MetaBox {
 				<td><?php echo $response['status']; ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'پیکاپ از', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'جمع‌آوری از', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $pickup_time_S . ' ' . $pickup_time->format('H:i') ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'پیکاپ تا', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'جمع‌آوری تا', POD_TEXTDOMAIN ); ?></th>
 				<td><?php echo $response['pickup_to_time']; ?></td>
 			</tr>
 			<tr>

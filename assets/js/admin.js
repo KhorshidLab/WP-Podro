@@ -329,9 +329,9 @@
 
 
 		let html = `<div class="pod-delivery-step-3-wrapper">
-			<h4>لطفا روز پیکاپ را انتخاب کنید</h4>
+			<h4>لطفا روز جمع‌آوری را انتخاب کنید</h4>
 			${select_html}
-			<h4 class="pod-pickup pod-hide">لطفا زمان پیکاپ را انتخاب کنید</h4>
+			<h4 class="pod-pickup pod-hide">لطفا زمان جمع‌آوری را انتخاب کنید</h4>
 			<fildset class="pod-pickup-step-3-option-wrapper">
 			</fildset>
 			${has_delivery_date ? '<h4 class="pod-delivery pod-hide">لطفا زمان تحویل را انتخاب کنید</h4>' : ''}
@@ -416,7 +416,7 @@
 						</p>
 						<p class="description">
 							<strong>زمان تحویل: </strong>
-							<span>${delivery_options[i].from_hours} تا ${delivery_options[i].to_hours} ساعت</span>
+							<span>${delivery_options[i].from_hours} تا ${delivery_options[i].to_hours} ساعت بعد از جمع‌آوری</span>
 						</p>
 					</label>
 					</div>`
