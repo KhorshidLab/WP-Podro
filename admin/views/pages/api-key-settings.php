@@ -21,7 +21,7 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 					<input type="password" name="pdo_password" id="pdo_password" autocomplete="off">
 				</div>
 				<div class="pdo-box">
-					<a class="get-api-key" href="https://pin.podro.com/login" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e('دریافت کلید API', POD_TEXTDOMAIN); ?></a>
+					<a class="get-api-key" href="https://podro.com/plugin-pin/" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e('دریافت کلید API', POD_TEXTDOMAIN); ?></a>
 				</div>
 				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php echo esc_html_e( "ذخیره", POD_TEXTDOMAIN ) ?></button>
 			</form>
