@@ -5730,7 +5730,7 @@ class Location {
 			die();
 		}
 
-		$city_id = absint( $_POST['city_id'] );
+		$city_id = absint(  sanitize_text_field($_POST['city_id']) );
 
 		if ( ! $city_id ) {
 			die();
@@ -5748,7 +5748,7 @@ class Location {
 
 		$cities = apply_filters( 'pws_districts', $cities, $city_id );
 
-		$type = isset( $_POST['type'] ) && $_POST['type'] == 'billing' ? 'billing' : 'shipping';
+		$type = isset( $_POST['type'] ) && sanitize_text_field( $_POST['type'] ) == 'billing' ? 'billing' : 'shipping';
 
 		$term_id = \WC()->session->get( $type . '_district', 0 );
 

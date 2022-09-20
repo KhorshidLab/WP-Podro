@@ -9,7 +9,7 @@ class MetaBox {
 	public function add_meta_boxes () {
 
 		if ( get_post_type() == 'shop_order' && isset( $_GET[ 'post' ] ) ) {
-			$order_id = $_GET[ 'post' ];
+			$order_id = sanitize_text_field( $_GET[ 'post' ] );
 			$order = \wc_get_order($order_id);
 
 			if ( !$order->has_shipping_method('podro_method') ) {
@@ -43,7 +43,7 @@ class MetaBox {
 
 	public function pod_order_details () {
 		$pod_order_id = get_post_meta( get_the_ID(), 'pod_order_id', true );
-		$order_id = $_GET[ 'post' ];
+		$order_id = sanitize_text_field($_GET[ 'post' ]);
 
 		$response = (new Orders)->get_order( $pod_order_id );
 
@@ -112,7 +112,7 @@ class MetaBox {
 	}
 
 	public function order_my_custom() {
-		$order_id = $_GET[ 'post' ];
+		$order_id = sanitize_text_field( $_GET[ 'post' ] );
 		$order = \wc_get_order($order_id);
 
 		$this->delivery_step_1( $order );
@@ -280,7 +280,7 @@ class MetaBox {
 
 		}
 
-		$order_id = $_POST['order_id'];
+		$order_id = sanitize_text_field($_POST['order_id']);
 		$order = \wc_get_order($order_id);
 
 		$store_state = $this->get_store_state();
