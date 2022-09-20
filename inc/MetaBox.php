@@ -6,6 +6,10 @@ use WP_PODRO\Engine\API\V1\Providers;
 use WP_Encryption\Encryption;
 
 class MetaBox {
+	private $address_length = 185;
+	private $name_length = 17;
+	private $comment_length = 60;
+
 	public function add_meta_boxes () {
 
 		if ( get_post_type() == 'shop_order' && isset( $_GET[ 'post' ] ) ) {
@@ -135,6 +139,8 @@ class MetaBox {
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 		$destination_address = $destination_city['name'] . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
+		if( mb_strlen($destination_address) > $this->address_length )
+			$destination_address = mb_substr($destination_address, 0, $this->address_length);
 		$store_address =  get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
 
 		$total_weight = 0;
@@ -301,10 +307,10 @@ class MetaBox {
 				],
 			],
 			'receiver' => [
-				'name' => $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name(),
+					'name' => ( (mb_strlen($order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name()) > $this->name_length) ? mb_substr($order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name(), 0, $this->name_length): $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name()),
 				'contact' => [
 					'postal_code' => $order->get_shipping_postcode(),
-					'address' => $order->get_shipping_address_1(),
+						'address' => ( mb_strlen($order->get_shipping_address_1()) > $this->address_length) ? (mb_substr($order->get_shipping_address_1(), 0 , $this->address_length)): $order->get_shipping_address_1(),
 					'city' => $destination_city['code'],
 					'phone_number' => $order->get_billing_phone(),
 				],
@@ -323,7 +329,7 @@ class MetaBox {
 				]
 			],
 			'payment_type' => 1,
-			'receiver_comment' => $order->get_customer_note(),
+				'receiver_comment' => ( mb_strlen($order->get_customer_note())> $this->comment_length ? mb_substr($order->get_customer_note(),0 , $this->comment_length): $order->get_customer_note()),
 			'service_type' => 'regular',
 			'provider_code' => sanitize_text_field( $_POST['provider_code'] ),
 		];
