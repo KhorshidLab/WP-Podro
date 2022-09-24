@@ -6,6 +6,12 @@ use WP_PODRO\Engine\API\V1\Providers;
 use WP_Encryption\Encryption;
 
 class MetaBox {
+	private $address_length = 185;
+	private $name_length = 17;
+	private $family_length = 27;
+	private $store_name_length = 60;
+	private $comment_length = 60;
+	private $origin = 'WORDPRESS_PLUGIN';
 	public function add_meta_boxes () {
 
 		if ( get_post_type() == 'shop_order' && isset( $_GET[ 'post' ] ) ) {
@@ -135,6 +141,8 @@ class MetaBox {
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 		$destination_address = $destination_city['name'] . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
+		if( mb_strlen($destination_address) > $this->address_length )
+			$destination_address = mb_substr($destination_address, 0, $this->address_length);
 		$store_address =  get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
 
 		$total_weight = 0;
@@ -170,18 +178,49 @@ class MetaBox {
 			$height = $dimensions['height'];
 			$length = $dimensions['length'];
 		}
+
+		$user_billing_name = $order->get_billing_first_name();
+		$user_billing_family = $order->get_billing_last_name();
+
+		$store_name = $this->get_store_name();
+		$customer_note = $order->get_customer_note();
+
+		$option_pod_source_city = get_option('pod_source_city');
+		$option_pod_store_name = get_option('pod_store_name');
+
+		$option_pod_source_city = ( false == $option_pod_source_city ) ? $store_address : $option_pod_source_city;
+		$option_pod_store_name = ( false == $option_pod_store_name ) ?  $store_name : $option_pod_store_name;
+
+
+
 			?>
 		<ul class="pod-delivery-step">
 			<li>
+				<label for="pod_store_name">نام فروشگاه</label>
+				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo $option_pod_store_name; ?>"  />
+			</li>
+			<li>
 				<label for="pod_source_city">مبدا</label>
-				<input type="text" name="pod_source_city" id="pod_source_city" value="<?php echo $store_address; ?>" disabled />
+				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo $option_pod_source_city; ?></textarea>
 				<?php if (empty($store_address)) echo '<p style="color:red">لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.</p>'; ?>
 				<input type="hidden" name="pod_source_city_code" value="<?php echo $source_city['code']; ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
-				<input type="text" name="pod_destination_city" id="pod_destination_city" value="<?php echo $destination_address; ?>" disabled />
+				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo $destination_address; ?></textarea>
 				<input type="hidden" name="pod_destination_city_code" value="<?php echo $destination_city['code']; ?>">
+			</li>
+			<li>
+				<label for="pod_user_billing_name">نام </label>
+				<input type="text" name="pod_user_billing_name" id="pod_user_billing_name" maxlength="17" value="<?php echo $user_billing_name; ?>"  />
+			</li>
+			<li>
+				<label for="pod_user_billing_family"> نام خانوادگی</label>
+				<input type="text" name="pod_user_billing_family" id="pod_user_billing_family" maxlength="27" value="<?php echo $user_billing_family; ?>"  />
+			</li>
+			<li>
+				<label for="pod_comment">توضیحات</label>
+				<textarea name="pod_customer_note" id="pod_customer_note" rows="6" maxlength="60"><?php echo $customer_note; ?></textarea>
 			</li>
 			<li>
 				<label for="pod_weight">وزن مرسوله به گرم</label>
@@ -221,12 +260,29 @@ class MetaBox {
 		// checking for nonce
 		$this->validate_nonce( 'pod-options-nonce' );
 
+		$pod_store_name = mb_substr(sanitize_text_field($_POST['pod_store_name']?? ''), 0, $this->store_name_length);
+		$pod_source_city = mb_substr(sanitize_text_field($_POST['pod_source_city']?? ''), 0, $this->address_length);
+		$pod_destination_city = mb_substr(sanitize_text_field($_POST['pod_destination_city']?? ''), 0, $this->address_length);
+		$pod_user_billing_name = mb_substr(sanitize_text_field($_POST['pod_user_billing_name']?? ''), 0, $this->name_length);
+		$pod_user_billing_family = mb_substr(sanitize_text_field($_POST['pod_user_billing_family']?? ''), 0, $this->family_length);
+		$pod_customer_note = mb_substr(sanitize_text_field($_POST['pod_customer_note']), 0, $this->comment_length);
+
+		update_option('pod_store_name', $pod_store_name);
+		update_option('pod_source_city', $pod_source_city);
+		update_option('pod_destination_city',$pod_destination_city);
+		update_option('pod_user_billing_name',$pod_user_billing_name);
+		update_option('pod_user_billing_family',$pod_user_billing_family);
+		update_option('pod_customer_note',$pod_customer_note);
+
+
 		if (! isset($_POST['weight']) && ! isset($_POST['totalprice']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth'])) {
 
 			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
 			wp_die();
 
 		}
+
+
 
 		$order_id = $_POST['order_id'];
 		$order = \wc_get_order($order_id);
@@ -290,21 +346,26 @@ class MetaBox {
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 
+		$pod_store_name = get_option('pod_store_name');
+		$pod_user_billing_name = get_option('pod_user_billing_name') . ' ' . get_option('pod_user_billing_family');
+		$pod_customer_note = get_option('pod_customer_note');
+		$pod_source_city = get_option('pod_source_city');
+		$pod_destination_city = get_option('pod_destination_city');
 		$data = [
 			'sender' => [
-				'name' => $this->get_store_name(),
+				'name' => $pod_store_name,
 				'contact' => [
 					'postal_code' => $this->get_store_postal_code(),
-					'address' => $this->get_store_address(),
+					'address' => $pod_source_city,
 					'city' => $source_city['code'],
 					'phone_number' => $this->get_store_phone_number(),
 				],
 			],
 			'receiver' => [
-				'name' => $order->get_shipping_first_name() . ' ' . $order->get_shipping_last_name(),
+					'name' => $pod_user_billing_name,
 				'contact' => [
 					'postal_code' => $order->get_shipping_postcode(),
-					'address' => $order->get_shipping_address_1(),
+					'address' => $pod_destination_city,
 					'city' => $destination_city['code'],
 					'phone_number' => $order->get_billing_phone(),
 				],
@@ -323,9 +384,10 @@ class MetaBox {
 				]
 			],
 			'payment_type' => 1,
-			'receiver_comment' => $order->get_customer_note(),
+			'receiver_comment' => $pod_customer_note,
 			'service_type' => 'regular',
 			'provider_code' => sanitize_text_field( $_POST['provider_code'] ),
+			'origin' => $this->origin,
 		];
 
 		$response = (new Orders)->submit_order($data);
@@ -382,12 +444,12 @@ class MetaBox {
 
 		$order_id = sanitize_text_field( $_POST['delivery_order_id'] );
 		$post_id = sanitize_text_field( $_POST['pod_order_id'] );
-
+		$pod_customer_note = get_option('pod_customer_note');
 		$params = array(
 			'option_id' => sanitize_text_field( $_POST['option_id'] ),
 			'pickup_date' => sanitize_text_field( $_POST['pickup_date'] ),
 			'payment_approach' => sanitize_text_field( $_POST['payment_approach'] ),
-			'comment' => 'data',
+			'comment' => $pod_customer_note,
 		);
 
 		if ( isset($_POST['delivery_date']) ) {

@@ -95,9 +95,18 @@
 			height: $('input[name=pod_height]').val(),
 			depth: $('input[name=pod_depth]').val(),
 			order_id: $('input[name=pod_order_id]').val(),
+			pod_store_name: $('input[name=pod_store_name]').val(),
+			pod_source_city: $('textarea[name=pod_source_city]').val(),
+			pod_destination_city: $('textarea[name=pod_destination_city]').val(),
+			pod_user_billing_name: $('input[name=pod_user_billing_name]').val(),
+			pod_user_billing_family: $('input[name=pod_user_billing_family]').val(),
+			pod_customer_note: $('textarea[name=pod_customer_note]').val(),
+
+
 		};
 
 		if ( pod_validate_step_1( data ) ) {
+
 			pod_ajax( data, _callback_step_1 );
 		}
 	})
@@ -384,7 +393,9 @@
 	}
 
 	function _callback_step_1( response ) {
+
 		if ( response.success ) {
+
 			let data = {
 				weight: $('input[name=pod_weight]').val(),
 				totalprice: $('input[name=pod_totalprice]').val(),
@@ -398,7 +409,6 @@
 			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('مرحله بعد')
 
 			const delivery_options = response.data.quotes;
-
 			let html = '<fildset class="pod-delivery-step-2-wrapper">';
 			for ( let i = 0; i < delivery_options.length; i++ ) {
 				let price = delivery_options[i].price

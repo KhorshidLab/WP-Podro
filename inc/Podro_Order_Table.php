@@ -108,6 +108,8 @@ class Podro_Order_Table extends \WP_List_Table {
 			$pod_order_id = get_post_meta( $order_id, 'pod_order_id', true );
 			$details = (new Orders)->get_order($pod_order_id);
 
+			if(!$details)
+				continue;
 
 			$pickup_time = new \DateTime( $details['pickup_time'] );
 			$pickup_time_S = (new SDate)->toShaDate( $pickup_time->format('Y-m-d') );
