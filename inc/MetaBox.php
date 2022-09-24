@@ -8,8 +8,10 @@ use WP_Encryption\Encryption;
 class MetaBox {
 	private $address_length = 185;
 	private $name_length = 17;
+	private $family_length = 27;
+	private $store_name_length = 60;
 	private $comment_length = 60;
-
+	private $origin = 'WORDPRESS_PLUGIN';
 	public function add_meta_boxes () {
 
 		if ( get_post_type() == 'shop_order' && isset( $_GET[ 'post' ] ) ) {
@@ -258,12 +260,12 @@ class MetaBox {
 		// checking for nonce
 		$this->validate_nonce( 'pod-options-nonce' );
 
-		$pod_store_name = sanitize_text_field($_POST['pod_store_name']?? '');
-		$pod_source_city = sanitize_text_field($_POST['pod_source_city']?? '');
-		$pod_destination_city = sanitize_text_field($_POST['pod_destination_city']?? '');
-		$pod_user_billing_name = sanitize_text_field($_POST['pod_user_billing_name']?? '');
-		$pod_user_billing_family = sanitize_text_field($_POST['pod_user_billing_family']?? '');
-		$pod_customer_note = sanitize_text_field($_POST['pod_customer_note']);
+		$pod_store_name = mb_substr(sanitize_text_field($_POST['pod_store_name']?? ''), 0, $this->store_name_length);
+		$pod_source_city = mb_substr(sanitize_text_field($_POST['pod_source_city']?? ''), 0, $this->address_length);
+		$pod_destination_city = mb_substr(sanitize_text_field($_POST['pod_destination_city']?? ''), 0, $this->address_length);
+		$pod_user_billing_name = mb_substr(sanitize_text_field($_POST['pod_user_billing_name']?? ''), 0, $this->name_length);
+		$pod_user_billing_family = mb_substr(sanitize_text_field($_POST['pod_user_billing_family']?? ''), 0, $this->family_length);
+		$pod_customer_note = mb_substr(sanitize_text_field($_POST['pod_customer_note']), 0, $this->comment_length);
 
 		update_option('pod_store_name', $pod_store_name);
 		update_option('pod_source_city', $pod_source_city);
@@ -385,7 +387,7 @@ class MetaBox {
 			'receiver_comment' => $pod_customer_note,
 			'service_type' => 'regular',
 			'provider_code' => sanitize_text_field( $_POST['provider_code'] ),
-
+			'origin' => $this->origin,
 		];
 
 		$response = (new Orders)->submit_order($data);
@@ -442,12 +444,12 @@ class MetaBox {
 
 		$order_id = sanitize_text_field( $_POST['delivery_order_id'] );
 		$post_id = sanitize_text_field( $_POST['pod_order_id'] );
-
+		$pod_customer_note = get_option('pod_customer_note');
 		$params = array(
 			'option_id' => sanitize_text_field( $_POST['option_id'] ),
 			'pickup_date' => sanitize_text_field( $_POST['pickup_date'] ),
 			'payment_approach' => sanitize_text_field( $_POST['payment_approach'] ),
-			'comment' => 'data',
+			'comment' => $pod_customer_note,
 		);
 
 		if ( isset($_POST['delivery_date']) ) {
