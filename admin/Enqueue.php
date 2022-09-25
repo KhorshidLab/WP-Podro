@@ -62,6 +62,14 @@ class Enqueue {
 				],
 			],
 		);
+		\wp_localize_script(
+			POD_TEXTDOMAIN . '-admin-scripts',
+			'wp_podro_assets_url',
+			[
+				'assets_url'  => \plugins_url( 'assets/' ,POD_PLUGIN_ABSOLUTE),
+
+			],
+		);
 	}
 
 	public function enqueue_public_styles() {
