@@ -22,6 +22,13 @@ if ( !defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
 }
 
+if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	add_action('admin_notices', function(){
+		echo '<div class="notice notice-error is-dismissible"><strong>پادرو: </strong><p>برای کار با پادرو نیاز هست ووکامرس نصب و فعال باشد</p></div>';
+	});
+	return;
+}
+
 define( 'POD_VERSION', '0.4.2' );
 define( 'POD_TEXTDOMAIN', 'wp_podro' );
 define( 'POD_NAME', 'WP PODRO' );
