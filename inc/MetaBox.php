@@ -167,16 +167,16 @@ class MetaBox {
 		$length = 0;
 		// For non variable products (separated dimensions)
 		if ( $display_dimensions && $product->has_dimensions() && ! $product->is_type('variable') ) {
-			$width = !empty($product->get_width()) ? $product->get_width() : 0;
-			$height = !empty($product->get_height()) ? $product->get_height() : 0;
-			$length = !empty($product->get_length()) ? $product->get_length() : 0;
+			$width = !empty($product->get_width()) ? $product->get_width() : 1;
+			$height = !empty($product->get_height()) ? $product->get_height() : 1;
+			$length = !empty($product->get_length()) ? $product->get_length() : 1;
 
 		// For variable products (we keep the default formatted dimensions)
 		} else if ( $display_dimensions && $product->has_dimensions() && $product->is_type('variable') ) {
 			$dimensions = $product->get_dimensions( false );
-			$width = $dimensions['width'];
-			$height = $dimensions['height'];
-			$length = $dimensions['length'];
+			$width = $dimensions['width']??1;
+			$height = $dimensions['height']??1;
+			$length = $dimensions['length']??1;
 		}
 
 		$user_billing_name = $order->get_billing_first_name();
@@ -225,7 +225,7 @@ class MetaBox {
 			</li>
 			<li>
 				<label for="pod_weight">وزن مرسوله به گرم</label>
-				<input type="number" name="pod_weight" id="pod_weight" value="<?php echo $total_weight; ?>" />
+				<input type="number" name="pod_weight" id="pod_weight" min="1" value="<?php echo $total_weight; ?>" />
 			</li>
 			<li>
 				<label for="pod_totalprice">ارزش مرسوله</label>
@@ -235,15 +235,15 @@ class MetaBox {
 				<p>ابعاد به سانتی‌متر</p>
 				<div>
 					<label for="pod_width">طول</label>
-					<input type="number" name="pod_width" id="pod_width" value="<?php echo $length; ?>" />
+					<input type="number" name="pod_width" id="pod_width" min="1" value="<?php echo $length; ?>" />
 				</div>
 				<div>
 					<label for="pod_depth">عرض</label>
-					<input type="number" name="pod_depth" id="pod_depth" value="<?php echo $width; ?>" />
+					<input type="number" name="pod_depth" id="pod_depth" min="1" value="<?php echo $width; ?>" />
 				</div>
 				<div>
 					<label for="pod_height">ارتفاع</label>
-					<input type="number" name="pod_height" id="pod_height" value="<?php echo $height; ?>" />
+					<input type="number" name="pod_height" id="pod_height" min="1" value="<?php echo $height; ?>" />
 				</div>
 			</li>
 

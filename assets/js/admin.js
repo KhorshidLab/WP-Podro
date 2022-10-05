@@ -104,6 +104,22 @@
 
 
 		};
+		if( data.weight <= 0){
+			alert('وزن نامعتبر');
+			return;
+		}
+		if( data.width <= 0){
+			alert('طول کالا نامعتبر');
+			return;
+		}
+		if( data.height <= 0){
+			alert('عرض کالا نامعتبر');
+			return;
+		}
+		if( data.depth <= 0){
+			alert('ارتفاع کالا نامعتبر');
+			return;
+		}
 
 		if ( pod_validate_step_1( data ) ) {
 
