@@ -499,4 +499,26 @@
 		$(this).removeClass('pod-error');
 	})
 
+
+	jQuery(document).ready(function(){
+		jQuery('#pod-description-hint').on('click', function(){
+
+			var innerHtml 	 = '<div id="lock-modal" style="width:50%;';
+			innerHtml		+= 'margin: auto;z-index:9999; position: fixed; top:50%; left:50%;';
+			innerHtml		+= 'transform: translate(-50%, -50%);';
+			innerHtml		+= 'background-color: #06282e9e; text-align:center; padding: 20px;">';
+			innerHtml 		+= '<p style="color:white; text-align: center; font-size:1.1em;">این توضیحات بر روی بارنامه مطابق تصویر زیر نمایش داده می‌شود</p>';
+			innerHtml		+= '<img style="width:100%" src=' + wp_podro_assets_url.assets_url + 'images/description-hint.jpg />';
+			innerHtml		+= '<button id="close-description-hint" class="button" style="margin-top:18px;">بستن</button>';
+			innerHtml		+= '</div>';
+			jQuery('#wpwrap').append(innerHtml);
+
+		});
+
+		jQuery(document).on('click', '#close-description-hint', function(e){
+			e.preventDefault();
+
+			jQuery('#wpwrap #lock-modal').remove();
+		});
+	});
 })( jQuery );

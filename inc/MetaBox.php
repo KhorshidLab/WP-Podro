@@ -219,7 +219,8 @@ class MetaBox {
 				<input type="text" name="pod_user_billing_family" id="pod_user_billing_family" maxlength="27" value="<?php echo $user_billing_family; ?>"  />
 			</li>
 			<li>
-				<label for="pod_comment">توضیحات</label>
+
+				<label for="pod_comment">توضیحات<span id="pod-description-hint" class="dashicons dashicons-editor-help" style="width:50px"></span></label>
 				<textarea name="pod_customer_note" id="pod_customer_note" rows="6" maxlength="60"><?php echo $customer_note; ?></textarea>
 			</li>
 			<li>
