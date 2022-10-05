@@ -2,6 +2,7 @@
 namespace WP_PODRO\Engine\API\V1;
 use WP_PODRO\Engine\API\V1\Routes;
 
+
 class Orders {
 	public function submit_order( $params = null ) {
 
@@ -73,5 +74,17 @@ class Orders {
 			return false;
 		}
 		return $response;
+	}
+
+	public function get_all_orders(){
+		$url = Routes::BuildRoute( Routes::ORDERS);
+		$response = Request_Podro::get( $url, false );
+		if (is_wp_error($response) || !isset($response['body'])) {
+			return false;
+		}
+
+		$res = json_decode($response['body'], true);
+		$res['status_code'] = wp_remote_retrieve_response_code($response);
+		return $res;
 	}
 }
