@@ -425,6 +425,12 @@
 			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('مرحله بعد')
 
 			const delivery_options = response.data.quotes;
+			if(delivery_options.length <= 0 )
+			{
+				alert('غیرقابل ارسال با پادرو');
+				location.reload();
+				return;
+			}
 			let html = '<fildset class="pod-delivery-step-2-wrapper">';
 			for ( let i = 0; i < delivery_options.length; i++ ) {
 				let price = delivery_options[i].price

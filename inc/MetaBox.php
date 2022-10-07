@@ -207,6 +207,9 @@ class MetaBox {
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
+				<?php if( !Location::is_podro_city($destination_city['code']) ){ ?>
+				<span style="color:red">این شهر پادرویی نیست</span>
+				<?php } ?>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo $destination_address; ?></textarea>
 				<input type="hidden" name="pod_destination_city_code" value="<?php echo $destination_city['code']; ?>">
 			</li>
@@ -250,7 +253,11 @@ class MetaBox {
 		</ul>
 
 		<input type="hidden" name="pod_order_id" value="<?php echo $order_id; ?>">
-		<button class="pod-delivery-step-button pod-delivery-step-1">مرحله بعد</button>
+		<?php if( !Location::is_podro_city($destination_city['code']) ){?>
+		<button class="pod-delivery-step-button pod-delivery-step-1" disabled="disabled">شهر غیر پادرویی</button>
+		<?php }else{ ?>
+		<button class="pod-delivery-step-button pod-delivery-step-1" >مرحله بعد</button>
+		<?php } ?>
 		<div id="lock-modal"></div>
 		<div id="loading-circle"></div>
 		<?php
