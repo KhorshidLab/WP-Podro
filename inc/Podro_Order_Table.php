@@ -53,8 +53,8 @@ class Podro_Order_Table extends \WP_List_Table {
 			'tracking_id' => 'شناسه پیگیری',
             'provider'    => 'پروایدر',
             'order_status' => 'وضعیت',
-            'pickup_in'    => 'جمع‌آوری در',
-            'pickup_to'    => 'جمع‌آوری تا',
+            'pickup_in'    => 'تاریخ جمع آوری',
+            'pickup_to'    => 'ساعت جمع آوری',
             'order'      => 'سفارش',
 			'pdf'			=> 'بارنامه',
 			'cancel'		=> 'لغو',
@@ -88,62 +88,41 @@ class Podro_Order_Table extends \WP_List_Table {
      *
      * @return Array
      */
-    private function table_data()
-    {
-		$data = array();
-        $args = array(
-			'post_type' => 'shop_order',
-			'meta_query' => array(
-				array(
-					'key' => 'pod_order_id',
-					'compare' => 'EXISTS'
-				)
-			),
-			'posts_per_page' => -1,
-			'post_status' => 'any',
-		);
-		$orders = get_posts($args);
-		foreach ( $orders as $order ) {
-			$order_id = $order->ID;
-			$pod_order_id = get_post_meta( $order_id, 'pod_order_id', true );
-			$details = (new Orders)->get_order($pod_order_id);
 
-			if(!$details)
-				continue;
 
-			$pickup_time = new \DateTime( $details['pickup_time'] );
-			$pickup_time_S = (new SDate)->toShaDate( $pickup_time->format('Y-m-d') );
+	private function table_data(){
 
-			// Get the user ID from an Order ID
-			$user_id = get_post_meta( $order_id, '_customer_user', true );
+		$orders = (new Orders())->get_all_orders()['data'];
 
-			// Get an instance of the WC_Customer Object from the user ID
-			$customer = new \WC_Customer( $user_id );
 
-			$display_name = $customer->get_display_name();
+		$data = [];
+		foreach ($orders as $order){
 
-			if ( $details['status'] == 'لغو شده') {
+
+			$detail = (new Orders())->get_order($order['id']);
+
+			if ( $order['status'] == 'لغو شده') {
 				$cancel_order = 'از پیش لغو شده';
 			} else {
-				$cancel_order = '<a class="pod-cancel-order" data-order_id="' . $details['id'] . '">لغو ارسال</a>';
+				$cancel_order = '<a class="pod-cancel-order" data-order_id="' . $order['id'] . '">لغو ارسال</a>';
 			}
 
 			$data[] = array(
-				'id'          => $pod_order_id,
-				'tracking_id'          => $details['order_detail']['tracking_id'] ?? '',
-				'provider'       => $details['provider_code'],
-				'order_status' => '<mark class="order-status status-processing"><span>'. $details['status'] .'</span></mark>',
-				'pickup_in'        => $pickup_time_S . ' ' . $pickup_time->format('H:i'),
-				'pickup_to'    => $details['pickup_to_time'],
-				'order'      => '<a href="'. get_edit_post_link( $order_id ) .'">#'. $order->ID . ' ' . $display_name .'</a>',
-				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $details['id'] . '">دانلود بارنامه</a>',
+				'id'          => $order['order_id'],
+				'tracking_id'          => $detail['order_detail']['tracking_id'] ?? '',
+				'provider'       => $order['provider_code'],
+				'order_status' => '<mark class="order-status status-processing"><span>'. $order['status'] .'</span></mark>',
+				'pickup_in'        => $order['pickup_time'],
+				'pickup_to'    => ' از ' .$order['from_time']  . ' تا ' . $order['to_time'],
+				'order'      => '<a href="'. get_edit_post_link( $order['parcels'][0]['id'] ) .'">#'. $order['parcels'][0]['id'] . ' '  .'</a>',
+				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $order['id'] . '">دانلود بارنامه</a>',
 				'cancel'			=> $cancel_order
 			);
+
+
 		}
-
-        return $data;
-    }
-
+		return $data;
+	}
     /**
      * Define what data to show on each column of the table
      *

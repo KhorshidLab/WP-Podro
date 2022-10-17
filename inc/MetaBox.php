@@ -134,16 +134,18 @@ class MetaBox {
 	public function delivery_step_1( $order ) {
 
 		$store_state = $this->get_store_state();
-		$source_city = Location::get_province_by_code($store_state);
-		$source_city = Location::get_city_by_name($source_city['name']);
-
+//		$source_city = Location::get_province_by_code($store_state);
+//		$source_city = Location::get_city_by_name($source_city['name']);
+		$woo_setting = WooSetting::get_instance();
+		$source_city_name = $woo_setting->get_store_city();
+		$source_city = $woo_setting->get_store_city_from_options();
 		$order_id = $order->get_id();
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 		$destination_address = $destination_city['name'] . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
-		$store_address =  get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
+		$store_address = $woo_setting->get_store_city() . ' ' . get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
 
 		$total_weight = 0;
 		$weight_unit = 1;
@@ -167,16 +169,16 @@ class MetaBox {
 		$length = 0;
 		// For non variable products (separated dimensions)
 		if ( $display_dimensions && $product->has_dimensions() && ! $product->is_type('variable') ) {
-			$width = !empty($product->get_width()) ? $product->get_width() : 0;
-			$height = !empty($product->get_height()) ? $product->get_height() : 0;
-			$length = !empty($product->get_length()) ? $product->get_length() : 0;
+			$width = !empty($product->get_width()) ? $product->get_width() : 1;
+			$height = !empty($product->get_height()) ? $product->get_height() : 1;
+			$length = !empty($product->get_length()) ? $product->get_length() : 1;
 
 		// For variable products (we keep the default formatted dimensions)
 		} else if ( $display_dimensions && $product->has_dimensions() && $product->is_type('variable') ) {
 			$dimensions = $product->get_dimensions( false );
-			$width = $dimensions['width'];
-			$height = $dimensions['height'];
-			$length = $dimensions['length'];
+			$width = $dimensions['width']??1;
+			$height = $dimensions['height']??1;
+			$length = $dimensions['length']??1;
 		}
 
 		$user_billing_name = $order->get_billing_first_name();
@@ -185,8 +187,8 @@ class MetaBox {
 		$store_name = $this->get_store_name();
 		$customer_note = $order->get_customer_note();
 
-		$option_pod_source_city = get_option('pod_source_city');
-		$option_pod_store_name = get_option('pod_store_name');
+		$option_pod_source_city = get_option('pod_source_city',false);
+		$option_pod_store_name = get_option('pod_store_name',false);
 
 		$option_pod_source_city = ( false == $option_pod_source_city ) ? $store_address : $option_pod_source_city;
 		$option_pod_store_name = ( false == $option_pod_store_name ) ?  $store_name : $option_pod_store_name;
@@ -203,10 +205,13 @@ class MetaBox {
 				<label for="pod_source_city">مبدا</label>
 				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo $option_pod_source_city; ?></textarea>
 				<?php if (empty($store_address)) echo '<p style="color:red">لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.</p>'; ?>
-				<input type="hidden" name="pod_source_city_code" value="<?php echo $source_city['code']; ?>">
+				<input type="hidden" name="pod_source_city_code" value="<?php echo $source_city; ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
+				<?php if( !Location::is_podro_city($destination_city['code']) ){ ?>
+				<span style="color:red">این شهر پادرویی نیست</span>
+				<?php } ?>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo $destination_address; ?></textarea>
 				<input type="hidden" name="pod_destination_city_code" value="<?php echo $destination_city['code']; ?>">
 			</li>
@@ -225,7 +230,7 @@ class MetaBox {
 			</li>
 			<li>
 				<label for="pod_weight">وزن مرسوله به گرم</label>
-				<input type="number" name="pod_weight" id="pod_weight" value="<?php echo $total_weight; ?>" />
+				<input type="number" name="pod_weight" id="pod_weight" min="1" value="<?php echo $total_weight; ?>" />
 			</li>
 			<li>
 				<label for="pod_totalprice">ارزش مرسوله</label>
@@ -235,22 +240,26 @@ class MetaBox {
 				<p>ابعاد به سانتی‌متر</p>
 				<div>
 					<label for="pod_width">طول</label>
-					<input type="number" name="pod_width" id="pod_width" value="<?php echo $length; ?>" />
+					<input type="number" name="pod_width" id="pod_width" min="1" value="<?php echo $length; ?>" />
 				</div>
 				<div>
 					<label for="pod_depth">عرض</label>
-					<input type="number" name="pod_depth" id="pod_depth" value="<?php echo $width; ?>" />
+					<input type="number" name="pod_depth" id="pod_depth" min="1" value="<?php echo $width; ?>" />
 				</div>
 				<div>
 					<label for="pod_height">ارتفاع</label>
-					<input type="number" name="pod_height" id="pod_height" value="<?php echo $height; ?>" />
+					<input type="number" name="pod_height" id="pod_height" min="1" value="<?php echo $height; ?>" />
 				</div>
 			</li>
 
 		</ul>
 
 		<input type="hidden" name="pod_order_id" value="<?php echo $order_id; ?>">
-		<button class="pod-delivery-step-button pod-delivery-step-1">مرحله بعد</button>
+		<?php if( !Location::is_podro_city($destination_city['code']) ){?>
+		<button class="pod-delivery-step-button pod-delivery-step-1" disabled="disabled">شهر غیر پادرویی</button>
+		<?php }else{ ?>
+		<button class="pod-delivery-step-button pod-delivery-step-1" >مرحله بعد</button>
+		<?php } ?>
 		<div id="lock-modal"></div>
 		<div id="loading-circle"></div>
 		<?php

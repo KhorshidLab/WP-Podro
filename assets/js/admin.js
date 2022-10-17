@@ -104,6 +104,22 @@
 
 
 		};
+		if( data.weight <= 0){
+			alert('وزن نامعتبر');
+			return;
+		}
+		if( data.width <= 0){
+			alert('طول کالا نامعتبر');
+			return;
+		}
+		if( data.height <= 0){
+			alert('عرض کالا نامعتبر');
+			return;
+		}
+		if( data.depth <= 0){
+			alert('ارتفاع کالا نامعتبر');
+			return;
+		}
 
 		if ( pod_validate_step_1( data ) ) {
 
@@ -409,6 +425,12 @@
 			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('مرحله بعد')
 
 			const delivery_options = response.data.quotes;
+			if(delivery_options.length <= 0 )
+			{
+				alert('غیرقابل ارسال با پادرو');
+				location.reload();
+				return;
+			}
 			let html = '<fildset class="pod-delivery-step-2-wrapper">';
 			for ( let i = 0; i < delivery_options.length; i++ ) {
 				let price = delivery_options[i].price
