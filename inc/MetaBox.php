@@ -134,16 +134,18 @@ class MetaBox {
 	public function delivery_step_1( $order ) {
 
 		$store_state = $this->get_store_state();
-		$source_city = Location::get_province_by_code($store_state);
-		$source_city = Location::get_city_by_name($source_city['name']);
-
+//		$source_city = Location::get_province_by_code($store_state);
+//		$source_city = Location::get_city_by_name($source_city['name']);
+		$woo_setting = WooSetting::get_instance();
+		$source_city_name = $woo_setting->get_store_city();
+		$source_city = $woo_setting->get_store_city_from_options();
 		$order_id = $order->get_id();
 		$destination_city = $order->get_shipping_city();
 		$destination_city = Location::get_city_by_name($destination_city);
 		$destination_address = $destination_city['name'] . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
-		$store_address =  get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
+		$store_address = $woo_setting->get_store_city() . ' ' . get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
 
 		$total_weight = 0;
 		$weight_unit = 1;
@@ -185,8 +187,8 @@ class MetaBox {
 		$store_name = $this->get_store_name();
 		$customer_note = $order->get_customer_note();
 
-		$option_pod_source_city = get_option('pod_source_city');
-		$option_pod_store_name = get_option('pod_store_name');
+		$option_pod_source_city = get_option('pod_source_city',false);
+		$option_pod_store_name = get_option('pod_store_name',false);
 
 		$option_pod_source_city = ( false == $option_pod_source_city ) ? $store_address : $option_pod_source_city;
 		$option_pod_store_name = ( false == $option_pod_store_name ) ?  $store_name : $option_pod_store_name;
@@ -203,7 +205,7 @@ class MetaBox {
 				<label for="pod_source_city">مبدا</label>
 				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo $option_pod_source_city; ?></textarea>
 				<?php if (empty($store_address)) echo '<p style="color:red">لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.</p>'; ?>
-				<input type="hidden" name="pod_source_city_code" value="<?php echo $source_city['code']; ?>">
+				<input type="hidden" name="pod_source_city_code" value="<?php echo $source_city; ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
