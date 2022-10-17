@@ -24,7 +24,7 @@ class Podro_Order_Table extends \WP_List_Table {
 			$this->items = array();
 			return;
 		}
-        usort( $data, array( &$this, 'sort_data' ) );
+        //usort( $data, array( &$this, 'sort_data' ) );
 
         $perPage = 10;
         $currentPage = $this->get_pagenum();
@@ -112,6 +112,7 @@ class Podro_Order_Table extends \WP_List_Table {
 				'tracking_id'          => $detail['order_detail']['tracking_id'] ?? '',
 				'provider'       => $order['provider_code'],
 				'order_status' => '<mark class="order-status status-processing"><span>'. $order['status'] .'</span></mark>',
+				'pick_in_original_date'=>$detail['pickup_time'],
 				'pickup_in'        => $order['pickup_time'],
 				'pickup_to'    => ' از ' .$order['from_time']  . ' تا ' . $order['to_time'],
 				'order'      => '<a href="'. get_edit_post_link( $order['parcels'][0]['id'] ) .'">#'. $order['parcels'][0]['id'] . ' '  .'</a>',
@@ -121,6 +122,11 @@ class Podro_Order_Table extends \WP_List_Table {
 
 
 		}
+		$keys = array_column($data, 'pick_in_original_date');
+
+		array_multisort($keys, SORT_DESC, $data);
+		//array_reverse($data);
+
 		return $data;
 	}
     /**
