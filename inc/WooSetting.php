@@ -123,11 +123,11 @@ class WooSetting
 	}
 
 	public function get_store_city(){
-		$current_city = $this->get_store_city_from_options();
+		$current_city = $this->get_store_city_code_from_options();
 		return $this->get_cities()[$current_city];
 	}
 
-	public function get_store_city_from_options(){
+	public function get_store_city_code_from_options(){
 		return get_option('woocommerce_store_city',0);
 	}
 
