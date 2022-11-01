@@ -22,8 +22,9 @@ class Routes
 	public static function BuildRoute( string $route, array $params = null )
 	{
 
-		$route = str_replace( array_keys( $params ), array_values( $params ), $route );
-
-		return $route;
+		if( null != $params )
+			return str_replace( array_keys( $params ), array_values( $params ), $route );
+		else
+			return $route;
 	}
 }

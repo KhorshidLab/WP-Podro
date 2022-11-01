@@ -73,3 +73,6 @@ if ( class_exists('WC_Payment_Gateway') ) {
 	$GLOBALS['wc_city_select'] = new WP_PODRO\Engine\WC_City_Select();
 }
 $Setup = new WP_PODRO\Engine\Setup;
+add_action('admin_init', function(){
+	\WP_PODRO\Engine\WooSetting::get_instance();
+});

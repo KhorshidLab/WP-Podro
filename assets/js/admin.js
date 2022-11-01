@@ -101,13 +101,33 @@
 			pod_user_billing_name: $('input[name=pod_user_billing_name]').val(),
 			pod_user_billing_family: $('input[name=pod_user_billing_family]').val(),
 			pod_customer_note: $('textarea[name=pod_customer_note]').val(),
-
+			pod_source_city_code: $('#pod_source_city_code').val(),
+			pod_destination_city_code: $('#pod_destination_city_code').val()
 
 		};
 
+		if( data.weight <= 0){
+			alert('وزن نامعتبر');
+			return;
+		}
+		if( data.width <= 0){
+			alert('طول کالا نامعتبر');
+			return;
+		}
+		if( data.height <= 0){
+			alert('عرض کالا نامعتبر');
+			return;
+		}
+		if( data.depth <= 0){
+			alert('ارتفاع کالا نامعتبر');
+			return;
+		}
+
 		if ( pod_validate_step_1( data ) ) {
 
-			pod_ajax( data, _callback_step_1 );
+			pod_ajax( data, _callback_step_1, function(){
+				jQuery('#none-podro-holder').text('خطایی رخ داد');
+			} );
 		}
 	})
 
@@ -291,14 +311,16 @@
 			data: data,
 			responseType: 'arraybuffer',
 			success: function( response ) {
+				podro_hide_loader();
 				callback( response )
-			podro_hide_loader();
+
 			}
 		}).fail( function( response ) {
+			podro_hide_loader();
 			if ( error_callback ) {
 				error_callback( response )
 			}
-			podro_hide_loader();
+
 		})
 	}
 
@@ -356,6 +378,7 @@
 	}
 
 	function _callback_step_2( response ) {
+
 		$('.pod-delivery-step-2-wrapper').remove()
 		let html = `<div class="pod-delivery-step-2-wrapper">
 			<h3>آیا سفارش زیر مورد تایید است؟</h3>
@@ -393,9 +416,11 @@
 	}
 
 	function _callback_step_1( response ) {
+		console.log(response);
 
 		if ( response.success ) {
 
+			jQuery('#none-podro-holder').text('');
 			let data = {
 				weight: $('input[name=pod_weight]').val(),
 				totalprice: $('input[name=pod_totalprice]').val(),
@@ -409,6 +434,12 @@
 			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('مرحله بعد')
 
 			const delivery_options = response.data.quotes;
+			if(delivery_options.length <= 0 )
+			{
+				jQuery('#none-podro-holder').text('خطایی رخ داد');
+				setTimeout(function() { location.href += '&unknownerror=true'; }, 1000);
+				return;
+			}
 			let html = '<fildset class="pod-delivery-step-2-wrapper">';
 			for ( let i = 0; i < delivery_options.length; i++ ) {
 				let price = delivery_options[i].price
