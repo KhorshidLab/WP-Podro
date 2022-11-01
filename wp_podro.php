@@ -3,18 +3,21 @@
 /**
  * @package   WP_PODRO
  * @license   GPL-3.0+
+ * @link      https://khorshidlab.com
  *
- * Plugin Name:     WP PODRO
- * Plugin URI:      https://github.com/KhorshidLab/WP-Podro
+ * @wordpress-plugin
+ * Plugin Name:     WP Podro
+ * Plugin URI:      https://khorshidlab.com/fa/
  * Description:     پادروپین؛ ‌مارکت‌پلیس خدمات پستی است و به فروشگاه‌های آنلاین کمک می‌کند تا فرآیند ارسال سفارش‌های اینترنتی را مدیریت کنند. در پادروپین، بدون مراجعه و یا ثبت قرارداد با شرکت‌های پستی، می‌توان سفارش‌های اینترنتی را با هر یک از شرکت‌های پستی ارسال کرد
- * Version:         0.4.2
- * Author:          Khorshid
- * Author URI:      https://khorshidlab.com
- * Text Domain:     plugin_textdomain
+ * Version:         1.0.0
+ * Author:          Khorshid, Podro
+ * Author URI:      https://khorshidlab.com/fa/
+ * Text Domain:     wp_podro
  * License:         GPL-3.0+
  * License URI:     http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path:     /languages
  * Requires PHP:    7.0
+ * Github:      		https://github.com/KhorshidLab/WP-Podro
  */
 
 // If this file is called directly, abort.
@@ -29,7 +32,11 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
 	return;
 }
 
-define( 'POD_VERSION', '0.4.2' );
+/**
+ * Currently plugin version.
+ */
+define( 'POD_VERSION', '1.0.0' );
+
 define( 'POD_TEXTDOMAIN', 'wp_podro' );
 define( 'POD_NAME', 'WP PODRO' );
 define( 'POD_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
@@ -58,7 +65,7 @@ if ( version_compare( PHP_VERSION, POD_MIN_PHP_VERSION, '<=' ) ) {
 			echo wp_kses_post(
 				sprintf(
 					'<div class="notice notice-error"><p>%s</p></div>',
-					__( '"Plugin Name" requires PHP 5.6 or newer.', POD_TEXTDOMAIN )
+					__( '"Plugin Name" requires PHP 7.0 or newer.', POD_TEXTDOMAIN )
 				)
 			);
 		}
