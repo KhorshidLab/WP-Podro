@@ -79,7 +79,7 @@ class Api_Key {
 		if( ! isset( $_POST[ 'config_podro_api_key' ] ) ) {
 			return;
 		}
-
+		update_option('woocommerce_store_city', sanitize_text_field($_POST['podro_store_location']));
 		$pdo_email = sanitize_email( $_POST[ 'pdo_email' ] );
 		$pdo_password = sanitize_text_field( $_POST[ 'pdo_password' ] );
 		if ( $pdo_email == null || $pdo_password == null || ( ! empty( $pdo_email ) && !empty( $pdo_password ) && $pdo_password === "**************" ) ) {
