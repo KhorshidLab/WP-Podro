@@ -143,7 +143,7 @@ class Setup {
 		$payments = new Payments();
 
 
-		$this->loader->add_action( 'wp_ajax_pod_payment_step', $payments, 'get_payments' );
+		$this->loader->add_action( 'wp_ajax_pod_payment_step', $payments, 'echo_payments' );
 
 		// Register shipping method
 		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
