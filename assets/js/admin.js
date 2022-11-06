@@ -154,6 +154,19 @@
 		}
 	})
 
+	$(document).on('click', '.pod-delivery-step-32', function(e) {
+		e.preventDefault()
+		var data = {
+			action: 'pod_payment_step',
+			security: wp_podro_ajax_object.security,
+			delivery_order_id: $('input[name=pod_delivery_order_id]').val(),
+			order_id: $('input[name=pod_order_id]').val(),
+		};
+
+		pod_ajax( data, function(response){
+			console.log(response);
+		} );
+	})
 	$(document).on('click', '.pod-delivery-step-3', function(e) {
 		e.preventDefault()
 		var data = {

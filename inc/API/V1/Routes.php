@@ -18,7 +18,7 @@ class Routes
 	const ORDER_CREATE = '/orders';
 	const ORDER_SUBMIT = '/orders/order_id/finalize';
 	const ORDER_PICKUP_DELAY = '/orders/order_id/pickup-delay';
-
+	const PAYMENT_OPTIONS  = '/orders/order_id/payments';
 	public static function BuildRoute( string $route, array $params = null )
 	{
 
