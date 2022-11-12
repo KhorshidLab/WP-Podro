@@ -20,12 +20,38 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 					<label for="pdo_password">کلمه عبور</label>
 					<input type="password" name="pdo_password" id="pdo_password" autocomplete="off">
 				</div>
+				<h3><?php echo esc_html_e( 'تنظیمات فروشگاه', POD_TEXTDOMAIN ) ?></h3>
+				<div class="pdo-box">
+
+					<label for="podro_store_location">شهر</label>
+					<?php
+					$provinces = \WP_PODRO\Engine\WooSetting::get_provinces();
+					echo "<select aria-label='شهر' class='wc-enhanced-select' id='podro_store_location' name='podro_store_location' style='width:325px;' >";
+					foreach($provinces as $province){
+						echo "<optgroup label='{$province['name']}'>";
+						foreach ($province['cities'] as $key=>$city)
+							if(get_option('woocommerce_store_city') == $key)
+								echo "<option selected value='$key'>$city</option>";
+							else
+								echo "<option value='$key'>$city</option>";
+						echo "</optgroup>";
+
+					}
+					echo "</select>"
+					?>
+				<script>
+					jQuery(document).ready(function(){
+						jQuery('#hello').select2();
+					});
+				</script>
+				</div>
 				<div class="pdo-box">
 					<a class="get-api-key" href="https://podro.com/plugin-pin/" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e('دریافت کلید API', POD_TEXTDOMAIN); ?></a>
 				</div>
 				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php echo esc_html_e( "ذخیره", POD_TEXTDOMAIN ) ?></button>
 			</form>
 		</div>
+
 	</div>
     <?php require_once( POD_PLUGIN_ROOT . 'admin/views/components/footer.php' ); ?>
 </div>
