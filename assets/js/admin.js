@@ -169,7 +169,18 @@
 	$(document).on('click', '.pod-delivery-step-4', function(e) {
 		e.preventDefault()
 
+		const payment_method = jQuery('input[name=pod_payment_options]:checked').val();
+		if(!payment_method)
+		{
+			alert('لطفا یک نوع پرداخت انتخاب کنید');
+			return;
+		}
 		let pickup_date = $('input[name=pod_pickup_option]').val();
+		if(!pickup_date)
+		{
+			alert('لطفا روز جمع آوری را انتخاب کنید');
+			return;
+		}
 		pickup_date = pickup_date.split(':');
 
 		const data = {
@@ -178,7 +189,7 @@
 			delivery_order_id: $('input[name=pod_delivery_order_id]').val(),
 			pickup_date: pickup_date[0],
 			option_id: pickup_date[1],
-			payment_approach: 'CASH',
+			payment_approach: payment_method,
 			pod_order_id: $('input[name=pod_order_id]').val(),
 		}
 
@@ -327,6 +338,7 @@
 	function _callback_step_4( response ) {
 
 		$('#woocommerce-order-podro .inside .pod-delivery-step-3-wrapper').remove()
+		$('#woocommerce-order-podro .inside .pod-delivery-step-2-wrapper').remove()
 		$('#woocommerce-order-podro .inside button').remove()
 
 		$('#woocommerce-order-podro .inside').prepend('<h3 style="text-align=center;">ثبت سفارش با موفقیت انجام شد.</h3>')
@@ -338,6 +350,39 @@
 	}
 
 	function _callback_step_3( response ) {
+
+		var data = {
+			action: 'pod_payment_step',
+			security: wp_podro_ajax_object.security,
+			delivery_order_id: $('input[name=pod_delivery_order_id]').val(),
+			order_id: $('input[name=pod_order_id]').val(),
+		};
+		let html = '';
+		pod_ajax( data, function(innerResponse){
+			const data = JSON.parse(innerResponse);
+
+			jQuery('#none-podro-holder').text('');
+			$('.pod-delivery-step').remove()
+			html = '<fildset class="pod-delivery-step-2-wrapper">';
+			for ( let i = 0; i < data.length; i++ ) {
+				html += `<div class="pod-delivery-step-2-option">
+					<input type="radio" name="pod_payment_options" value="${data[i].method}" id="pod_payment_options_${data[i].method}" value="${data[i].method}">
+					<label for="pod_payment_options_${data[i].method}">
+						<div class="pod_payment_options">
+
+							<span>${data[i].title}</span>
+						</div>
+
+					</label>
+					</div>`
+			}
+
+			html += '</fildset>'
+			$('#woocommerce-order-podro .inside').prepend( html )
+
+
+
+
 		delivery_options = response.data
 		$('.pod-delivery-step-2-wrapper').remove()
 
@@ -359,7 +404,7 @@
 		select_html += '</select>'
 
 
-		let html = `<div class="pod-delivery-step-3-wrapper">
+			html += `<div class="pod-delivery-step-3-wrapper">
 			<h4>لطفا روز جمع‌آوری را انتخاب کنید</h4>
 			${select_html}
 			<h4 class="pod-pickup pod-hide">لطفا زمان جمع‌آوری را انتخاب کنید</h4>
@@ -375,6 +420,7 @@
 
 		$('.pod-delivery-step-button').removeClass('pod-delivery-step-3').addClass('pod-delivery-step-4').html('تایید نهایی')
 		$('.pod-delivery-cancel').remove()
+		} );
 	}
 
 	function _callback_step_2( response ) {
