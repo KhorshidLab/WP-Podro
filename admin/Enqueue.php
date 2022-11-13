@@ -40,7 +40,7 @@ class Enqueue {
 	public function enqueue_admin_styles() {
 		$admin_page = \get_current_screen();
 
-		\wp_enqueue_style( POD_TEXTDOMAIN . '-admin-styles', \plugins_url( 'assets/css/admin.css', POD_PLUGIN_ABSOLUTE ), array( 'dashicons' ), POD_VERSION );
+		\wp_enqueue_style( PODRO_TEXTDOMAIN . '-admin-styles', \plugins_url( 'assets/css/admin.css', PODRO_PLUGIN_ABSOLUTE ), array( 'dashicons' ), PODRO_VERSION );
 	}
 
 	/**
@@ -50,9 +50,9 @@ class Enqueue {
 	 * @return void
 	 */
 	public function enqueue_admin_scripts() {
-		\wp_enqueue_script( POD_TEXTDOMAIN . '-admin-scripts', \plugins_url( 'assets/js/admin.js', POD_PLUGIN_ABSOLUTE ), array( 'jquery' ), POD_VERSION, true );
+		\wp_enqueue_script( PODRO_TEXTDOMAIN . '-admin-scripts', \plugins_url( 'assets/js/admin.js', PODRO_PLUGIN_ABSOLUTE ), array( 'jquery' ), PODRO_VERSION, true );
 		\wp_localize_script(
-			POD_TEXTDOMAIN . '-admin-scripts',
+			PODRO_TEXTDOMAIN . '-admin-scripts',
 			'wp_podro_ajax_object',
 			[
 				'ajax_url'  => admin_url( 'admin-ajax.php' ),
@@ -63,10 +63,10 @@ class Enqueue {
 			],
 		);
 		\wp_localize_script(
-			POD_TEXTDOMAIN . '-admin-scripts',
+			PODRO_TEXTDOMAIN . '-admin-scripts',
 			'wp_podro_assets_url',
 			[
-				'assets_url'  => \plugins_url( 'assets/' ,POD_PLUGIN_ABSOLUTE),
+				'assets_url'  => \plugins_url( 'assets/' ,PODRO_PLUGIN_ABSOLUTE),
 
 			],
 		);
@@ -75,12 +75,12 @@ class Enqueue {
 	public function enqueue_public_styles() {
 
 		if ( is_cart() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
-			$city_select_path = POD_PLUGIN_ROOT_URL . 'assets/js/city-select.js';
+			$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/city-select.js';
 			wp_enqueue_script(
 				'wc-city-select',
 				$city_select_path,
 				array( 'jquery', 'woocommerce' ),
-				POD_VERSION,
+				PODRO_VERSION,
 				true
 			);
 

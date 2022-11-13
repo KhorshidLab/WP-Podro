@@ -24,7 +24,7 @@ class MetaBox {
 			if ( $this->has_podro_order( $order_id ) ) {
 				add_meta_box(
 					'woocommerce-order-podro',
-					__( 'جزئیات سفارش پادرو', POD_TEXTDOMAIN ),
+					__( 'جزئیات سفارش پادرو', PODRO_TEXTDOMAIN ),
 					array($this, 'pod_order_details'),
 					'shop_order',
 					'side',
@@ -33,7 +33,7 @@ class MetaBox {
 			} else {
 				add_meta_box(
 					'woocommerce-order-podro',
-					__( 'پادرو', POD_TEXTDOMAIN ),
+					__( 'پادرو', PODRO_TEXTDOMAIN ),
 					array($this, 'order_my_custom'),
 					'shop_order',
 					'side',
@@ -54,7 +54,7 @@ class MetaBox {
 		$response = (new Orders)->get_order( $pod_order_id );
 
 		if ( !$response ) {
-			echo '<p>' . __( 'هیچ سفارش پادرویی یافت نشد!', POD_TEXTDOMAIN ) . '</p>';
+			echo '<p>' . __( 'هیچ سفارش پادرویی یافت نشد!', PODRO_TEXTDOMAIN ) . '</p>';
 			return;
 		}
 
@@ -65,48 +65,48 @@ class MetaBox {
 
 		<table class="pod_order_details">
 			<tr>
-				<th><?php _e( 'شناسه سفارش', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'شناسه سفارش', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($pod_order_id); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'کد پیگیری سفارش', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'کد پیگیری سفارش', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['tracking_id']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'پروایدر', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'پروایدر', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['provider_code']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'وضعیت سفارش', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'وضعیت سفارش', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['status']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'جمع‌آوری از', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'جمع‌آوری از', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($pickup_time_S . ' ' . $pickup_time->format('H:i')); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'جمع‌آوری تا', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'جمع‌آوری تا', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['pickup_to_time']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'هزینه ارسال', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'هزینه ارسال', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['sale_price']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'تخفیف', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'تخفیف', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['discount']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'وزن', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'وزن', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_weight']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'ارزش مرسوله', POD_TEXTDOMAIN ); ?></th>
+				<th><?php _e( 'ارزش مرسوله', PODRO_TEXTDOMAIN ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_value']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'فایل بارنامه', POD_TEXTDOMAIN ); ?></th>
-				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php _e( 'دانلود بارنامه', POD_TEXTDOMAIN ); ?></a></td>
+				<th><?php _e( 'فایل بارنامه', PODRO_TEXTDOMAIN ); ?></th>
+				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php _e( 'دانلود بارنامه', PODRO_TEXTDOMAIN ); ?></a></td>
 			</tr>
 		</table>
 		<div id="lock-modal"></div>
@@ -253,7 +253,7 @@ class MetaBox {
 
 		<input type="hidden" name="pod_order_id" value="<?php echo esc_attr($order_id); ?>">
 
-		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? __('خطایی رخ داد', POD_TEXTDOMAIN) : ''; ?></p>
+		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? __('خطایی رخ داد', PODRO_TEXTDOMAIN) : ''; ?></p>
 
 		<button class="pod-delivery-step-button pod-delivery-step-1" >مرحله بعد</button>
 
@@ -286,7 +286,7 @@ class MetaBox {
 		update_option('pod_destination_city_code',$pod_destination_city_code);
 		if (! isset($_POST['weight']) && ! isset($_POST['totalprice']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth'])) {
 
-			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', PODRO_TEXTDOMAIN), 400 );
 			wp_die();
 
 		}
@@ -341,7 +341,7 @@ class MetaBox {
 		// checking for required fields
 		if (! isset($_POST['weight']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth']) && ! isset($_POST['provider_code'])) {
 
-			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', PODRO_TEXTDOMAIN), 400 );
 			wp_die();
 
 		}
@@ -423,7 +423,7 @@ class MetaBox {
 
 		// checking for required fields
 		if ( !isset($_POST['delivery_order_id']) ) {
-			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', PODRO_TEXTDOMAIN), 400 );
 			wp_die();
 		}
 
@@ -448,7 +448,7 @@ class MetaBox {
 
 		// checking for required fields
 		if ( !isset($_POST['delivery_order_id']) ) {
-			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', PODRO_TEXTDOMAIN), 400 );
 			wp_die();
 		}
 
@@ -498,7 +498,7 @@ class MetaBox {
 	public function validate_nonce( $nonce_key ) {
 		if ( ! check_ajax_referer( $nonce_key, 'security', false ) ) {
 
-			wp_send_json_error( __('توکن امنیتی اشتباه است.', POD_TEXTDOMAIN ), 403 );
+			wp_send_json_error( __('توکن امنیتی اشتباه است.', PODRO_TEXTDOMAIN ), 403 );
 			wp_die();
 
 		}
@@ -535,7 +535,7 @@ class MetaBox {
 		$this->validate_nonce( 'pod-options-nonce' );
 		// checking for required fields
 		if ( !isset($_POST['order_id']) ) {
-			wp_send_json_error( __('آیتم اشتباه شده است.', POD_TEXTDOMAIN), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', PODRO_TEXTDOMAIN), 400 );
 			wp_die();
 		}
 

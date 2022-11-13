@@ -1,7 +1,7 @@
 <div class="wrap pod-wrap">
 	<div class="pdo-wrapper">
 		<div class="pdo-card pdo-about">
-			<h1><?php echo esc_html_e( 'درباره پادرو', POD_TEXTDOMAIN ) ?></h1>
+			<h1><?php echo esc_html_e( 'درباره پادرو', PODRO_TEXTDOMAIN ) ?></h1>
 			<p>پادروپین به عنوان پلتفرم انتخاب و مقایسه خدمات پستی به شما اجازه میدهد تا بتوانید به راحتی با شرکت‌های مختلف پستی کار کنید و به‌صرفه‌ترین و بهترین تصمیم را بگیرید.
 
 شما با پادروپین دیگر نیاز نیست به دفاتر پستی مراجعه کنید، تحویل بسته‌های پستی شما از درب محل انجام خواهد شد و در مقصد به دست مشتری شما خواهد رسید.
@@ -10,5 +10,5 @@
 </p>
 		</div>
 	</div>
-	<?php require_once( POD_PLUGIN_ROOT . 'admin/views/components/footer.php' ); ?>
+	<?php require_once( PODRO_PLUGIN_ROOT . 'admin/views/components/footer.php' ); ?>
 </div>

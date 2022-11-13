@@ -35,24 +35,24 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
 /**
  * Currently plugin version.
  */
-define( 'POD_VERSION', '1.0.0' );
+define( 'PODRO_VERSION', '1.0.0' );
 
-define( 'POD_TEXTDOMAIN', 'wp_podro' );
-define( 'POD_NAME', 'WP PODRO' );
-define( 'POD_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
-define( 'POD_PLUGIN_ABSOLUTE', __FILE__ );
-define( 'POD_PLUGIN_ROOT_URL', plugin_dir_url( __FILE__ ) );
-define( 'POD_MIN_PHP_VERSION', '7.0' );
-define( 'POD_WP_VERSION', '5.3' );
+define( 'PODRO_TEXTDOMAIN', 'wp_podro' );
+define( 'PODRO_NAME', 'WP PODRO' );
+define( 'PODRO_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
+define( 'PODRO_PLUGIN_ABSOLUTE', __FILE__ );
+define( 'PODRO_PLUGIN_ROOT_URL', plugin_dir_url( __FILE__ ) );
+define( 'PODRO_MIN_PHP_VERSION', '7.0' );
+define( 'PODRO_WP_VERSION', '5.3' );
 
 add_action(
 	'init',
 	static function () {
-		load_plugin_textdomain( POD_TEXTDOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( PODRO_TEXTDOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 );
 
-if ( version_compare( PHP_VERSION, POD_MIN_PHP_VERSION, '<=' ) ) {
+if ( version_compare( PHP_VERSION, PODRO_MIN_PHP_VERSION, '<=' ) ) {
 	add_action(
 		'admin_init',
 		static function() {
@@ -65,7 +65,7 @@ if ( version_compare( PHP_VERSION, POD_MIN_PHP_VERSION, '<=' ) ) {
 			echo wp_kses_post(
 				sprintf(
 					'<div class="notice notice-error"><p>%s</p></div>',
-					__( '"Plugin Name" requires PHP 7.0 or newer.', POD_TEXTDOMAIN )
+					__( '"Plugin Name" requires PHP 7.0 or newer.', PODRO_TEXTDOMAIN )
 				)
 			);
 		}
@@ -75,7 +75,7 @@ if ( version_compare( PHP_VERSION, POD_MIN_PHP_VERSION, '<=' ) ) {
 	return;
 }
 
-require_once(POD_PLUGIN_ROOT . 'vendor/autoload.php');
+require_once(PODRO_PLUGIN_ROOT . 'vendor/autoload.php');
 if ( class_exists('WC_Payment_Gateway') ) {
 	$GLOBALS['wc_city_select'] = new WP_PODRO\Engine\WC_City_Select();
 }
