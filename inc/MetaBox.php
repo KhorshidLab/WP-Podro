@@ -66,47 +66,47 @@ class MetaBox {
 		<table class="pod_order_details">
 			<tr>
 				<th><?php _e( 'شناسه سفارش', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $pod_order_id; ?></td>
+				<td><?php echo esc_html($pod_order_id); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'کد پیگیری سفارش', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['order_detail']['tracking_id']; ?></td>
+				<td><?php echo esc_html($response['order_detail']['tracking_id']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'پروایدر', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['provider_code']; ?></td>
+				<td><?php echo esc_html($response['provider_code']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'وضعیت سفارش', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['status']; ?></td>
+				<td><?php echo esc_html($response['status']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'جمع‌آوری از', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $pickup_time_S . ' ' . $pickup_time->format('H:i') ?></td>
+				<td><?php echo esc_html($pickup_time_S . ' ' . $pickup_time->format('H:i')); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'جمع‌آوری تا', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['pickup_to_time']; ?></td>
+				<td><?php echo esc_html($response['pickup_to_time']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'هزینه ارسال', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['sale_price']; ?></td>
+				<td><?php echo esc_html($response['sale_price']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'تخفیف', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['discount']; ?></td>
+				<td><?php echo esc_html($response['discount']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'وزن', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['order_detail']['parcel_total']['total_weight']; ?></td>
+				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_weight']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'ارزش مرسوله', POD_TEXTDOMAIN ); ?></th>
-				<td><?php echo $response['order_detail']['parcel_total']['total_value']; ?></td>
+				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_value']); ?></td>
 			</tr>
 			<tr>
 				<th><?php _e( 'فایل بارنامه', POD_TEXTDOMAIN ); ?></th>
-				<td><a id="get_order_pdf" data-order_id="<?php echo $response['id'] ?>"><?php _e( 'دانلود بارنامه', POD_TEXTDOMAIN ); ?></a></td>
+				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php _e( 'دانلود بارنامه', POD_TEXTDOMAIN ); ?></a></td>
 			</tr>
 		</table>
 		<div id="lock-modal"></div>
@@ -133,11 +133,8 @@ class MetaBox {
 
 	public function delivery_step_1( $order ) {
 
-		$store_state = $this->get_store_state();
-//		$source_city = Location::get_province_by_code($store_state);
-//		$source_city = Location::get_city_by_name($source_city['name']);
 		$woo_setting = WooSetting::get_instance();
-		$source_city_name = $woo_setting->get_store_city();
+
 		$source_city = $woo_setting->get_store_city_code_from_options();
 		$order_id = $order->get_id();
 		$destination_city = $order->get_shipping_city();
@@ -199,64 +196,64 @@ class MetaBox {
 		<ul class="pod-delivery-step">
 			<li>
 				<label for="pod_store_name">نام فروشگاه</label>
-				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo $option_pod_store_name; ?>"  />
+				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo esc_attr($option_pod_store_name); ?>"  />
 			</li>
 			<li>
 				<label for="pod_source_city">مبدا</label>
-				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo $option_pod_source_city; ?></textarea>
+				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($option_pod_source_city); ?></textarea>
 				<?php if (empty($store_address)) echo '<p style="color:red">لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.</p>'; ?>
-				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo $source_city; ?>">
+				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($source_city); ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
 				<?php if( !Location::is_podro_city($destination_city['code']) ){ ?>
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
-				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo $destination_address; ?></textarea>
-				<input type="hidden" id="pod_destination_city_code" name="pod_destination_city_code" value="<?php echo $destination_city['code']; ?>">
+				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo esc_attr($destination_address); ?></textarea>
+				<input type="hidden" id="pod_destination_city_code" name="pod_destination_city_code" value="<?php echo esc_attr($destination_city['code']); ?>">
 			</li>
 			<li>
 				<label for="pod_user_billing_name">نام </label>
-				<input type="text" name="pod_user_billing_name" id="pod_user_billing_name" maxlength="17" value="<?php echo $user_billing_name; ?>"  />
+				<input type="text" name="pod_user_billing_name" id="pod_user_billing_name" maxlength="17" value="<?php echo esc_attr($user_billing_name); ?>"  />
 			</li>
 			<li>
 				<label for="pod_user_billing_family"> نام خانوادگی</label>
-				<input type="text" name="pod_user_billing_family" id="pod_user_billing_family" maxlength="27" value="<?php echo $user_billing_family; ?>"  />
+				<input type="text" name="pod_user_billing_family" id="pod_user_billing_family" maxlength="27" value="<?php echo esc_attr($user_billing_family); ?>"  />
 			</li>
 			<li>
 
 				<label for="pod_comment">توضیحات<span id="pod-description-hint" class="dashicons dashicons-editor-help" style="width:50px"></span></label>
-				<textarea name="pod_customer_note" id="pod_customer_note" rows="6" maxlength="60"><?php echo $customer_note; ?></textarea>
+				<textarea name="pod_customer_note" id="pod_customer_note" rows="6" maxlength="60"><?php echo esc_attr($customer_note); ?></textarea>
 			</li>
 			<li>
 				<label for="pod_weight">وزن مرسوله به گرم</label>
-				<input type="number" name="pod_weight" id="pod_weight" min="1" value="<?php echo $total_weight; ?>" />
+				<input type="number" name="pod_weight" id="pod_weight" min="1" value="<?php echo esc_attr($total_weight); ?>" />
 			</li>
 			<li>
 				<label for="pod_totalprice">ارزش مرسوله</label>
-				<input type="number" name="pod_totalprice" id="pod_totalprice" value="<?php echo $order->get_subtotal(); ?>" />
+				<input type="number" name="pod_totalprice" id="pod_totalprice" value="<?php echo esc_attr($order->get_subtotal()); ?>" />
 			</li>
 			<li class="pod-dimension">
 				<p>ابعاد به سانتی‌متر</p>
 				<div>
 					<label for="pod_width">طول</label>
-					<input type="number" name="pod_width" id="pod_width" min="1" value="<?php echo $length; ?>" />
+					<input type="number" name="pod_width" id="pod_width" min="1" value="<?php echo esc_attr($length); ?>" />
 				</div>
 				<div>
 					<label for="pod_depth">عرض</label>
-					<input type="number" name="pod_depth" id="pod_depth" min="1" value="<?php echo $width; ?>" />
+					<input type="number" name="pod_depth" id="pod_depth" min="1" value="<?php echo esc_attr($width); ?>" />
 				</div>
 				<div>
 					<label for="pod_height">ارتفاع</label>
-					<input type="number" name="pod_height" id="pod_height" min="1" value="<?php echo $height; ?>" />
+					<input type="number" name="pod_height" id="pod_height" min="1" value="<?php echo esc_attr($height); ?>" />
 				</div>
 			</li>
 
 		</ul>
 
-		<input type="hidden" name="pod_order_id" value="<?php echo $order_id; ?>">
+		<input type="hidden" name="pod_order_id" value="<?php echo esc_attr($order_id); ?>">
 
-		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? 'خطایی رخ داد' : ''; ?></p>
+		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? __('خطایی رخ داد', POD_TEXTDOMAIN) : ''; ?></p>
 
 		<button class="pod-delivery-step-button pod-delivery-step-1" >مرحله بعد</button>
 

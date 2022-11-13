@@ -14,7 +14,7 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=wp_podro' )); ?>">
 				<div class="pdo-box">
 					<label for="pdo_email">ایمیل</label>
-					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? $credentials['email'] : '' ?>">
+					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>">
 				</div>
 				<div class="pdo-box">
 					<label for="pdo_password">کلمه عبور</label>
@@ -28,12 +28,12 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 					$provinces = \WP_PODRO\Engine\WooSetting::get_provinces();
 					echo "<select aria-label='شهر' class='wc-enhanced-select' id='podro_store_location' name='podro_store_location' style='width:325px;' >";
 					foreach($provinces as $province){
-						echo "<optgroup label='{$province['name']}'>";
+						echo "<optgroup label='".esc_attr($province['name'])."'>";
 						foreach ($province['cities'] as $key=>$city)
 							if(get_option('woocommerce_store_city') == $key)
-								echo "<option selected value='$key'>$city</option>";
+								echo "<option selected value='". esc_attr($key)."'>".esc_attr($city)."</option>";
 							else
-								echo "<option value='$key'>$city</option>";
+								echo "<option value='". esc_attr($key)."'>".esc_attr($city)."</option>";
 						echo "</optgroup>";
 
 					}

@@ -13,7 +13,7 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=wp_podro' )); ?>">
 				<div class="pdo-box">
 					<label for="pdo_email">ایمیل</label>
-					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? $credentials['email'] : '' ?>">
+					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? esc_attr($credentials['email']) : '' ?>">
 				</div>
 				<div class="pdo-box">
 					<label for="pdo_password">کلمه عبور</label>

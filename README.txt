@@ -2,7 +2,7 @@
 Contributors: khorshidlab, podropin
 Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
-Tested up to: 6.0.3
+Tested up to: 6.1
 Requires PHP: 7.2
 Stable tag: 1.0.0
 License: GPLv3 or later
