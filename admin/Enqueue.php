@@ -40,7 +40,7 @@ class Enqueue {
 	public function enqueue_admin_styles() {
 		$admin_page = \get_current_screen();
 
-		\wp_enqueue_style( PODRO_TEXTDOMAIN . '-admin-styles', \plugins_url( 'assets/css/admin.css', PODRO_PLUGIN_ABSOLUTE ), array( 'dashicons' ), PODRO_VERSION );
+		\wp_enqueue_style( PODRO_SLUG.'-admin-styles', \plugins_url( 'assets/css/admin.css', PODRO_PLUGIN_ABSOLUTE ), array( 'dashicons' ), PODRO_VERSION );
 	}
 
 	/**
@@ -50,9 +50,9 @@ class Enqueue {
 	 * @return void
 	 */
 	public function enqueue_admin_scripts() {
-		\wp_enqueue_script( PODRO_TEXTDOMAIN . '-admin-scripts', \plugins_url( 'assets/js/admin.js', PODRO_PLUGIN_ABSOLUTE ), array( 'jquery' ), PODRO_VERSION, true );
+		\wp_enqueue_script( PODRO_SLUG.'-admin-scripts', \plugins_url( 'assets/js/admin.js', PODRO_PLUGIN_ABSOLUTE ), array( 'jquery' ), PODRO_VERSION, true );
 		\wp_localize_script(
-			PODRO_TEXTDOMAIN . '-admin-scripts',
+			PODRO_SLUG . '-admin-scripts',
 			'wp_podro_ajax_object',
 			[
 				'ajax_url'  => admin_url( 'admin-ajax.php' ),
@@ -63,7 +63,7 @@ class Enqueue {
 			],
 		);
 		\wp_localize_script(
-			PODRO_TEXTDOMAIN . '-admin-scripts',
+			PODRO_SLUG . '-admin-scripts',
 			'wp_podro_assets_url',
 			[
 				'assets_url'  => \plugins_url( 'assets/' ,PODRO_PLUGIN_ABSOLUTE),

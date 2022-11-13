@@ -205,7 +205,7 @@ class Setup {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			PODRO_TEXTDOMAIN,
+			PODRO_SLUG,
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
@@ -216,61 +216,61 @@ class Setup {
 
 		if (self::is_plugin_setup_done()) {
 			add_menu_page(
-				__( 'تنظیمات پادرو', PODRO_TEXTDOMAIN ),
-				__( 'پادرو', PODRO_TEXTDOMAIN),
+				__( 'تنظیمات پادرو', 'wp-podro' ),
+				__( 'پادرو', 'wp-podro'),
 				'manage_options',
-				PODRO_TEXTDOMAIN,
+				PODRO_SLUG,
 				[$this, 'delivery_page'],
 				PODRO_PLUGIN_ROOT_URL . 'assets/images/podro.png',
 				200
 			);
 
 			add_submenu_page(
-				PODRO_TEXTDOMAIN,
-				__( 'سفارشات پادرو', PODRO_TEXTDOMAIN ),
-				__( 'سفارشات', PODRO_TEXTDOMAIN ),
+				PODRO_SLUG,
+				__( 'سفارشات پادرو', 'wp-podro' ),
+				__( 'سفارشات', 'wp-podro' ),
 				'manage_options',
-				PODRO_TEXTDOMAIN,
+				'wp-podro',
 				[$this, 'delivery_page'],
 			);
 
 			add_submenu_page(
-				PODRO_TEXTDOMAIN,
-				__( 'تنظیمات پادرو', PODRO_TEXTDOMAIN ),
-				__( 'تنظیمات', PODRO_TEXTDOMAIN ),
+				PODRO_SLUG,
+				__( 'تنظیمات پادرو', 'wp-podro' ),
+				__( 'تنظیمات', 'wp-podro' ),
 				'manage_options',
-				PODRO_TEXTDOMAIN . '-settings',
+				PODRO_SLUG . '-settings',
 				[$this, 'settings_page'],
 			);
 		} else {
 
 			add_menu_page(
-				__( 'پادرو', PODRO_TEXTDOMAIN ),
-				__( 'پادرو', PODRO_TEXTDOMAIN),
+				__( 'پادرو', 'wp-podro' ),
+				__( 'پادرو', 'wp-podro'),
 				'manage_options',
-				PODRO_TEXTDOMAIN,
+				PODRO_SLUG,
 				[$this, 'settings_page'],
 				PODRO_PLUGIN_ROOT_URL . 'assets/images/podro.png',
 				200
 			);
 
 			add_submenu_page(
-				PODRO_TEXTDOMAIN,
-				__( 'تنظیمات پادرو', PODRO_TEXTDOMAIN ),
-				__( 'تنظیمات', PODRO_TEXTDOMAIN ),
+				PODRO_SLUG,
+				__( 'تنظیمات پادرو', 'wp-podro' ),
+				__( 'تنظیمات', 'wp-podro' ),
 				'manage_options',
-				PODRO_TEXTDOMAIN,
+				PODRO_SLUG,
 				[$this, 'settings_page'],
 			);
 
 		}
 
 		add_submenu_page(
-			PODRO_TEXTDOMAIN,
-			__( 'درباره پادرو', PODRO_TEXTDOMAIN ),
-			__( 'درباره', PODRO_TEXTDOMAIN ),
+			PODRO_SLUG,
+			__( 'درباره پادرو', 'wp-podro' ),
+			__( 'درباره', 'wp-podro' ),
 			'manage_options',
-			PODRO_TEXTDOMAIN . '-about-us',
+			PODRO_SLUG . '-about-us',
 			[$this, 'about_us_page'],
 		);
 
@@ -304,10 +304,10 @@ class Setup {
 		$credentials_status = get_option( 'podro_plugin_status' );
 		switch ($credentials_status) {
 			case 'connected':
-				$status = '<span class="active">' . esc_html__( 'فعال', PODRO_TEXTDOMAIN ) . '</span>';
+				$status = '<span class="active">' . esc_html__( 'فعال', 'wp-podro' ) . '</span>';
 				break;
 			default:
-				$status = '<span class="disable">' . esc_html__( 'غیرفعال', PODRO_TEXTDOMAIN ) . '</span>';
+				$status = '<span class="disable">' . esc_html__( 'غیرفعال', 'wp-podro' ) . '</span>';
 				break;
 		}
 
