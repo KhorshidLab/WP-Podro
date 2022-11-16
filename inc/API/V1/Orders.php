@@ -76,8 +76,9 @@ class Orders {
 		return $response;
 	}
 
-	public function get_all_orders(){
-		$url = Routes::BuildRoute( Routes::ORDERS);
+	public function get_all_orders($page=1){
+		$url = Routes::BuildRoute( Routes::PAGINATED_ORDERS, array( 'page_no' => $page ));
+
 		$response = Request_Podro::get( $url, false );
 		if (is_wp_error($response) || !isset($response['body'])) {
 			return false;

@@ -16,9 +16,12 @@ class Podro_Order_Table extends \WP_List_Table {
         $columns = $this->get_columns();
         $hidden = $this->get_hidden_columns();
         $sortable = $this->get_sortable_columns();
+		$currentPage = $this->get_pagenum();
+        $data = $this->table_data($currentPage);
 
-        $data = $this->table_data();
-		$totalItems = count((array)$data);
+		$items = $data['items'];
+
+		$totalItems = $data['total_items'];
 
 		if ( $totalItems < 1 ) {
 			$this->items = array();
@@ -27,7 +30,7 @@ class Podro_Order_Table extends \WP_List_Table {
         //usort( $data, array( &$this, 'sort_data' ) );
 
         $perPage = 10;
-        $currentPage = $this->get_pagenum();
+
 
 
         $this->set_pagination_args( array(
@@ -35,10 +38,10 @@ class Podro_Order_Table extends \WP_List_Table {
             'per_page'    => $perPage
         ) );
 
-        $data = array_slice($data,(($currentPage-1)*$perPage),$perPage);
+        //$items = array_slice($items,(($currentPage-1)*$perPage),$perPage);
 
         $this->_column_headers = array($columns, $hidden, $sortable);
-        $this->items = $data;
+        $this->items = $items;
     }
 
     /**
@@ -49,13 +52,14 @@ class Podro_Order_Table extends \WP_List_Table {
     public function get_columns()
     {
         $columns = array(
-            'id'          => 'شناسه سفارش',
-			'tracking_id' => 'شناسه پیگیری',
-            'provider'    => 'پروایدر',
-            'order_status' => 'وضعیت',
-            'pickup_in'    => 'تاریخ جمع آوری',
-            'pickup_to'    => 'ساعت جمع آوری',
-            'order'      => 'سفارش',
+            'id'          	=> 'شناسه سفارش',
+			'tracking_id' 	=> 'شناسه پیگیری',
+            'provider'    	=> 'پروایدر',
+            'order_status' 	=> 'وضعیت',
+            'created_at' 	=> 'تاریخ ایجاد',
+			'pickup_in'    	=> 'تاریخ جمع آوری',
+            'pickup_to'    	=> 'ساعت جمع آوری',
+            'order'      	=> 'سفارش',
 			'pdf'			=> 'بارنامه',
 			'cancel'		=> 'لغو',
         );
@@ -90,16 +94,15 @@ class Podro_Order_Table extends \WP_List_Table {
      */
 
 
-	private function table_data(){
+	private function table_data($current_page=1){
 
-		$orders = (new Orders())->get_all_orders()['data'];
-
+		$result = (new Orders())->get_all_orders($current_page);
+		$orders = $result['data'];
+		$meta = $result['meta'];
+		$jalali_date = new SDate();
 
 		$data = [];
 		foreach ($orders as $order){
-
-
-			$detail = (new Orders())->get_order($order['id']);
 
 			if ( $order['status'] == 'لغو شده') {
 				$cancel_order = 'از پیش لغو شده';
@@ -107,24 +110,25 @@ class Podro_Order_Table extends \WP_List_Table {
 				$cancel_order = '<a class="pod-cancel-order" data-order_id="' . $order['id'] . '">لغو ارسال</a>';
 			}
 
-			$data[] = array(
-				'id'          => esc_html($order['order_id']),
-				'tracking_id'          => esc_html($detail['order_detail']['tracking_id'] ?? ''),
-				'provider'       => esc_html($order['provider_code']),
-				'order_status' => '<mark class="order-status status-processing"><span>'. esc_html($order['status']) .'</span></mark>',
-				'pick_in_original_date'=>esc_html($detail['pickup_time']),
-				'pickup_in'        => esc_html($order['pickup_time']),
-				'pickup_to'    => ' از ' .esc_html($order['from_time'])  . ' تا ' . esc_html($order['to_time']),
-				'order'      => '<a href="'. esc_url(get_edit_post_link( $order['parcels'][0]['id'] )) .'">#'. esc_html($order['parcels'][0]['id']) . ' '  .'</a>',
+			$data['items'][] = array(
+				'id'          	=> esc_html($order['order_id']),
+				'tracking_id'   => esc_html($order['tracking_id'] ?? ''),
+				'provider'      => esc_html($order['provider_code']),
+				'order_status' 	=> '<mark class="order-status status-processing"><span>'. esc_html($order['status']) .'</span></mark>',
+				'created_at'	=>esc_html( $jalali_date->jdate("Y/m/d",$order['created_at'])),
+				'pickup_in'     => esc_html($order['pickup_time']),
+				'pickup_to'    	=> ' از ' .esc_html($order['from_time'])  . ' تا ' . esc_html($order['to_time']),
+				'order'      	=> '<a href="'. esc_url(get_edit_post_link( $order['parcels'][0]['id'] )) .'">#'. esc_html($order['parcels'][0]['id']) . ' '  .'</a>',
 				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . esc_attr($order['id']) . '">دانلود بارنامه</a>',
-				'cancel'			=> $cancel_order
+				'cancel'		=> $cancel_order,
+
 			);
 
-
 		}
-		$keys = array_column($data, 'pick_in_original_date');
-
-		array_multisort($keys, SORT_DESC, $data);
+		$data['total_items'] = $meta['total'];
+//		$keys = array_column($data, 'pick_in_original_date');
+//
+//		array_multisort($keys, SORT_DESC, $data);
 		//array_reverse($data);
 
 		return $data;
@@ -144,6 +148,7 @@ class Podro_Order_Table extends \WP_List_Table {
 			case 'tracking_id':
             case 'provider':
             case 'order_status':
+            case 'created_at':
             case 'pickup_in':
             case 'pickup_to':
             case 'order':
