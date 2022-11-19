@@ -108,15 +108,15 @@ class Podro_Order_Table extends \WP_List_Table {
 			}
 
 			$data[] = array(
-				'id'          => $order['order_id'],
-				'tracking_id'          => $detail['order_detail']['tracking_id'] ?? '',
-				'provider'       => $order['provider_code'],
-				'order_status' => '<mark class="order-status status-processing"><span>'. $order['status'] .'</span></mark>',
-				'pick_in_original_date'=>$detail['pickup_time'],
-				'pickup_in'        => $order['pickup_time'],
-				'pickup_to'    => ' از ' .$order['from_time']  . ' تا ' . $order['to_time'],
-				'order'      => '<a href="'. get_edit_post_link( $order['parcels'][0]['id'] ) .'">#'. $order['parcels'][0]['id'] . ' '  .'</a>',
-				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . $order['id'] . '">دانلود بارنامه</a>',
+				'id'          => esc_html($order['order_id']),
+				'tracking_id'          => esc_html($detail['order_detail']['tracking_id'] ?? ''),
+				'provider'       => esc_html($order['provider_code']),
+				'order_status' => '<mark class="order-status status-processing"><span>'. esc_html($order['status']) .'</span></mark>',
+				'pick_in_original_date'=>esc_html($detail['pickup_time']),
+				'pickup_in'        => esc_html($order['pickup_time']),
+				'pickup_to'    => ' از ' .esc_html($order['from_time'])  . ' تا ' . esc_html($order['to_time']),
+				'order'      => '<a href="'. esc_url(get_edit_post_link( $order['parcels'][0]['id'] )) .'">#'. esc_html($order['parcels'][0]['id']) . ' '  .'</a>',
+				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . esc_attr($order['id']) . '">دانلود بارنامه</a>',
 				'cancel'			=> $cancel_order
 			);
 

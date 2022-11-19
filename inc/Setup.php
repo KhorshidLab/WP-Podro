@@ -146,7 +146,7 @@ class Setup {
 		$this->loader->add_action( 'wp_ajax_pod_payment_step', $payments, 'echo_payments' );
 
 		// Register shipping method
-		require_once( POD_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
+		require_once( PODRO_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
 
 	}
 
@@ -205,7 +205,7 @@ class Setup {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			POD_TEXTDOMAIN,
+			PODRO_SLUG,
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
@@ -216,61 +216,61 @@ class Setup {
 
 		if (self::is_plugin_setup_done()) {
 			add_menu_page(
-				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
-				__( 'پادرو', POD_TEXTDOMAIN),
+				__( 'تنظیمات پادرو', 'wp-podro' ),
+				__( 'پادرو', 'wp-podro'),
 				'manage_options',
-				POD_TEXTDOMAIN,
+				PODRO_SLUG,
 				[$this, 'delivery_page'],
-				POD_PLUGIN_ROOT_URL . 'assets/images/podro.png',
+				PODRO_PLUGIN_ROOT_URL . 'assets/images/podro.png',
 				200
 			);
 
 			add_submenu_page(
-				POD_TEXTDOMAIN,
-				__( 'سفارشات پادرو', POD_TEXTDOMAIN ),
-				__( 'سفارشات', POD_TEXTDOMAIN ),
+				PODRO_SLUG,
+				__( 'سفارشات پادرو', 'wp-podro' ),
+				__( 'سفارشات', 'wp-podro' ),
 				'manage_options',
-				POD_TEXTDOMAIN,
+				'wp-podro',
 				[$this, 'delivery_page'],
 			);
 
 			add_submenu_page(
-				POD_TEXTDOMAIN,
-				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
-				__( 'تنظیمات', POD_TEXTDOMAIN ),
+				PODRO_SLUG,
+				__( 'تنظیمات پادرو', 'wp-podro' ),
+				__( 'تنظیمات', 'wp-podro' ),
 				'manage_options',
-				POD_TEXTDOMAIN . '-settings',
+				PODRO_SLUG . '-settings',
 				[$this, 'settings_page'],
 			);
 		} else {
 
 			add_menu_page(
-				__( 'پادرو', POD_TEXTDOMAIN ),
-				__( 'پادرو', POD_TEXTDOMAIN),
+				__( 'پادرو', 'wp-podro' ),
+				__( 'پادرو', 'wp-podro'),
 				'manage_options',
-				POD_TEXTDOMAIN,
+				PODRO_SLUG,
 				[$this, 'settings_page'],
-				POD_PLUGIN_ROOT_URL . 'assets/images/podro.png',
+				PODRO_PLUGIN_ROOT_URL . 'assets/images/podro.png',
 				200
 			);
 
 			add_submenu_page(
-				POD_TEXTDOMAIN,
-				__( 'تنظیمات پادرو', POD_TEXTDOMAIN ),
-				__( 'تنظیمات', POD_TEXTDOMAIN ),
+				PODRO_SLUG,
+				__( 'تنظیمات پادرو', 'wp-podro' ),
+				__( 'تنظیمات', 'wp-podro' ),
 				'manage_options',
-				POD_TEXTDOMAIN,
+				PODRO_SLUG,
 				[$this, 'settings_page'],
 			);
 
 		}
 
 		add_submenu_page(
-			POD_TEXTDOMAIN,
-			__( 'درباره پادرو', POD_TEXTDOMAIN ),
-			__( 'درباره', POD_TEXTDOMAIN ),
+			PODRO_SLUG,
+			__( 'درباره پادرو', 'wp-podro' ),
+			__( 'درباره', 'wp-podro' ),
 			'manage_options',
-			POD_TEXTDOMAIN . '-about-us',
+			PODRO_SLUG . '-about-us',
 			[$this, 'about_us_page'],
 		);
 
@@ -280,18 +280,18 @@ class Setup {
 		$podro_status = self::is_plugin_setup_done();
 		$action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : false;
 		if ( !$podro_status || $action == 'config-api' ) {
-			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
+			require_once( PODRO_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
 		} else {
-			require_once( POD_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
+			require_once( PODRO_PLUGIN_ROOT . 'admin/views/pages/api-key-settings.php' );
 		}
 	}
 
 	public function about_us_page() {
-		require_once( POD_PLUGIN_ROOT . 'admin/views/pages/about-us.php' );
+		require_once( PODRO_PLUGIN_ROOT . 'admin/views/pages/about-us.php' );
 	}
 
 	public function delivery_page() {
-		require_once( POD_PLUGIN_ROOT . 'admin/views/pages/delivery.php' );
+		require_once( PODRO_PLUGIN_ROOT . 'admin/views/pages/delivery.php' );
 	}
 
 	/**
@@ -304,10 +304,10 @@ class Setup {
 		$credentials_status = get_option( 'podro_plugin_status' );
 		switch ($credentials_status) {
 			case 'connected':
-				$status = '<span class="active">' . esc_html__( 'فعال', POD_TEXTDOMAIN ) . '</span>';
+				$status = '<span class="active">' . esc_html__( 'فعال', 'wp-podro' ) . '</span>';
 				break;
 			default:
-				$status = '<span class="disable">' . esc_html__( 'غیرفعال', POD_TEXTDOMAIN ) . '</span>';
+				$status = '<span class="disable">' . esc_html__( 'غیرفعال', 'wp-podro' ) . '</span>';
 				break;
 		}
 
