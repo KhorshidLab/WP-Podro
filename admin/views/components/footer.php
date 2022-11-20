@@ -1,9 +1,9 @@
 <div class="pod-footer">
     <div class="pod-footer-links">
         <ul>
-            <li><a href="https://podro.com/contact-us/" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e( 'پشتیبانی', POD_TEXTDOMAIN ) ?> <span class="dashicons dashicons-external"></span></a></li>
-            <li><a href="mailto:hi@podro.com" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e( 'ارسال ایمیل', POD_TEXTDOMAIN ) ?> <span class="dashicons dashicons-email"></span></a></li>
-			<li><a href="https://podro.com/terms-and-conditions/" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e( 'قوانین و مقررات', POD_TEXTDOMAIN ) ?> <span class="dashicons dashicons-privacy"></span></a></li>
+            <li><a href="https://podro.com/contact-us/" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e( 'پشتیبانی', 'wp-podro' ) ?> <span class="dashicons dashicons-external"></span></a></li>
+            <li><a href="mailto:hi@podro.com" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e( 'ارسال ایمیل', 'wp-podro' ) ?> <span class="dashicons dashicons-email"></span></a></li>
+			<li><a href="https://podro.com/terms-and-conditions/" target="_blank" rel="noopener noreferrer"><?php echo esc_html_e( 'قوانین و مقررات', 'wp-podro' ) ?> <span class="dashicons dashicons-privacy"></span></a></li>
         </ul>
     </div>
     <div class="pod-footer-social">
