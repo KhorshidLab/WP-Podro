@@ -58,8 +58,8 @@ class MetaBox {
 			return;
 		}
 
-		$pickup_time = new \DateTime( $response['pickup_time'] );
-		$pickup_time_S = (new SDate)->toShaDate( $pickup_time->format('Y-m-d') );
+		$pickup_time = new \DateTime( $response['pickup_time'], new \DateTimeZone( wp_timezone_string() ) );
+		$pickup_time_S = (new SDate)->gregorian_to_jalali( $pickup_time->format('Y-m-d') );
 
 		?>
 
