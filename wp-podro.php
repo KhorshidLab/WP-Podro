@@ -27,7 +27,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 	add_action('admin_notices', function(){
-		echo '<div class="notice notice-error is-dismissible"><strong>پادرو: </strong><p>برای کار با پادرو نیاز هست ووکامرس نصب و فعال باشد</p></div>';
+		echo '<div class="notice notice-error is-dismissible"><strong>'. esc_html_e('پادرو:', 'wp-podro') . '</strong><p>'. esc_html_e('برای کار با پادرو نیاز هست ووکامرس نصب و فعال باشد ', 'wp-podro'). '</p></div>';
 	});
 	return;
 }
@@ -65,7 +65,7 @@ if ( version_compare( PHP_VERSION, PODRO_MIN_PHP_VERSION, '<=' ) ) {
 			echo wp_kses_post(
 				sprintf(
 					'<div class="notice notice-error"><p>%s</p></div>',
-					__( '"Plugin Name" requires PHP 7.2 or newer.', 'wp-podro' )
+					esc_html_e( '"Plugin Name" requires PHP 7.2 or newer.', 'wp-podro' )
 				)
 			);
 		}

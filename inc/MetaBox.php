@@ -54,7 +54,7 @@ class MetaBox {
 		$response = (new Orders)->get_order( $pod_order_id );
 
 		if ( !$response ) {
-			echo '<p>' . __( 'هیچ سفارش پادرویی یافت نشد!', 'wp-podro' ) . '</p>';
+			echo '<p>' . esc_html_e( 'هیچ سفارش پادرویی یافت نشد!', 'wp-podro' ) . '</p>';
 			return;
 		}
 
@@ -106,7 +106,7 @@ class MetaBox {
 			</tr>
 			<tr>
 				<th><?php _e( 'فایل بارنامه', 'wp-podro' ); ?></th>
-				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php _e( 'دانلود بارنامه', 'wp-podro' ); ?></a></td>
+				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php esc_html_e( 'دانلود بارنامه', 'wp-podro' ); ?></a></td>
 			</tr>
 		</table>
 		<div id="lock-modal"></div>
@@ -201,7 +201,7 @@ class MetaBox {
 			<li>
 				<label for="pod_source_city">مبدا</label>
 				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($option_pod_source_city); ?></textarea>
-				<?php if (empty($store_address)) echo '<p style="color:red">لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.</p>'; ?>
+				<?php if (empty($store_address)) echo '<p style="color:red">'. esc_html_e('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'wp-podro') .'</p>' ; ?>
 				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($source_city); ?>">
 			</li>
 			<li>
@@ -253,7 +253,7 @@ class MetaBox {
 
 		<input type="hidden" name="pod_order_id" value="<?php echo esc_attr($order_id); ?>">
 
-		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? __('خطایی رخ داد', 'wp-podro') : ''; ?></p>
+		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? esc_html_e('خطایی رخ داد', 'wp-podro') : ''; ?></p>
 
 		<button class="pod-delivery-step-button pod-delivery-step-1" >مرحله بعد</button>
 
@@ -293,7 +293,7 @@ class MetaBox {
 
 
 
-		$order_id = $_POST['order_id'];
+		$order_id = sanitize_text_field($_POST['order_id']);
 		$order = \wc_get_order($order_id);
 
 		$store_state = $this->get_store_state();
