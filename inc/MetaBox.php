@@ -15,7 +15,7 @@ class MetaBox {
 	public function add_meta_boxes () {
 
 		if ( get_post_type() == 'shop_order' && isset( $_GET[ 'post' ] ) ) {
-			$order_id = sanitize_text_field( $_GET[ 'post' ] );
+			$order_id = intval( $_GET[ 'post' ] );
 			$order = \wc_get_order($order_id);
 
 			if ( !$order->has_shipping_method('podro_method') ) {
@@ -49,12 +49,12 @@ class MetaBox {
 
 	public function pod_order_details () {
 		$pod_order_id = get_post_meta( get_the_ID(), 'pod_order_id', true );
-		$order_id = sanitize_text_field($_GET[ 'post' ]);
+		$order_id = intval($_GET[ 'post' ]);
 
 		$response = (new Orders)->get_order( $pod_order_id );
 
 		if ( !$response ) {
-			echo '<p>' . __( 'هیچ سفارش پادرویی یافت نشد!', 'wp-podro' ) . '</p>';
+			echo '<p>' . esc_html__( 'هیچ سفارش پادرویی یافت نشد!', 'wp-podro' ) . '</p>';
 			return;
 		}
 
@@ -65,48 +65,48 @@ class MetaBox {
 
 		<table class="pod_order_details">
 			<tr>
-				<th><?php _e( 'شناسه سفارش', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'شناسه سفارش', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($pod_order_id); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'کد پیگیری سفارش', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'کد پیگیری سفارش', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['tracking_id']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'پروایدر', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'پروایدر', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['provider_code']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'وضعیت سفارش', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'وضعیت سفارش', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['status']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'جمع‌آوری از', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'جمع‌آوری از', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($pickup_time_S . ' ' . $pickup_time->format('H:i')); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'جمع‌آوری تا', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'جمع‌آوری تا', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['pickup_to_time']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'هزینه ارسال', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'هزینه ارسال', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['sale_price']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'تخفیف', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'تخفیف', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['discount']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'وزن', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'وزن', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_weight']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'ارزش مرسوله', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'ارزش مرسوله', 'wp-podro' ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_value']); ?></td>
 			</tr>
 			<tr>
-				<th><?php _e( 'فایل بارنامه', 'wp-podro' ); ?></th>
-				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php _e( 'دانلود بارنامه', 'wp-podro' ); ?></a></td>
+				<th><?php esc_html_e( 'فایل بارنامه', 'wp-podro' ); ?></th>
+				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php esc_html_e( 'دانلود بارنامه', 'wp-podro' ); ?></a></td>
 			</tr>
 		</table>
 		<div id="lock-modal"></div>
@@ -118,7 +118,7 @@ class MetaBox {
 	}
 
 	public function order_my_custom() {
-		$order_id = sanitize_text_field( $_GET[ 'post' ] );
+		$order_id = intval( $_GET[ 'post' ] );
 		$order = \wc_get_order($order_id);
 
 		$this->delivery_step_1( $order );
@@ -201,7 +201,7 @@ class MetaBox {
 			<li>
 				<label for="pod_source_city">مبدا</label>
 				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($option_pod_source_city); ?></textarea>
-				<?php if (empty($store_address)) echo '<p style="color:red">لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.</p>'; ?>
+				<?php if (empty($store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'wp-podro') .'</p>' ; ?>
 				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($source_city); ?>">
 			</li>
 			<li>
@@ -253,9 +253,9 @@ class MetaBox {
 
 		<input type="hidden" name="pod_order_id" value="<?php echo esc_attr($order_id); ?>">
 
-		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? __('خطایی رخ داد', 'wp-podro') : ''; ?></p>
+		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? esc_html('خطایی رخ داد', 'wp-podro') : ''; ?></p>
 
-		<button class="pod-delivery-step-button pod-delivery-step-1" >مرحله بعد</button>
+		<button class="pod-delivery-step-button pod-delivery-step-1" ><?php esc_html_e('مرحله بعد', 'wp-podro') ?></button>
 
 		<div id="lock-modal"></div>
 		<div id="loading-circle"></div>
@@ -293,7 +293,7 @@ class MetaBox {
 
 
 
-		$order_id = $_POST['order_id'];
+		$order_id = sanitize_text_field($_POST['order_id']);
 		$order = \wc_get_order($order_id);
 
 		$store_state = $this->get_store_state();

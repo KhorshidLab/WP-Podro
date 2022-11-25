@@ -14,7 +14,7 @@ class Payments
 
 	public function echo_payments(){
 
-		$order_id = $_POST['delivery_order_id'] ?? 0;
+		$order_id = sanitize_text_field($_POST['delivery_order_id']) ?? 0;
 
 		$payment_methods = $this->get_payments($order_id);
 		if($payment_methods)
