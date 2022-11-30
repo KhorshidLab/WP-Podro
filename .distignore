@@ -1,0 +1,13 @@
+/.wordpress-org
+/.git
+/.github
+/node_modules
+.vscode
+Gruntfile.js 
+package.json 
+yarn.lock
+.sass-cache
+/assets/sass/
+
+.distignore
+.gitignore
