@@ -110,12 +110,14 @@ class Podro_Order_Table extends \WP_List_Table {
 				$cancel_order = '<a class="pod-cancel-order" data-order_id="' . $order['id'] . '">لغو ارسال</a>';
 			}
 
+			$created_at = new \DateTime( date('Y-m-d' , $order['created_at']), new \DateTimeZone( wp_timezone_string() ) );
+
 			$data['items'][] = array(
 				'id'          	=> esc_html($order['order_id']),
 				'tracking_id'   => esc_html($order['tracking_id'] ?? ''),
 				'provider'      => esc_html($order['provider_code']),
 				'order_status' 	=> '<mark class="order-status status-processing"><span>'. esc_html($order['status']) .'</span></mark>',
-				'created_at'	=>esc_html( $jalali_date->jdate("Y/m/d",$order['created_at'])),
+				'created_at'	=>esc_html( $jalali_date->gregorian_to_jalali($created_at->format('Y-m-d'))),
 				'pickup_in'     => esc_html($order['pickup_time']),
 				'pickup_to'    	=> ' از ' .esc_html($order['from_time'])  . ' تا ' . esc_html($order['to_time']),
 				'order'      	=> '<a href="'. esc_url(get_edit_post_link( $order['parcels'][0]['id'] )) .'">#'. esc_html($order['parcels'][0]['id']) . ' '  .'</a>',
