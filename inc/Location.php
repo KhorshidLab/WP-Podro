@@ -6904,7 +6904,7 @@ class Location {
 			die();
 		}
 
-		$state_id = absint( $_POST['state_id'] );
+		$state_id = absint( sanitize_text_field($_POST['state_id']) );
 
 		if ( ! $state_id ) {
 			die();

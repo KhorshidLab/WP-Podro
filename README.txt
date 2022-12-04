@@ -37,8 +37,8 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 4. Activate the plugin in the Plugin dashboard
 
 == Screenshots ==
-1. Screenshots Description 1
+1. Settings Page
 
 == Changelog ==
-= 1.0.0 - 2022-11-01 =
+= 1.0.0 - 2022-11-30 =
 * Official Plugin Release
