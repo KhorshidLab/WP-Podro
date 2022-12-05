@@ -11,7 +11,7 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 		<div class="pdo-card">
 			<h1><?php  esc_html_e( 'تنظیمات عمومی پادرو', 'wp-podro' ) ?></h1>
 			<h3><?php  esc_html_e( 'پیکربندی اتصال به پادرو پین', 'wp-podro' ) ?></h3>
-			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=wp_podro' )); ?>">
+			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=' . PODRO_SLUG )); ?>">
 				<div class="pdo-box">
 					<label for="pdo_email">ایمیل</label>
 					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>">
