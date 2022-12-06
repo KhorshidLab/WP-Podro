@@ -303,11 +303,11 @@ class MetaBox {
 		if(empty($weight) || empty($width) || empty($height) || empty($depth) ||
 				( $weight 	<=0 || $weight 	> 40 ) ||
 				( $width	<=0 || $width	> 55 ) ||
-				( $height	<=0 || $height	> 45 ) ||
-				( $depth	<=0 || $depth	> 35 )
+				( $height	<=0 || $height	> 35 ) ||
+				( $depth	<=0 || $depth	> 45 )
 		){
 
-			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'wp-podro'), 400 );
+			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'wp-podro'), 200 );
 			wp_die();
 
 		}
