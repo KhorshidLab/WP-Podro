@@ -106,23 +106,22 @@
 
 		};
 
-		if( data.weight <= 0){
+		if( (data.weight <= 0) || (data.weight > 40) ){
 			alert('وزن نامعتبر');
 			return;
 		}
-		if( data.width <= 0){
+		if( (data.width <= 0) || (data.width > 55) ){
 			alert('طول کالا نامعتبر');
 			return;
 		}
-		if( data.height <= 0){
+		if( (data.depth <= 0) || (data.depth > 45) ){
 			alert('عرض کالا نامعتبر');
 			return;
 		}
-		if( data.depth <= 0){
+		if( (data.height <= 0) || (data.height > 35) ){
 			alert('ارتفاع کالا نامعتبر');
 			return;
 		}
-
 		if ( pod_validate_step_1( data ) ) {
 
 			pod_ajax( data, _callback_step_1, function(){
