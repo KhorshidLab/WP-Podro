@@ -11,7 +11,7 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 		<div class="pdo-card">
 			<h1><?php  esc_html_e( 'تنظیمات عمومی پادرو', 'wp-podro' ) ?></h1>
 			<h3><?php  esc_html_e( 'پیکربندی اتصال به پادرو پین', 'wp-podro' ) ?></h3>
-			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=' . PODRO_SLUG )); ?>">
+			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG )); ?>">
 				<div class="pdo-box">
 					<label for="pdo_email">ایمیل</label>
 					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>">
@@ -20,7 +20,13 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 					<label for="pdo_password">کلمه عبور</label>
 					<input type="password" name="pdo_password" id="pdo_password" autocomplete="off">
 				</div>
+				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php  esc_html_e( "ذخیره", 'wp-podro' ) ?></button>
+				<hr/>
 				<h3><?php  esc_html_e( 'تنظیمات فروشگاه', 'wp-podro' ) ?></h3>
+				<div class="pdo-box">
+					<label for="pdo_storename">نام فروشگاه</label>
+					<input type="text" name="pdo_storename" id="pdo_storename" value="<?php  echo esc_attr( $store_name ?? '' )  ?>">
+				</div>
 				<div class="pdo-box">
 
 					<label for="podro_store_location">شهر</label>
@@ -46,9 +52,13 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 				</script>
 				</div>
 				<div class="pdo-box">
+					<label for="pdo_address">آدرس</label>
+					<textarea name="pdo_address" id="pdo_address" ><?php  echo esc_attr( $address ?? '' )  ?></textarea>
+				</div>
+				<div class="pdo-box">
 					<a class="get-api-key" href="https://podro.com/plugin-pin/" target="_blank" rel="noopener noreferrer"><?php  esc_html_e('دریافت کلید API', 'wp-podro'); ?></a>
 				</div>
-				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php  esc_html_e( "ذخیره", 'wp-podro' ) ?></button>
+				<button type="submit" class="button button-primary" name="config_podro_store_info" value="1"><?php  esc_html_e( "ذخیره", 'wp-podro' ) ?></button>
 			</form>
 		</div>
 
