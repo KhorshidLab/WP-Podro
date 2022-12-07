@@ -113,11 +113,16 @@ class Api_Key {
 			}
 		}else if( isset($_POST['config_podro_store_info']) ){
 
-			var_dump( $_POST );
-			update_option('padro_store_name', sanitize_text_field($_POST['pdo_storename']??''));
-			update_option('podro_store_city', sanitize_text_field($_POST['podro_store_location']??''));
-			update_option('podro_store_address', sanitize_text_field($_POST['pdo_address']??''));
+			update_option('podro_store_name', sanitize_text_field($_POST['podro_store_name']??''));
+			update_option('podro_store_city', sanitize_text_field($_POST['podro_store_city']??''));
+			update_option('podro_store_address', sanitize_text_field($_POST['podro_store_address']??''));
 
+
+			add_action( 'admin_notices', function () {
+				echo wp_kses_post('<div class="notice notice-success is-dismissible">
+						<p>'. esc_html__( "تنظیمات ذخیره شد.", 'wp-podro' ) .'</p>
+					</div>');
+			});
 		}
 
 

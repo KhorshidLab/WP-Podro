@@ -2,6 +2,10 @@
 $credentials_status = get_option( 'podro_plugin_status' );
 $credentials = get_option( 'podro_plugin_credentials', true );
 
+$store_name = get_option('podro_store_name', '');
+$store_city = get_option('podro_store_city', '');
+$store_address = get_option('podro_store_address', '');
+
 ?>
 
 
@@ -20,23 +24,26 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 					<label for="pdo_password">کلمه عبور</label>
 					<input type="password" name="pdo_password" id="pdo_password" autocomplete="off">
 				</div>
+				<div class="pdo-box">
+					<a class="get-api-key" href="https://podro.com/plugin-pin/" target="_blank" rel="noopener noreferrer"><?php  esc_html_e('دریافت کلید API', 'wp-podro'); ?></a>
+				</div>
 				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php  esc_html_e( "ذخیره", 'wp-podro' ) ?></button>
 				<hr/>
 				<h3><?php  esc_html_e( 'تنظیمات فروشگاه', 'wp-podro' ) ?></h3>
 				<div class="pdo-box">
 					<label for="pdo_storename">نام فروشگاه</label>
-					<input type="text" name="pdo_storename" id="pdo_storename" value="<?php  echo esc_attr( $store_name ?? '' )  ?>">
+					<input type="text" name="podro_store_name" id="podro_store_name" value="<?php  echo esc_attr( $store_name ?? '' )  ?>">
 				</div>
 				<div class="pdo-box">
 
 					<label for="podro_store_location">شهر</label>
 					<?php
 					$provinces = \WP_PODRO\Engine\WooSetting::get_provinces();
-					echo "<select aria-label='شهر' class='wc-enhanced-select' id='podro_store_location' name='podro_store_location' style='width:325px;' >";
+					echo "<select aria-label='شهر' class='wc-enhanced-select' id='podro_store_city' name='podro_store_city' style='width:325px;' >";
 					foreach($provinces as $province){
 						echo "<optgroup label='".esc_attr($province['name'])."'>";
 						foreach ($province['cities'] as $key=>$city)
-							if(get_option('woocommerce_store_city') == $key)
+							if(get_option('podro_store_city') == $key)
 								echo "<option selected value='". esc_attr($key)."'>".esc_attr($city)."</option>";
 							else
 								echo "<option value='". esc_attr($key)."'>".esc_attr($city)."</option>";
@@ -53,11 +60,9 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 				</div>
 				<div class="pdo-box">
 					<label for="pdo_address">آدرس</label>
-					<textarea name="pdo_address" id="pdo_address" ><?php  echo esc_attr( $address ?? '' )  ?></textarea>
+					<textarea name="podro_store_address" id="podro_store_address" ><?php  echo esc_attr( $store_address ?? '' )  ?></textarea>
 				</div>
-				<div class="pdo-box">
-					<a class="get-api-key" href="https://podro.com/plugin-pin/" target="_blank" rel="noopener noreferrer"><?php  esc_html_e('دریافت کلید API', 'wp-podro'); ?></a>
-				</div>
+
 				<button type="submit" class="button button-primary" name="config_podro_store_info" value="1"><?php  esc_html_e( "ذخیره", 'wp-podro' ) ?></button>
 			</form>
 		</div>
