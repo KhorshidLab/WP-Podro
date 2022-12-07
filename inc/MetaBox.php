@@ -301,7 +301,7 @@ class MetaBox {
 
 
 		if(empty($weight) || empty($width) || empty($height) || empty($depth) ||
-				( $weight 	<=0 || $weight 	> 40 ) ||
+				( $weight 	<=0 || $weight 	> (40 * 1000) ) ||
 				( $width	<=0 || $width	> 55 ) ||
 				( $height	<=0 || $height	> 35 ) ||
 				( $depth	<=0 || $depth	> 45 )

@@ -106,7 +106,7 @@
 
 		};
 
-		if( (data.weight <= 0) || (data.weight > 40) ){
+		if( (data.weight <= 0) || (data.weight > (40 * 1000)) ){
 			alert('وزن نامعتبر');
 			return;
 		}
