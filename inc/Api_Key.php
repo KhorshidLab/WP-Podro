@@ -113,6 +113,15 @@ class Api_Key {
 			}
 		}else if( isset($_POST['config_podro_store_info']) ){
 
+			if( empty($_POST['podro_store_name']) || empty($_POST['podro_store_address']) ){
+				add_action( 'admin_notices', function () {
+					echo wp_kses_post('<div class="notice notice-error is-dismissible">
+						<p>'. esc_html__( "نام فروشگاه، شهرو آدرس نمی تواند خالی باشد", 'wp-podro' ) .'</p>
+					</div>');
+				} );
+				return false;
+			}
+
 			update_option('podro_store_name', sanitize_text_field($_POST['podro_store_name']??''));
 			update_option('podro_store_city', sanitize_text_field($_POST['podro_store_city']??''));
 			update_option('podro_store_address', sanitize_text_field($_POST['podro_store_address']??''));
