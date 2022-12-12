@@ -37,6 +37,7 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 4. Activate the plugin in the Plugin dashboard
 
 == Screenshots ==
+
 1. Plugin Tutorial 01
 2. Plugin Tutorial 02
 3. Plugin Tutorial 03
