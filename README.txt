@@ -37,22 +37,23 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 4. Activate the plugin in the Plugin dashboard
 
 == Screenshots ==
-1. Plugin Toturial 01
-2. Plugin Toturial 02
-3. Plugin Toturial 03
-4. Plugin Toturial 04
-5. Plugin Toturial 05
-6. Plugin Toturial 06
-7. Plugin Toturial 07
-8. Plugin Toturial 08
-9. Plugin Toturial 09
-10. Plugin Toturial 10
-11. Plugin Toturial 11
-12. Plugin Toturial 12
-13. Plugin Toturial 13
+1. Plugin Tutorial 01
+2. Plugin Tutorial 02
+3. Plugin Tutorial 03
+4. Plugin Tutorial 04
+5. Plugin Tutorial 05
+6. Plugin Tutorial 06
+7. Plugin Tutorial 07
+8. Plugin Tutorial 08
+9. Plugin Tutorial 09
+10. Plugin Tutorial 10
+11. Plugin Tutorial 11
+12. Plugin Tutorial 12
+13. Plugin Tutorial 13
 14. Settings Page
 
 
 == Changelog ==
+
 = 1.0.0 - 2022-11-30 =
 * Official Plugin Release
