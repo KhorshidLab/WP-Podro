@@ -4,7 +4,7 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.0.0
+Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -58,7 +58,7 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 == Changelog ==
 
-= 1.0.2 - 2022-12-14 =
+= 1.0.3 - 2022-12-14 =
 * Minor fixes
 
 = 1.0.0 - 2022-11-30 =
