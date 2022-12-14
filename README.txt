@@ -11,9 +11,11 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Podro Pin integration with WooCommerce
 
 == Description ==
+
 Podro Pin integration with WooCommerce. Using this plugin, you will be able to place a Podro order from your WooCommerce panel.
 
 == Installation ==
+
 = Using The WordPress Dashboard =
 
 1. Navigate to the Add New in the plugins dashboard
@@ -55,6 +57,9 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 
 == Changelog ==
+
+= 1.0.2 - 2022-12-14 =
+* Minor fixes
 
 = 1.0.0 - 2022-11-30 =
 * Official Plugin Release

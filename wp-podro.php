@@ -9,7 +9,7 @@
  * Plugin Name:     Podro WP
  * Plugin URI:      https://khorshidlab.com/
  * Description:     پادروپین؛ ‌مارکت‌پلیس خدمات پستی است و به فروشگاه‌های آنلاین کمک می‌کند تا فرآیند ارسال سفارش‌های اینترنتی را مدیریت کنند. در پادروپین، بدون مراجعه و یا ثبت قرارداد با شرکت‌های پستی، می‌توان سفارش‌های اینترنتی را با هر یک از شرکت‌های پستی ارسال کرد
- * Version:         1.0.0
+ * Version:         1.0.2
  * Author:          Khorshid, Podro
  * Author URI:      https://khorshidlab.com/fa/
  * Text Domain:     wp-podro
@@ -35,7 +35,7 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
 /**
  * Currently plugin version.
  */
-define( 'PODRO_VERSION', '1.0.0' );
+define( 'PODRO_VERSION', '1.0.2' );
 
 define( 'PODRO_SLUG', 'wp-podro' );
 define( 'PODRO_NAME', 'WP PODRO' );
