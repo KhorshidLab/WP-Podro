@@ -90,6 +90,8 @@ class Setup {
 		$MetaBox = new MetaBox;
 		$this->loader = new Loader();
 
+		add_action('woocommerce_loaded', function(){
+
 
 		// Disable Persian Woocommerce City Select
 		if ( function_exists( 'PW' ) && PW()->get_options( 'enable_iran_cities' ) != 'no' ) {
@@ -119,6 +121,9 @@ class Setup {
 				wp_dequeue_script( 'pwsCheckout' );
 			}, 999999 );
 		}
+
+		});
+
 		if ( class_exists('WC_City_Select') ) {
 
 			$WC_City_Select = new WC_City_Select;
