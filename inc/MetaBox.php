@@ -284,6 +284,9 @@ class MetaBox {
 
 		update_option('pod_source_city_code', $pod_source_city_code);
 		update_option('pod_destination_city_code',$pod_destination_city_code);
+
+
+
 		if (! isset($_POST['weight']) && ! isset($_POST['totalprice']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth'])) {
 
 			wp_send_json_error( __('آیتم اشتباه شده است.', 'podro-wp'), 400 );
@@ -291,6 +294,23 @@ class MetaBox {
 
 		}
 
+		$weight = 	$_POST['weight'] ?? 0;
+		$width =	$_POST['width'] ?? 0;
+		$height =	$_POST['height'] ?? 0;
+		$depth =	$_POST['depth'] ?? 0;
+
+
+		if(empty($weight) || empty($width) || empty($height) || empty($depth) ||
+				( $weight 	<=0 || $weight 	> (40 * 1000) ) ||
+				( $width	<=0 || $width	> 55 ) ||
+				( $height	<=0 || $height	> 35 ) ||
+				( $depth	<=0 || $depth	> 45 )
+		){
+
+			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'wp-podro'), 200 );
+			wp_die();
+
+		}
 
 
 		$order_id = sanitize_text_field($_POST['order_id']);

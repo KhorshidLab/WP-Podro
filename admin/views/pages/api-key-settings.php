@@ -9,6 +9,7 @@ $credentials = get_option( 'podro_plugin_credentials', true );
 
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
+
 			<h1><?php  esc_html_e( 'تنظیمات عمومی پادرو', 'podro-wp' ) ?></h1>
 			<h3><?php  esc_html_e( 'پیکربندی اتصال به پادرو پین', 'podro-wp' ) ?></h3>
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=' . PODRO_SLUG )); ?>">
