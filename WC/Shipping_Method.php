@@ -20,31 +20,31 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				public function __construct( $instance_id = 0 ) {
 					$this->id                    = 'podro_method';
 					$this->instance_id           = absint( $instance_id );
-					$this->method_title          = __( 'ارسال پادرو', 'wp-podro' );
-					$this->method_description    = __( 'پادروپین؛ ‌مارکت‌پلیس خدمات پستی است و به فروشگاه‌های آنلاین کمک می‌کند تا فرآیند ارسال سفارش‌های اینترنتی را مدیریت کنند. در پادروپین، بدون مراجعه و یا ثبت قرارداد با شرکت‌های پستی، می‌توان سفارش‌های اینترنتی را با هر یک از شرکت‌های پستی ارسال کرد', 'wp-podro' );
+					$this->method_title          = __( 'ارسال پادرو', 'podro-wp' );
+					$this->method_description    = __( 'پادروپین؛ ‌مارکت‌پلیس خدمات پستی است و به فروشگاه‌های آنلاین کمک می‌کند تا فرآیند ارسال سفارش‌های اینترنتی را مدیریت کنند. در پادروپین، بدون مراجعه و یا ثبت قرارداد با شرکت‌های پستی، می‌توان سفارش‌های اینترنتی را با هر یک از شرکت‌های پستی ارسال کرد', 'podro-wp' );
 					$this->supports              = array(
 						'shipping-zones',
 						'instance-settings',
 					);
 					$this->instance_form_fields = array(
 						'enabled' => array(
-							'title' 		=> __( 'فعال/غیرفعال', 'wp-podro' ),
+							'title' 		=> __( 'فعال/غیرفعال', 'podro-wp' ),
 							'type' 			=> 'checkbox',
-							'label' 		=> __( 'فعال کردن این روش ارسال', 'wp-podro' ),
+							'label' 		=> __( 'فعال کردن این روش ارسال', 'podro-wp' ),
 							'default' 		=> 'yes',
 						),
 						'title' => array(
-							'title' 		=> __( 'عنوان', 'wp-podro' ),
+							'title' 		=> __( 'عنوان', 'podro-wp' ),
 							'type' 			=> 'text',
-							'description' 	=> __( 'این عنوانی که کاربر در مرحله تسویه‌حساب مشاهده می‌کند را مشخص خواهد کرد', 'wp-podro' ),
-							'default'		=> __( 'Podro', 'wp-podro' ),
+							'description' 	=> __( 'این عنوانی که کاربر در مرحله تسویه‌حساب مشاهده می‌کند را مشخص خواهد کرد', 'podro-wp' ),
+							'default'		=> __( 'Podro', 'podro-wp' ),
 							'desc_tip'		=> true
 						),
 						'price' => array(
-							'title' 		=> __( 'هزینه ارسال', 'wp-podro' ),
+							'title' 		=> __( 'هزینه ارسال', 'podro-wp' ),
 							'type' 			=> 'number',
-							'description' 	=> __( 'هزینه دریافتی از کاربر', 'wp-podro' ),
-							'default'		=> __( '1000', 'wp-podro' ),
+							'description' 	=> __( 'هزینه دریافتی از کاربر', 'podro-wp' ),
+							'default'		=> __( '1000', 'podro-wp' ),
 							'desc_tip'		=> true
 						)
 					);

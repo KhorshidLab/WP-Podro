@@ -221,8 +221,8 @@ class Setup {
 
 		if (self::is_plugin_setup_done()) {
 			add_menu_page(
-				__( 'تنظیمات پادرو', 'wp-podro' ),
-				__( 'پادرو', 'wp-podro'),
+				__( 'تنظیمات پادرو', 'podro-wp' ),
+				__( 'پادرو', 'podro-wp'),
 				'manage_options',
 				PODRO_SLUG,
 				[$this, 'delivery_page'],
@@ -232,17 +232,17 @@ class Setup {
 
 			add_submenu_page(
 				PODRO_SLUG,
-				__( 'سفارشات پادرو', 'wp-podro' ),
-				__( 'سفارشات', 'wp-podro' ),
+				__( 'سفارشات پادرو', 'podro-wp' ),
+				__( 'سفارشات', 'podro-wp' ),
 				'manage_options',
-				'wp-podro',
+				'podro-wp',
 				[$this, 'delivery_page'],
 			);
 
 			add_submenu_page(
 				PODRO_SLUG,
-				__( 'تنظیمات پادرو', 'wp-podro' ),
-				__( 'تنظیمات', 'wp-podro' ),
+				__( 'تنظیمات پادرو', 'podro-wp' ),
+				__( 'تنظیمات', 'podro-wp' ),
 				'manage_options',
 				PODRO_SLUG . '-settings',
 				[$this, 'settings_page'],
@@ -250,8 +250,8 @@ class Setup {
 		} else {
 
 			add_menu_page(
-				__( 'پادرو', 'wp-podro' ),
-				__( 'پادرو', 'wp-podro'),
+				__( 'پادرو', 'podro-wp' ),
+				__( 'پادرو', 'podro-wp'),
 				'manage_options',
 				PODRO_SLUG,
 				[$this, 'settings_page'],
@@ -261,8 +261,8 @@ class Setup {
 
 			add_submenu_page(
 				PODRO_SLUG,
-				__( 'تنظیمات پادرو', 'wp-podro' ),
-				__( 'تنظیمات', 'wp-podro' ),
+				__( 'تنظیمات پادرو', 'podro-wp' ),
+				__( 'تنظیمات', 'podro-wp' ),
 				'manage_options',
 				PODRO_SLUG,
 				[$this, 'settings_page'],
@@ -272,8 +272,8 @@ class Setup {
 
 		add_submenu_page(
 			PODRO_SLUG,
-			__( 'درباره پادرو', 'wp-podro' ),
-			__( 'درباره', 'wp-podro' ),
+			__( 'درباره پادرو', 'podro-wp' ),
+			__( 'درباره', 'podro-wp' ),
 			'manage_options',
 			PODRO_SLUG . '-about-us',
 			[$this, 'about_us_page'],
@@ -309,10 +309,10 @@ class Setup {
 		$credentials_status = get_option( 'podro_plugin_status' );
 		switch ($credentials_status) {
 			case 'connected':
-				$status = '<span class="active">' . esc_html__( 'فعال', 'wp-podro' ) . '</span>';
+				$status = '<span class="active">' . esc_html__( 'فعال', 'podro-wp' ) . '</span>';
 				break;
 			default:
-				$status = '<span class="disable">' . esc_html__( 'غیرفعال', 'wp-podro' ) . '</span>';
+				$status = '<span class="disable">' . esc_html__( 'غیرفعال', 'podro-wp' ) . '</span>';
 				break;
 		}
 
