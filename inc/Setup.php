@@ -102,27 +102,24 @@ class Setup {
 
 		// Disable Persian Woocommerce shipping City Select
 		if ( function_exists( 'PWS' ) || class_exists('PWS_Core') || in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			remove_filter( 'woocommerce_form_field_shipping_city', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
-			remove_filter( 'woocommerce_form_field_billing_city', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
-			remove_filter( 'woocommerce_form_field_billing_district', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
-			remove_filter( 'woocommerce_form_field_shipping_district', [ \PWS_Core::class, 'checkout_cities_field' ], 11 );
-			remove_filter( 'manage_state_city_custom_column', [ \PWS_Core::class, 'edit_state_city_rows_taxonomy' ], 10 );
-			remove_filter( 'manage_edit-state_city_columns', [ \PWS_Core::class, 'edit_state_city_columns_taxonomy' ], 10 );
-			remove_filter( 'woocommerce_states', [ \PWS_Core::class, 'iran_states' ], 20 );
-			remove_filter( 'wp_ajax_mahdiy_load_cities', [ \PWS_Core::class, 'load_cities_callback' ]);
-			remove_filter( 'wp_ajax_nopriv_mahdiy_load_cities', [ \PWS_Core::class, 'load_cities_callback' ]);
-			remove_filter( 'wp_ajax_nopriv_mahdiy_load_districts', [ \PWS_Core::class, 'load_districts_callback' ]);
-			remove_filter( 'wp_ajax_mahdiy_load_districts', [ \PWS_Core::class, 'load_districts_callback' ]);
-			remove_filter( 'wp_ajax_mahdiy_load_districts', [ \PWS_Core::class, 'load_districts_callback' ]);
 
+			$pws = \PWS_Core::instance();
+
+
+			// Filters
+			remove_filter( 'woocommerce_states', [ $pws, 'iran_states' ], 20, 1 );
+			remove_filter( 'woocommerce_checkout_process', [ $pws, 'checkout_process' ], 20, 1 );
 
 
 			add_action( 'wp_enqueue_scripts', function() {
 				wp_dequeue_script( 'pwsCheckout' );
 			}, 999999 );
-		}
 
-		});
+
+
+}
+
+		}, 21);
 
 		if ( class_exists('WC_City_Select') ) {
 

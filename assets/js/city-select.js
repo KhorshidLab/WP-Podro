@@ -91,8 +91,8 @@ jQuery( function($) {
 	  var $container = $( this ).closest( 'div' );
 	  var country = $container.find( '#billing_country, #shipping_country, #calc_shipping_country' ).val();
 	  var state = $( this ).val();
-
-	  $( document.body ).trigger( 'state_changing', [country, state, $container ] );
+	  if(state)
+	  	$( document.body ).trigger( 'state_changing', [country, state, $container ] );
 	});
 
 	$( 'body' ).on( 'state_changing', function(e, country, state, $container) {
@@ -134,7 +134,7 @@ jQuery( function($) {
 	  var input_id = $citybox.attr( 'id' );
 	  var placeholder = $citybox.attr( 'placeholder' );
 
-	  $citybox.parent().find( '.select2-container' ).remove();
+	  //$citybox.parent().find( '.select2-container' ).remove();
 
 	  $citybox.replaceWith( '<input type="text" class="input-text" name="' + input_name + '" id="' + input_id + '" placeholder="' + placeholder + '" />' );
 	}
@@ -157,6 +157,7 @@ jQuery( function($) {
 		$citybox = $('#'+input_id);
 	  } else {
 		$citybox.prop( 'disabled', false );
+		jQuery('#billing_city').removeClass('city_select').addClass('city_select');
 	  }
 
 	  var options = '';
