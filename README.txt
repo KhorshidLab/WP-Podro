@@ -4,7 +4,7 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,9 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 
 == Changelog ==
+
+= 1.0.5 - 2022-12-25 =
+* Fix the cities js conflict in checkout page
 
 = 1.0.4 - 2022-12-17 =
 * Fix the integration with persian-woocommerce and persian-woocommerce-shipping plugins
