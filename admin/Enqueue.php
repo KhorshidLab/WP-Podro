@@ -75,7 +75,7 @@ class Enqueue {
 	public function enqueue_public_styles() {
 
 		if ( is_cart() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
-			$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/city-select.js';
+			$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/cities.js';
 			wp_enqueue_script(
 				'wc-city-select',
 				$city_select_path,
