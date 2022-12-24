@@ -157,7 +157,7 @@ jQuery( function($) {
 		$citybox = $('#'+input_id);
 	  } else {
 		$citybox.prop( 'disabled', false );
-		jQuery('#billing_city').removeClass('city_select').addClass('city_select');
+		//jQuery('#billing_city').removeClass('city_select').addClass('city_select');
 	  }
 
 	  var options = '';

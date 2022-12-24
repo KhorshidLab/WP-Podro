@@ -150,6 +150,33 @@ class Setup {
 		// Register shipping method
 		require_once( PODRO_PLUGIN_ROOT . 'WC/Shipping_Method.php' );
 
+
+		add_action( 'wp_ajax_nopriv_get_podro_cities_by_province', function(){
+
+			$provinces = WooSetting::get_provinces();
+			$province_code = $_POST['province'];
+			foreach ($provinces as $province){
+				if($province['code'] == $province_code)
+				{
+					wp_send_json( wp_json_encode($province));
+					wp_die();
+				}
+			}
+
+		} );
+		add_action( 'wp_ajax_get_podro_cities_by_province', function(){
+
+			$provinces = WooSetting::get_provinces();
+			$province_code = $_POST['province'];
+			foreach ($provinces as $province){
+				if($province['code'] == $province_code)
+				{
+					wp_send_json( wp_json_encode($province));
+					wp_die();
+				}
+			}
+
+		} );
 	}
 
 	/**

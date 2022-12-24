@@ -137,9 +137,10 @@ class MetaBox {
 
 		$source_city = $woo_setting->get_store_city_code_from_options();
 		$order_id = $order->get_id();
-		$destination_city = $order->get_shipping_city();
-		$destination_city = Location::get_city_by_name($destination_city);
-		$destination_address = $destination_city['name'] . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
+		$destination_city_code = $order->get_shipping_city();
+
+		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
+		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
 		$store_address = $woo_setting->get_store_city() . ' ' . get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
@@ -206,11 +207,11 @@ class MetaBox {
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
-				<?php if( !Location::is_podro_city($destination_city['code']) ){ ?>
+				<?php if( !Location::is_podro_city($destination_city_code) ){ ?>
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo esc_attr($destination_address); ?></textarea>
-				<input type="hidden" id="pod_destination_city_code" name="pod_destination_city_code" value="<?php echo esc_attr($destination_city['code']); ?>">
+				<input type="hidden" id="pod_destination_city_code" name="pod_destination_city_code" value="<?php echo esc_attr($destination_city_code); ?>">
 			</li>
 			<li>
 				<label for="pod_user_billing_name">نام </label>
@@ -221,7 +222,6 @@ class MetaBox {
 				<input type="text" name="pod_user_billing_family" id="pod_user_billing_family" maxlength="27" value="<?php echo esc_attr($user_billing_family); ?>"  />
 			</li>
 			<li>
-
 				<label for="pod_comment">توضیحات<span id="pod-description-hint" class="dashicons dashicons-editor-help" style="width:50px"></span></label>
 				<textarea name="pod_customer_note" id="pod_customer_note" rows="6" maxlength="60"><?php echo esc_attr($customer_note); ?></textarea>
 			</li>
@@ -374,7 +374,6 @@ class MetaBox {
 		$source_city = (WooSetting::get_instance())->get_store_city_code_from_options();
 
 		$destination_city_code = get_option('pod_destination_city_code');
-
 
 		$pod_store_name = get_option('pod_store_name');
 		$pod_user_billing_name = get_option('pod_user_billing_name') . ' ' . get_option('pod_user_billing_family');
