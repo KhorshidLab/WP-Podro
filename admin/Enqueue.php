@@ -75,7 +75,15 @@ class Enqueue {
 	public function enqueue_public_styles() {
 
 		if ( is_cart() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
-			$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/cities.js';
+
+			if ( function_exists( 'PWS' ) || class_exists('PWS_Core') || in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+				$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/cities.js';
+			}else{
+				$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+			}
+
+
+			
 			wp_enqueue_script(
 				'wc-city-select',
 				$city_select_path,

@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 	}
 
 	jQuery('#billing_city').on('change', function(){
-		alert(is_this_podro_city(cities,jQuery(this).find('option:selected').text()));
+
 		if( !is_this_podro_city(cities,jQuery(this).find('option:selected').text())){
 			jQuery('#shipping_method_0_podro_method3').prop('disabled', true);
 		}else{
