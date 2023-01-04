@@ -1,53 +1,50 @@
 jQuery(document).ready(function(){
 
-	jQuery('body').on('country_to_state_changed', function(p1,country){
 
-		if( 'IR' == country ){
-			//
-			jQuery('input#billing_city').replaceWith('<select id="billing_city" name="billing_city"></select>');
-			jQuery('input#shipping_city').replaceWith('<select id="shipping_city" name="shipping_city"></select>');
-			jQuery('select#billing_city').selectWoo();
-			jQuery('select#shipping_city').selectWoo();
-			getCities();
+	const data = {
+		action:'get_podro_cities',
+		method:'post'
+	}
+	ajaxRequest(data, podro_cities_callback, null);
+	let cities = [];
+	function podro_cities_callback(response, element){
+		cities = response;
+
+	}
+
+	jQuery('#billing_city').on('change', function(){
+		alert(is_this_podro_city(cities,jQuery(this).find('option:selected').text()));
+		if( !is_this_podro_city(cities,jQuery(this).find('option:selected').text())){
+			jQuery('#shipping_method_0_podro_method3').prop('disabled', true);
 		}else{
-			jQuery('#billing_city').parent().find('.select2').remove();
-			jQuery('#shipping_city').parent().find('.select2').remove();
-			jQuery('#billing_city').replaceWith('<input type="text" name="billing_city" id="billing_city" class="input-text "/>');
-			jQuery('#shipping_city').replaceWith('<input type="text" name="shipping_city" id="shipping_city" class="input-text "/>');
+			jQuery('#shipping_method_0_podro_method3').prop('disabled',false);
 		}
 	});
 
-	function getCities(){
-		jQuery('#billing_state, body').change(function(){
-			const province_code = jQuery(this).val();
-			const element = jQuery('#billing_city');
-			if(!province_code)
-				return;
-			const data = {
-				action:'get_podro_cities_by_province',
-				//security: wp_podro_ajax_object.security,
-				province: province_code
-			};
+	jQuery('body').on('updated_checkout', function() {
+		if( !is_this_podro_city(cities,jQuery('#billing_city').find('option:selected').text())){
+			jQuery('#shipping_method_0_podro_method3').prop('disabled', true);
+		}else{
+			jQuery('#shipping_method_0_podro_method3').prop('disabled',false);
+		}
+	});
 
-			ajaxRequest(data, callbackGetCities, element);
+
+	function is_this_podro_city(city_list, name){
+		console.log(name);
+		let result = false;
+		Object.keys(city_list).forEach(key => {
+			console.log(  key, city_list[key]);
+			if(  city_list[key] === name ){
+				result = true;
+				return result;
+			}
+
 
 		});
-
-		jQuery('#shipping_state, body').change(function(){
-			const province_code = jQuery(this).val();
-			const element = jQuery('#shipping_city');
-			if(!province_code)
-				return;
-			const data = {
-				action:'get_podro_cities_by_province',
-				//security: wp_podro_ajax_object.security,
-				province: province_code
-			};
-
-			ajaxRequest(data, callbackGetCities, element);
-		});
-
+		return result;
 	}
+
 
 	function callbackGetCities(response, element){
 

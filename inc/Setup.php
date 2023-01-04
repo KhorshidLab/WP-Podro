@@ -16,8 +16,11 @@ namespace WP_PODRO\Engine;
  * @license   GPL-3.0+
  * @link      https://github.com/KhorshidLab/WP-Podro
  */
+
+use WP_PODRO\Engine\Helper;
 use WP_PODRO\Admin\Enqueue;
 use WP_PODRO\Engine\API\V1\Payments;
+
 
 class Setup {
 
@@ -84,52 +87,34 @@ class Setup {
 	 * @since    0.0.1
 	 * @access   private
 	 */
+
+
 	private function load_dependencies() {
 
 		$Api_Key = new Api_Key;
 		$MetaBox = new MetaBox;
 		$this->loader = new Loader();
 
-		add_action('woocommerce_loaded', function(){
 
 
-		// Disable Persian Woocommerce City Select
-		if ( function_exists( 'PW' ) && PW()->get_options( 'enable_iran_cities' ) != 'no' ) {
-			$settings                       = PW()->get_options();
-			$settings['enable_iran_cities'] = 'no';
-			update_option( 'PW_Options', $settings );
-		}
+		add_action( 'wp_ajax_nopriv_get_podro_cities', function(){
 
-		// Disable Persian Woocommerce shipping City Select
-		if ( function_exists( 'PWS' ) || class_exists('PWS_Core') || in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			$woosetting = new WooSetting();
+			$cities = $woosetting->get_cities();
 
-			$pws = \PWS_Core::instance();
+			wp_send_json($cities);
+			wp_die();
 
+			$cities_codes = [];
 
-			// Filters
-			remove_filter( 'woocommerce_states', [ $pws, 'iran_states' ], 20, 1 );
-			remove_filter( 'woocommerce_checkout_process', [ $pws, 'checkout_process' ], 20, 1 );
+			foreach ($cities as $key => $value){
+				$cities_codes[] = $key;
+			}
 
 
-			add_action( 'wp_enqueue_scripts', function() {
-				wp_dequeue_script( 'pwsCheckout' );
-			}, 999999 );
+		} );
 
 
-
-}
-
-		}, 21);
-
-		if ( class_exists('WC_City_Select') ) {
-
-			$WC_City_Select = new WC_City_Select;
-
-			$this->loader->add_filter( 'woocommerce_billing_fields', $WC_City_Select, 'billing_fields', 999999, 2 );
-			$this->loader->add_filter( 'woocommerce_shipping_fields', $WC_City_Select, 'shipping_fields', 999999, 2 );
-			$this->loader->add_filter( 'woocommerce_form_field_city', $WC_City_Select, 'form_field_city', 999999, 4 );
-
-		}
 
 		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
 		$this->loader->add_action( 'add_meta_boxes', $MetaBox, 'add_meta_boxes' );

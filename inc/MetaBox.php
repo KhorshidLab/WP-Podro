@@ -138,7 +138,7 @@ class MetaBox {
 		$source_city = $woo_setting->get_store_city_code_from_options();
 		$order_id = $order->get_id();
 		$destination_city_code = $order->get_shipping_city();
-
+		$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
 		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
 		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
