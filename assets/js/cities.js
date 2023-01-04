@@ -15,17 +15,26 @@ jQuery(document).ready(function(){
 	jQuery('#billing_city').on('change', function(){
 
 		if( !is_this_podro_city(cities,jQuery(this).find('option:selected').text())){
-			jQuery('#shipping_method_0_podro_method3').prop('disabled', true);
+			jQuery("[id*='podro_method']").prop('disabled', true);
+			jQuery("[id*='podro_method']").prop('checked',false);
+			jQuery("[id*='podro_method']").parent().next('li').find("input[type=radio]").prop('checked',true);
+			jQuery("[id*='podro_method']").removeAttr('checked');
 		}else{
-			jQuery('#shipping_method_0_podro_method3').prop('disabled',false);
+			jQuery("[id*='podro_method']").prop('disabled',false);
+
 		}
 	});
 
 	jQuery('body').on('updated_checkout', function() {
 		if( !is_this_podro_city(cities,jQuery('#billing_city').find('option:selected').text())){
-			jQuery('#shipping_method_0_podro_method3').prop('disabled', true);
+			jQuery("[id*='podro_method']").prop('disabled', true);
+			jQuery("[id*='podro_method']").prop('checked',false);
+			jQuery("[id*='podro_method']").parent().next('li').find("input[type=radio]").prop('checked',true);
+			jQuery("[id*='podro_method']").removeAttr('checked');
 		}else{
-			jQuery('#shipping_method_0_podro_method3').prop('disabled',false);
+			jQuery("[id*='podro_method']").prop('disabled',false);
+
+
 		}
 	});
 

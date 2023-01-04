@@ -83,7 +83,7 @@ class Enqueue {
 			}
 
 
-			
+
 			wp_enqueue_script(
 				'wc-city-select',
 				$city_select_path,

@@ -141,8 +141,10 @@ class MetaBox {
 
 		$method = $order->get_items( 'shipping' );
 		$method_id = reset( $method )->get_method_id();
-		if( 'podro_method' != $method_id || function_exists( 'PWS' ) || class_exists('PWS_Core')){
+		if( 'podro_method' == $method_id &&( function_exists( 'PWS' ) || class_exists('PWS_Core'))){
+
 			$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
+
 		}
 
 		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
@@ -196,7 +198,6 @@ class MetaBox {
 
 		$option_pod_source_city = ( false == $option_pod_source_city ) ? $store_address : $option_pod_source_city;
 		$option_pod_store_name = ( false == $option_pod_store_name ) ?  $store_name : $option_pod_store_name;
-
 
 
 			?>
