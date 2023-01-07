@@ -17,8 +17,12 @@ jQuery(document).ready(function(){
 		if( !is_this_podro_city(cities,jQuery(this).find('option:selected').text())){
 			jQuery("[id*='podro_method']").prop('disabled', true);
 			jQuery("[id*='podro_method']").prop('checked',false);
-			jQuery("[id*='podro_method']").parent().next('li').find("input[type=radio]").prop('checked',true);
 			jQuery("[id*='podro_method']").removeAttr('checked');
+			const count = jQuery(this).find('#shipping_method input[type=radio]:checked').length;
+			if(count > 0)
+				return;
+			if(!jQuery('#shipping_method input[type=radio]:checked').attr('id'))
+				jQuery("[id*='podro_method']").parent().next('li').find("input[type=radio]").prop('checked',true);
 		}else{
 			jQuery("[id*='podro_method']").prop('disabled',false);
 
@@ -27,10 +31,17 @@ jQuery(document).ready(function(){
 
 	jQuery('body').on('updated_checkout', function() {
 		if( !is_this_podro_city(cities,jQuery('#billing_city').find('option:selected').text())){
+
 			jQuery("[id*='podro_method']").prop('disabled', true);
 			jQuery("[id*='podro_method']").prop('checked',false);
-			jQuery("[id*='podro_method']").parent().next('li').find("input[type=radio]").prop('checked',true);
 			jQuery("[id*='podro_method']").removeAttr('checked');
+			const count = jQuery(this).find('#shipping_method input[type=radio]:checked').length;
+			if(count > 0)
+				return;
+
+
+			if(!jQuery('#shipping_method input[type=radio]:checked').attr('id'))
+				jQuery("[id*='podro_method']").parent().next('li').find("input[type=radio]").prop('checked',true);
 		}else{
 			jQuery("[id*='podro_method']").prop('disabled',false);
 
