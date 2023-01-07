@@ -58,7 +58,7 @@ jQuery(document).ready(function(){
 		let cities = provinces.cities;
 
 		Object.keys(cities).forEach(function(key) {
-			console.log('Key : ' + key + ', Value : ' + cities[key])
+
 			element.append(`<option value='${key}'>${cities[key]}</option>`);
 
 		});

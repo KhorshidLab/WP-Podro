@@ -51,10 +51,10 @@ jQuery(document).ready(function(){
 
 
 	function is_this_podro_city(city_list, name){
-		console.log(name);
+
 		let result = false;
 		Object.keys(city_list).forEach(key => {
-			console.log(  key, city_list[key]);
+
 			if(  city_list[key] === name ){
 				result = true;
 				return result;
@@ -75,7 +75,7 @@ jQuery(document).ready(function(){
 		let cities = provinces.cities;
 
 		Object.keys(cities).forEach(function(key) {
-			console.log('Key : ' + key + ', Value : ' + cities[key])
+
 			element.append(`<option value='${key}'>${cities[key]}</option>`);
 
 		});
