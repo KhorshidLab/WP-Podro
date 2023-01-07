@@ -1,5 +1,20 @@
 jQuery(document).ready(function(){
 
+	setTimeout(reload_for_cities, 1000);
+
+	function reload_for_cities(){
+
+		if(jQuery('#billing_state option').length < 0){
+			setTimeout(reload_for_cities, 1000);
+			return;
+		}
+
+		const city_count = jQuery('#billing_city option').length;
+		if(city_count <= 0){
+			jQuery('#billing_state').trigger('change');
+		}
+	}
+
 	jQuery('body').on('country_to_state_changed', function(p1,country){
 
 		if( 'IR' == country ){
@@ -19,8 +34,10 @@ jQuery(document).ready(function(){
 
 	function getCities(){
 		jQuery('#billing_state, body').change(function(){
+
 			const province_code = jQuery(this).val();
 			const element = jQuery('#billing_city');
+
 			if(!province_code)
 				return;
 			const data = {
@@ -48,6 +65,10 @@ jQuery(document).ready(function(){
 		});
 
 	}
+
+
+
+
 
 	function callbackGetCities(response, element){
 
