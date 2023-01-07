@@ -89,6 +89,13 @@ class Setup {
 	 */
 
 
+	public function podro_get_cities(){
+		$woosetting = new WooSetting();
+		$cities = $woosetting->get_cities();
+
+		wp_send_json($cities);
+		wp_die();
+	}
 	private function load_dependencies() {
 
 		$Api_Key = new Api_Key;
@@ -97,22 +104,8 @@ class Setup {
 
 
 
-		add_action( 'wp_ajax_nopriv_get_podro_cities', function(){
-
-			$woosetting = new WooSetting();
-			$cities = $woosetting->get_cities();
-
-			wp_send_json($cities);
-			wp_die();
-
-			$cities_codes = [];
-
-			foreach ($cities as $key => $value){
-				$cities_codes[] = $key;
-			}
-
-
-		} );
+		add_action( 'wp_ajax_nopriv_get_podro_cities', [$this, 'podro_get_cities'] );
+		add_action( 'wp_ajax_get_podro_cities', [$this, 'podro_get_cities'] );
 
 
 
