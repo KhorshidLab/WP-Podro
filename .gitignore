@@ -10,7 +10,7 @@
 *~
 *.sass-cache
 *.lock
-
+assets/css/*.css
 # OS or Editor folders
 .DS_Store
 Thumbs.db
