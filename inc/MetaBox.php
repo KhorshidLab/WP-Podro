@@ -2,6 +2,7 @@
 namespace WP_PODRO\Engine;
 
 use WP_PODRO\Engine\API\V1\Orders;
+use WP_PODRO\Engine\API\V1\Payments;
 use WP_PODRO\Engine\API\V1\Providers;
 use WP_Encryption\Encryption;
 
@@ -481,11 +482,16 @@ class MetaBox {
 			'comment' => $pod_customer_note,
 		);
 
+
 		if ( isset($_POST['delivery_date']) ) {
 			$params['delivery_date'] = sanitize_text_field( $_POST['delivery_date'] );
 			$params['delivery_option_id'] = sanitize_text_field( $_POST['delivery_option_id'] );
 		}
 
+
+		if( 'PASARGAD' == $_POST['payment_approach'] || 'POD' == $_POST['payment_approach']){
+			$params['redirect_url'] = admin_url('/post.php?post='. $post_id . '&action=edit&paymentredirect=true');
+		}
 		$response = (new Orders)->post_finalize_order( $order_id, $params );
 
 		if ( !$response || is_wp_error($response) ) {
@@ -494,7 +500,7 @@ class MetaBox {
 		}
 
 
-		update_post_meta( $post_id, 'pod_order_id', $order_id );
+		//update_post_meta( $post_id, 'pod_order_id', $order_id );
 		wp_send_json_success( $response );
 		wp_die();
 	}
