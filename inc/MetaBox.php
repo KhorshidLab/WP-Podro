@@ -139,6 +139,14 @@ class MetaBox {
 		$order_id = $order->get_id();
 		$destination_city_code = $order->get_shipping_city();
 
+		$method = $order->get_items( 'shipping' );
+		$method_id = reset( $method )->get_method_id();
+		if( 'podro_method' == $method_id &&( function_exists( 'PWS' ) || class_exists('PWS_Core'))){
+
+			$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
+
+		}
+
 		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
 		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
@@ -188,7 +196,6 @@ class MetaBox {
 
 
 		$customer_note = $order->get_customer_note();
-
 
 
 
