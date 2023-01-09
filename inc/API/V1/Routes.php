@@ -15,6 +15,7 @@ class Routes
     const ORDER_DETAILS  = '/orders/order_id';
     const ORDER_DELETE  = '/orders/order_id';
 	const ORDERS = '/orders';
+	const PAGINATED_ORDERS = '/orders?page=page_no';
 	const ORDER_CREATE = '/orders';
 	const ORDER_SUBMIT = '/orders/order_id/finalize';
 	const ORDER_PICKUP_DELAY = '/orders/order_id/pickup-delay';

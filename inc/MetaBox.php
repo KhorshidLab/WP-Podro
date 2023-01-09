@@ -24,7 +24,7 @@ class MetaBox {
 			if ( $this->has_podro_order( $order_id ) ) {
 				add_meta_box(
 					'woocommerce-order-podro',
-					__( 'جزئیات سفارش پادرو', 'wp-podro' ),
+					__( 'جزئیات سفارش پادرو', 'podro-wp' ),
 					array($this, 'pod_order_details'),
 					'shop_order',
 					'side',
@@ -33,7 +33,7 @@ class MetaBox {
 			} else {
 				add_meta_box(
 					'woocommerce-order-podro',
-					__( 'پادرو', 'wp-podro' ),
+					__( 'پادرو', 'podro-wp' ),
 					array($this, 'order_my_custom'),
 					'shop_order',
 					'side',
@@ -54,7 +54,7 @@ class MetaBox {
 		$response = (new Orders)->get_order( $pod_order_id );
 
 		if ( !$response ) {
-			echo '<p>' . esc_html__( 'هیچ سفارش پادرویی یافت نشد!', 'wp-podro' ) . '</p>';
+			echo '<p>' . esc_html__( 'هیچ سفارش پادرویی یافت نشد!', 'podro-wp' ) . '</p>';
 			return;
 		}
 
@@ -65,48 +65,48 @@ class MetaBox {
 
 		<table class="pod_order_details">
 			<tr>
-				<th><?php esc_html_e( 'شناسه سفارش', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'شناسه سفارش', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($pod_order_id); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'کد پیگیری سفارش', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'کد پیگیری سفارش', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['tracking_id']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'پروایدر', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'پروایدر', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['provider_code']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'وضعیت سفارش', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'وضعیت سفارش', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['status']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'جمع‌آوری از', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'جمع‌آوری از', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($pickup_time_S . ' ' . $pickup_time->format('H:i')); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'جمع‌آوری تا', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'جمع‌آوری تا', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['pickup_to_time']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'هزینه ارسال', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'هزینه ارسال', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['sale_price']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'تخفیف', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'تخفیف', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['discount']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'وزن', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'وزن', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_weight']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'ارزش مرسوله', 'wp-podro' ); ?></th>
+				<th><?php esc_html_e( 'ارزش مرسوله', 'podro-wp' ); ?></th>
 				<td><?php echo esc_html($response['order_detail']['parcel_total']['total_value']); ?></td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'فایل بارنامه', 'wp-podro' ); ?></th>
-				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php esc_html_e( 'دانلود بارنامه', 'wp-podro' ); ?></a></td>
+				<th><?php esc_html_e( 'فایل بارنامه', 'podro-wp' ); ?></th>
+				<td><a id="get_order_pdf" data-order_id="<?php echo esc_attr($response['id']) ?>"><?php esc_html_e( 'دانلود بارنامه', 'podro-wp' ); ?></a></td>
 			</tr>
 		</table>
 		<div id="lock-modal"></div>
@@ -137,9 +137,10 @@ class MetaBox {
 
 
 		$order_id = $order->get_id();
-		$destination_city = $order->get_shipping_city();
-		$destination_city = Location::get_city_by_name($destination_city);
-		$destination_address = $destination_city['name'] . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
+		$destination_city_code = $order->get_shipping_city();
+
+		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
+		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
 
@@ -203,16 +204,16 @@ class MetaBox {
 			<li>
 				<label for="pod_source_city">مبدا</label>
 				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($pod_store_address); ?></textarea>
-				<?php if (empty($pod_store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'wp-podro') .'</p>' ; ?>
+				<?php if (empty($pod_store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'podro-wp') .'</p>' ; ?>
 				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($pod_source_city_code); ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
-				<?php if( !Location::is_podro_city($destination_city['code']) ){ ?>
+				<?php if( !Location::is_podro_city($destination_city_code) ){ ?>
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo esc_attr($destination_address); ?></textarea>
-				<input type="hidden" id="pod_destination_city_code" name="pod_destination_city_code" value="<?php echo esc_attr($destination_city['code']); ?>">
+				<input type="hidden" id="pod_destination_city_code" name="pod_destination_city_code" value="<?php echo esc_attr($destination_city_code); ?>">
 			</li>
 			<li>
 				<label for="pod_user_billing_name">نام </label>
@@ -223,7 +224,6 @@ class MetaBox {
 				<input type="text" name="pod_user_billing_family" id="pod_user_billing_family" maxlength="27" value="<?php echo esc_attr($user_billing_family); ?>"  />
 			</li>
 			<li>
-
 				<label for="pod_comment">توضیحات<span id="pod-description-hint" class="dashicons dashicons-editor-help" style="width:50px"></span></label>
 				<textarea name="pod_customer_note" id="pod_customer_note" rows="6" maxlength="60"><?php echo esc_attr($customer_note); ?></textarea>
 			</li>
@@ -255,9 +255,9 @@ class MetaBox {
 
 		<input type="hidden" name="pod_order_id" value="<?php echo esc_attr($order_id); ?>">
 
-		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? esc_html('خطایی رخ داد', 'wp-podro') : ''; ?></p>
+		<p style="color:red; text-align:center" id="none-podro-holder"><?php echo isset($_GET['unknownerror']) ? esc_html('خطایی رخ داد', 'podro-wp') : ''; ?></p>
 
-		<button class="pod-delivery-step-button pod-delivery-step-1" ><?php esc_html_e('مرحله بعد', 'wp-podro') ?></button>
+		<button class="pod-delivery-step-button pod-delivery-step-1" ><?php esc_html_e('مرحله بعد', 'podro-wp') ?></button>
 
 		<div id="lock-modal"></div>
 		<div id="loading-circle"></div>
@@ -286,13 +286,33 @@ class MetaBox {
 
 		update_option('pod_source_city_code', $pod_source_city_code);
 		update_option('pod_destination_city_code',$pod_destination_city_code);
+
+
+
 		if (! isset($_POST['weight']) && ! isset($_POST['totalprice']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth'])) {
 
-			wp_send_json_error( __('آیتم اشتباه شده است.', 'wp-podro'), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', 'podro-wp'), 400 );
 			wp_die();
 
 		}
 
+		$weight = 	$_POST['weight'] ?? 0;
+		$width =	$_POST['width'] ?? 0;
+		$height =	$_POST['height'] ?? 0;
+		$depth =	$_POST['depth'] ?? 0;
+
+
+		if(empty($weight) || empty($width) || empty($height) || empty($depth) ||
+				( $weight 	<=0 || $weight 	> (40 * 1000) ) ||
+				( $width	<=0 || $width	> 55 ) ||
+				( $height	<=0 || $height	> 35 ) ||
+				( $depth	<=0 || $depth	> 45 )
+		){
+
+			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'wp-podro'), 200 );
+			wp_die();
+
+		}
 
 
 		$order_id = sanitize_text_field($_POST['order_id']);
@@ -343,7 +363,7 @@ class MetaBox {
 		// checking for required fields
 		if (! isset($_POST['weight']) && ! isset($_POST['width']) && ! isset($_POST['height']) && ! isset($_POST['depth']) && ! isset($_POST['provider_code'])) {
 
-			wp_send_json_error( __('آیتم اشتباه شده است.', 'wp-podro'), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', 'podro-wp'), 400 );
 			wp_die();
 
 		}
@@ -356,7 +376,6 @@ class MetaBox {
 		$source_city = (WooSetting::get_instance())->get_store_city_code_from_options();
 
 		$destination_city_code = get_option('pod_destination_city_code');
-
 
 		$pod_store_name = get_option('pod_store_name');
 		$pod_user_billing_name = get_option('pod_user_billing_name') . ' ' . get_option('pod_user_billing_family');
@@ -425,7 +444,7 @@ class MetaBox {
 
 		// checking for required fields
 		if ( !isset($_POST['delivery_order_id']) ) {
-			wp_send_json_error( __('آیتم اشتباه شده است.', 'wp-podro'), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', 'podro-wp'), 400 );
 			wp_die();
 		}
 
@@ -450,7 +469,7 @@ class MetaBox {
 
 		// checking for required fields
 		if ( !isset($_POST['delivery_order_id']) ) {
-			wp_send_json_error( __('آیتم اشتباه شده است.', 'wp-podro'), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', 'podro-wp'), 400 );
 			wp_die();
 		}
 
@@ -500,7 +519,7 @@ class MetaBox {
 	public function validate_nonce( $nonce_key ) {
 		if ( ! check_ajax_referer( $nonce_key, 'security', false ) ) {
 
-			wp_send_json_error( __('توکن امنیتی اشتباه است.', 'wp-podro' ), 403 );
+			wp_send_json_error( __('توکن امنیتی اشتباه است.', 'podro-wp' ), 403 );
 			wp_die();
 
 		}
@@ -537,7 +556,7 @@ class MetaBox {
 		$this->validate_nonce( 'pod-options-nonce' );
 		// checking for required fields
 		if ( !isset($_POST['order_id']) ) {
-			wp_send_json_error( __('آیتم اشتباه شده است.', 'wp-podro'), 400 );
+			wp_send_json_error( __('آیتم اشتباه شده است.', 'podro-wp'), 400 );
 			wp_die();
 		}
 

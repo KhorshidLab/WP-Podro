@@ -13,9 +13,11 @@ $store_address = get_option('podro_store_address', '');
 
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
-			<h1><?php  esc_html_e( 'تنظیمات عمومی پادرو', 'wp-podro' ) ?></h1>
-			<h3><?php  esc_html_e( 'پیکربندی اتصال به پادرو پین', 'wp-podro' ) ?></h3>
+
+			<h1><?php  esc_html_e( 'تنظیمات عمومی پادرو', 'podro-wp' ) ?></h1>
+			<h3><?php  esc_html_e( 'پیکربندی اتصال به پادرو پین', 'podro-wp' ) ?></h3>
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG )); ?>">
+
 				<div class="pdo-box">
 					<label for="pdo_email">ایمیل</label>
 					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>">
@@ -29,7 +31,7 @@ $store_address = get_option('podro_store_address', '');
 				</div>
 				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php  esc_html_e( "ذخیره", 'wp-podro' ) ?></button>
 				<hr/>
-				<h3><?php  esc_html_e( 'تنظیمات فروشگاه', 'wp-podro' ) ?></h3>
+				<h3><?php  esc_html_e( 'تنظیمات فروشگاه', 'podro-wp' ) ?></h3>
 				<div class="pdo-box">
 					<label for="pdo_storename">نام فروشگاه</label>
 					<input type="text" name="podro_store_name" id="podro_store_name" value="<?php  echo esc_attr( $store_name ?? '' )  ?>">
@@ -62,8 +64,7 @@ $store_address = get_option('podro_store_address', '');
 					<label for="pdo_address">آدرس</label>
 					<textarea name="podro_store_address" id="podro_store_address" ><?php  echo esc_attr( $store_address ?? '' )  ?></textarea>
 				</div>
-
-				<button type="submit" class="button button-primary" name="config_podro_store_info" value="1"><?php  esc_html_e( "ذخیره", 'wp-podro' ) ?></button>
+				<button type="submit" class="button button-primary" name="config_podro_store_info" value="1"><?php  esc_html_e( "ذخیره", 'podro-wp' ) ?></button>
 			</form>
 		</div>
 

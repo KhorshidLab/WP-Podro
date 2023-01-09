@@ -13,7 +13,7 @@ $wp_list_table->prepare_items();
 ?>
 <div class="wrap pod-wrap">
 <h1 class="wp-heading-inline">سفارشات پادرو</h1>
-	<form id="posts-filter" method="get">
+	<form id="posts-filter" method="post">
 
 	<?php $wp_list_table->views(); ?>
 

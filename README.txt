@@ -4,16 +4,18 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.0.0
+Stable tag: 1.0.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Podro Pin integration with WooCommerce
 
 == Description ==
+
 Podro Pin integration with WooCommerce. Using this plugin, you will be able to place a Podro order from your WooCommerce panel.
 
 == Installation ==
+
 = Using The WordPress Dashboard =
 
 1. Navigate to the Add New in the plugins dashboard
@@ -37,8 +39,35 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 4. Activate the plugin in the Plugin dashboard
 
 == Screenshots ==
-1. Settings Page
+
+1. Plugin Tutorial 01
+2. Plugin Tutorial 02
+3. Plugin Tutorial 03
+4. Plugin Tutorial 04
+5. Plugin Tutorial 05
+6. Plugin Tutorial 06
+7. Plugin Tutorial 07
+8. Plugin Tutorial 08
+9. Plugin Tutorial 09
+10. Plugin Tutorial 10
+11. Plugin Tutorial 11
+12. Plugin Tutorial 12
+13. Plugin Tutorial 13
+14. Settings Page
+
 
 == Changelog ==
+
+= 1.0.5 - 2022-12-25 =
+* Fix the cities js conflict in checkout page
+
+= 1.0.4 - 2022-12-17 =
+* Fix the integration with persian-woocommerce and persian-woocommerce-shipping plugins
+* Fix translation header and text domain issue
+* Add validation for size and weight
+
+= 1.0.3 - 2022-12-14 =
+* Minor fixes
+
 = 1.0.0 - 2022-11-30 =
 * Official Plugin Release
