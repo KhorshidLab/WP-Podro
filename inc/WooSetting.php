@@ -447,7 +447,14 @@ class WooSetting
 	}
 
 	public function get_store_city_code_from_options(){
-		return get_option('woocommerce_store_city',0);
+		return get_option('podro_store_city',0);
+	}
+
+	public function get_store_address(){
+		return get_option('podro_store_address', '');
+	}
+	public function get_store_name(){
+		return get_option('podro_store_name', '');
 	}
 
 }
