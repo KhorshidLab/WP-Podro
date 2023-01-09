@@ -135,7 +135,7 @@ class MetaBox {
 
 		$woo_setting = WooSetting::get_instance();
 
-		$source_city = $woo_setting->get_store_city_code_from_options();
+
 		$order_id = $order->get_id();
 		$destination_city_code = $order->get_shipping_city();
 
@@ -143,7 +143,11 @@ class MetaBox {
 		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
-		$store_address = $woo_setting->get_store_city() . ' ' . get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
+
+
+		$pod_source_city_code = $woo_setting->get_store_city_code_from_options();
+		$pod_store_address =  mb_substr($woo_setting->get_store_city() . ' ' . $woo_setting->get_store_address() , 0 , $this->address_length) ;
+		$pod_store_name =  mb_substr( $woo_setting->get_store_name(), 0, $this->store_name_length );
 
 		$total_weight = 0;
 		$weight_unit = 1;
@@ -182,14 +186,12 @@ class MetaBox {
 		$user_billing_name = $order->get_billing_first_name();
 		$user_billing_family = $order->get_billing_last_name();
 
-		$store_name = $this->get_store_name();
+
 		$customer_note = $order->get_customer_note();
 
-		$option_pod_source_city = get_option('pod_source_city',false);
-		$option_pod_store_name = get_option('pod_store_name',false);
 
-		$option_pod_source_city = ( false == $option_pod_source_city ) ? $store_address : $option_pod_source_city;
-		$option_pod_store_name = ( false == $option_pod_store_name ) ?  $store_name : $option_pod_store_name;
+
+
 
 
 
@@ -197,13 +199,13 @@ class MetaBox {
 		<ul class="pod-delivery-step">
 			<li>
 				<label for="pod_store_name">نام فروشگاه</label>
-				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo esc_attr($option_pod_store_name); ?>"  />
+				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo esc_attr($pod_store_name); ?>"  />
 			</li>
 			<li>
 				<label for="pod_source_city">مبدا</label>
-				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($option_pod_source_city); ?></textarea>
-				<?php if (empty($store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'podro-wp') .'</p>' ; ?>
-				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($source_city); ?>">
+				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($pod_store_address); ?></textarea>
+				<?php if (empty($pod_store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'podro-wp') .'</p>' ; ?>
+				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($pod_source_city_code); ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>

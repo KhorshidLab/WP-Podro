@@ -38,6 +38,8 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
 
 define( 'PODRO_VERSION', '1.0.5' );
 define( 'PODRO_SLUG', 'podro-wp' );
+define( 'PODRO_SETTINGS_PAGE_SLUG', 'wp-podro-settings' );
+
 define( 'PODRO_NAME', 'WP PODRO' );
 define( 'PODRO_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
 define( 'PODRO_PLUGIN_ABSOLUTE', __FILE__ );
