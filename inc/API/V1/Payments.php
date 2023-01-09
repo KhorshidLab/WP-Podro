@@ -54,10 +54,15 @@ class Payments
 
 	public function check_payment_status()
 	{
-		if( isset($_GET['paymentredirect']) )
+		if( !isset($_GET['paymentredirect']) )
 			return false;
-		if( isset($_GET['status']) && $_GET['status'] != 'success' )
+
+		if( !isset($_GET['status']) )
 			return false;
+
+		if( $_GET['status'] != 'success' )
+			return 'payment_failed';
+
 		return true;
 	}
 }
