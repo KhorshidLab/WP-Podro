@@ -104,10 +104,12 @@ class Podro_Order_Table extends \WP_List_Table {
 		$data = [];
 		foreach ($orders as $order){
 
-			if ( $order['status'] == 'لغو شده') {
-				$cancel_order = 'از پیش لغو شده';
-			} else {
+			if ( $order['status'] == 'درحال پردازش' ||
+				$order['status'] == 'ثبت اولیه' ||
+				$order['status'] == 'در حال بررسی تاخیر' ) {
 				$cancel_order = '<a class="pod-cancel-order" data-order_id="' . $order['id'] . '">لغو ارسال</a>';
+			} else {
+				$cancel_order = $order['status'];
 			}
 
 			$created_at = new \DateTime( date('Y-m-d' , $order['created_at']), new \DateTimeZone( wp_timezone_string() ) );
