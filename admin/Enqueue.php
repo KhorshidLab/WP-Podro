@@ -92,15 +92,15 @@ class Enqueue {
 				true
 			);
 
-			$cities = json_encode( (new WC_City_Select)->get_cities() );
-			wp_localize_script(
-				'wc-city-select',
-				'wc_city_select_params',
-				array(
-					'cities' => $cities,
-					'i18n_select_city_text' => esc_attr__( 'Select an option&hellip;', 'woocommerce' )
-				)
-			);
+//			$cities = json_encode( (new WC_City_Select)->get_cities() );
+//			wp_localize_script(
+//				'wc-city-select',
+//				'wc_city_select_params',
+//				array(
+//					'cities' => $cities,
+//					'i18n_select_city_text' => esc_attr__( 'Select an option&hellip;', 'woocommerce' )
+//				)
+//			);
 		}
 
 	}
