@@ -216,7 +216,7 @@ class MetaBox {
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
-				<?php if( !Location::is_podro_city($destination_city_code) ){ ?>
+				<?php if( !WooSetting::is_podro_city($destination_city_code) ){ ?>
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo esc_attr($destination_address); ?></textarea>
@@ -326,11 +326,7 @@ class MetaBox {
 		$order = \wc_get_order($order_id);
 
 		$store_state = $this->get_store_state();
-		$source_city = Location::get_province_by_code($store_state);
-		$source_city = Location::get_city_by_name($source_city['name']);
 
-		$destination_city = $order->get_shipping_city();
-		$destination_city = Location::get_city_by_name($destination_city);
 
 		$data = [
 			'source_city' => $pod_source_city_code,
@@ -378,8 +374,6 @@ class MetaBox {
 		$order_id = sanitize_text_field($_POST['order_id']);
 		$order = \wc_get_order($order_id);
 
-		$store_state = $this->get_store_state();
-		//$source_city = Location::get_province_by_code($store_state);
 		$source_city = (WooSetting::get_instance())->get_store_city_code_from_options();
 
 		$destination_city_code = get_option('pod_destination_city_code');

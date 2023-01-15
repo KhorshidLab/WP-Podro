@@ -78,9 +78,7 @@ if ( version_compare( PHP_VERSION, PODRO_MIN_PHP_VERSION, '<=' ) ) {
 }
 
 require_once(PODRO_PLUGIN_ROOT . 'vendor/autoload.php');
-if ( class_exists('WC_Payment_Gateway') ) {
-	$GLOBALS['wc_city_select'] = new WP_PODRO\Engine\WC_City_Select();
-}
+
 $Setup = new WP_PODRO\Engine\Setup;
 add_action('admin_init', function(){
 	\WP_PODRO\Engine\WooSetting::get_instance();
