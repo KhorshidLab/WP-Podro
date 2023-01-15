@@ -266,7 +266,7 @@ class Setup {
 				__( 'تنظیمات پادرو', 'podro-wp' ),
 				__( 'تنظیمات', 'podro-wp' ),
 				'manage_options',
-				PODRO_SLUG,
+				PODRO_SETTINGS_PAGE_SLUG,
 				[$this, 'settings_page'],
 			);
 
