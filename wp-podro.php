@@ -67,7 +67,7 @@ if ( version_compare( PHP_VERSION, PODRO_MIN_PHP_VERSION, '<=' ) ) {
 			echo wp_kses_post(
 				sprintf(
 					'<div class="notice notice-error"><p>%s</p></div>',
-					esc_html__( 'WP-Podro requires PHP 7.2 or newer.', 'podro-wp' )
+					esc_html__( 'Podro requires PHP 7.2 or newer.', 'podro-wp' )
 				)
 			);
 		}

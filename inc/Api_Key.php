@@ -108,7 +108,7 @@ class Api_Key {
 
 				add_action( 'admin_notices', function () {
 					echo wp_kses_post('<div class="notice notice-success is-dismissible">
-						<p>'. esc_html__( "تنظیمات ذخیره شد.", 'wp-podro' ) .'</p>
+						<p>'. esc_html__( "تنظیمات ذخیره شد.", 'podro-wp' ) .'</p>
 					</div>');
 				} );
 			}
@@ -117,7 +117,7 @@ class Api_Key {
 			if( empty($_POST['podro_store_name']) || empty($_POST['podro_store_address']) ){
 				add_action( 'admin_notices', function () {
 					echo wp_kses_post('<div class="notice notice-error is-dismissible">
-						<p>'. esc_html__( "نام فروشگاه، شهرو آدرس نمی تواند خالی باشد", 'wp-podro' ) .'</p>
+						<p>'. esc_html__( "نام فروشگاه، شهرو آدرس نمی تواند خالی باشد", 'podro-wp' ) .'</p>
 					</div>');
 				} );
 				return false;

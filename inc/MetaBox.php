@@ -316,7 +316,7 @@ class MetaBox {
 				( $depth	<=0 || $depth	> 45 )
 		){
 
-			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'wp-podro'), 200 );
+			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'podro-wp'), 200 );
 			wp_die();
 
 		}
