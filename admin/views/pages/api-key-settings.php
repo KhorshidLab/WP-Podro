@@ -64,6 +64,10 @@ $store_address = get_option('podro_store_address', '');
 					<label for="pdo_address">آدرس</label>
 					<textarea name="podro_store_address" id="podro_store_address" ><?php  echo esc_attr( $store_address ?? '' )  ?></textarea>
 				</div>
+				<div class="pdo-box">
+					<input type="checkbox" name="podro_auto_update" value="yes" id="podro_auto_update" <?php echo ( 'yes' == get_option('podro_auto_update', 'no') )? 'checked="checked"' :'' ?>
+					<label for="podro_auto_update">فعال کردن آپدیت خودکار</label>
+				</div>
 				<button type="submit" class="button button-primary" name="config_podro_store_info" value="1"><?php  esc_html_e( "ذخیره", 'podro-wp' ) ?></button>
 			</form>
 		</div>
