@@ -11,6 +11,7 @@
 namespace WP_PODRO\Admin;
 
 use WP_PODRO\Engine\WC_City_Select;
+use WP_PODRO\Engine\WooZones;
 
 /**
  * This class contain the Enqueue stuff for the backend
@@ -76,11 +77,30 @@ class Enqueue {
 
 		if ( is_cart() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
 
+			$is_it_only_podro = (WooZones::get_instance())->is_podro_only_active_method();
 			if ( function_exists( 'PWS' ) || class_exists('PWS_Core') || in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/cities.js';
+
+				$only_podro_cuntionality_state = get_option('podro_only_functionality');
+
+				if( true == $is_it_only_podro && 'yes' == $only_podro_cuntionality_state){
+					add_action( 'wp_enqueue_scripts',function(){
+
+						wp_dequeue_script('pwsCheckout');
+						wp_deregister_script('pwsCheckout');
+
+					},99999);
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+				}
+				else
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/cities.js';
 			}else{
 				$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
 			}
+
+
+
+
+
 
 
 
