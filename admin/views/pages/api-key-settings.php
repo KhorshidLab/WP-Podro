@@ -64,7 +64,15 @@ $store_address = get_option('podro_store_address', '');
 					<label for="pdo_address">آدرس</label>
 					<textarea name="podro_store_address" id="podro_store_address" ><?php  echo esc_attr( $store_address ?? '' )  ?></textarea>
 				</div>
-				<button type="submit" class="button button-primary" name="config_podro_store_info" value="1"><?php  esc_html_e( "ذخیره", 'podro-wp' ) ?></button>
+				<div class="pdo-box">
+
+					<input type="checkbox" name="podro_only_functionality" value="yes" id="podro_only_functionality" <?php echo ( 'yes' == get_option('podro_only_functionality', 'no') )? 'checked="checked"' :'' ?>
+					<label for="podro_only_functionality">زمانی که فقط پادرو بعنوان حمل و نقل فعال استُ شهرهای پادرو جایگزین شود</label>
+				</div>
+				<p></p>
+				<div class="pdo-box">
+					<button type="submit" class="button button-primary" name="config_podro_store_info" value="1"><?php  esc_html_e( "ذخیره", 'podro-wp' ) ?></button>
+				</div>
 			</form>
 		</div>
 

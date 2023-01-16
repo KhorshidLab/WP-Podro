@@ -126,7 +126,10 @@ class Api_Key {
 			update_option('podro_store_name', sanitize_text_field($_POST['podro_store_name']??''));
 			update_option('podro_store_city', sanitize_text_field($_POST['podro_store_city']??''));
 			update_option('podro_store_address', sanitize_text_field($_POST['podro_store_address']??''));
-
+			if(isset($_POST['podro_only_functionality']) && $_POST['podro_only_functionality'] == 'yes')
+				update_option('podro_only_functionality', 'yes');
+			else
+				update_option('podro_only_functionality', 'no');
 
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-success is-dismissible">
