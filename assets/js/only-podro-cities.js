@@ -33,9 +33,9 @@ jQuery(document).ready(function(){
 	});
 
 	function getCities(){
-		jQuery('#billing_state, body').change(function(){
+		jQuery('#billing_state').change(function(){
 
-			const province_code = jQuery(this).val();
+			const province_code = jQuery(this).find('option:selected').text();
 			const element = jQuery('#billing_city');
 
 			if(!province_code)
@@ -50,8 +50,8 @@ jQuery(document).ready(function(){
 
 		});
 
-		jQuery('#shipping_state, body').change(function(){
-			const province_code = jQuery(this).val();
+		jQuery('#shipping_state').change(function(){
+			const province_code = jQuery(this).find('option:selected').text();
 			const element = jQuery('#shipping_city');
 			if(!province_code)
 				return;
