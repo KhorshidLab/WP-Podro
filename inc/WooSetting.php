@@ -355,8 +355,8 @@ class WooSetting
 			'0001'=>'اراک',
 			'0006'=>'ساوه',
 			'0005'=>'دلیجان',
-			'0101'=>'آستارا',
-			'0103'=>'بندرانزلی',
+			'0101'=>'بندر آستارا',
+			'0103'=>'بندر انزلی',
 			'0105'=>'رشت',
 			'0111'=>'لاهیجان',
 			'0110'=>'لنگرود',
@@ -366,7 +366,7 @@ class WooSetting
 			'0205'=>'تنکابن',
 			'0206'=>'رامسر',
 			'0207'=>'ساری',
-			'0210'=>'قائم شهر',
+			'0210'=>'قائم‌شهر',
 			'0214'=>'نور',
 			'0215'=>'نوشهر',
 			'0218'=>'محمودآباد',
@@ -391,12 +391,12 @@ class WooSetting
 			'0806'=>'سیرجان',
 			'0808'=>'کرمان',
 			'0908'=>'سبزوار',
-			'0916'=>'مشهد',
+			'0916'=>'مشهد مقدس',
 			'0917'=>'نیشابور',
 			'1002'=>'اصفهان',
 			'1009'=>'شهرضا',
 			'1010'=>'کاشان',
-			'1018'=>'آران وبیدگل',
+			'1018'=>'آران و بیدگل',
 			'1102'=>'چابهار',
 			'1105'=>'زاهدان',
 			'1203'=>'سقز',
@@ -404,10 +404,10 @@ class WooSetting
 			'1304'=>'همدان',
 			'1401'=>'بروجن',
 			'1402'=>'شهرکرد',
-			'1503'=>'خرم آباد',
+			'1503'=>'خرم‌آباد',
 			'1601'=>'ایلام',
 			'1703'=>'گچساران',
-			'1801'=>'بوشهر',
+			'1801'=>'بندر بوشهر',
 			'1810'=>'عسلویه',
 			'1901'=>'ابهر',
 			'1904'=>'زنجان',
@@ -418,7 +418,7 @@ class WooSetting
 			'2101'=>'اردکان',
 			'2105'=>'یزد',
 			'2106'=>'میبد',
-			'2202'=>'بندرعباس',
+			'2202'=>'بندر عباس',
 			'2204'=>'قشم',
 			'2301'=>'تهران',
 			'2318'=>'پیشوا',
@@ -429,7 +429,7 @@ class WooSetting
 			'2603'=>'قزوین',
 			'2705'=>'گرگان',
 			'2710'=>'آزادشهر',
-			'2706'=>'گنبدکاوس',
+			'2706'=>'گنبدکاووس',
 			'2802'=>'بجنورد',
 			'2901'=>'بیرجند',
 			'3001'=>'کرج',
@@ -441,13 +441,31 @@ class WooSetting
 		);
 	}
 
+	public static function is_podro_city($city_code){
+		return array_key_exists($city_code, (new self())->get_cities());
+	}
+
+	public function get_city_by_name($name){
+		foreach ($this->get_cities() as $code => $city_name){
+			if($city_name == $name)
+				return $code;
+		}
+	}
 	public function get_store_city(){
 		$current_city = $this->get_store_city_code_from_options();
+		$current_city = !empty($current_city)? $current_city : '0001';
 		return $this->get_cities()[$current_city];
 	}
 
 	public function get_store_city_code_from_options(){
-		return get_option('woocommerce_store_city',0);
+		return get_option('podro_store_city','');
+	}
+
+	public function get_store_address(){
+		return get_option('podro_store_address', '');
+	}
+	public function get_store_name(){
+		return get_option('podro_store_name', '');
 	}
 
 }

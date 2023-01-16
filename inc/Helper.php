@@ -22,6 +22,6 @@ class Helper
 	}
 
 	public static function log($var){
-		file_put_contents(dirname(__FILE__) . '/log.txt', print_r($var, true));
+		file_put_contents(dirname(__DIR__) . '/log.txt', print_r($var,true),FILE_APPEND);
 	}
 }

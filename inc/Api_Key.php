@@ -76,42 +76,65 @@ class Api_Key {
     */
 	public static function set_pdo_api_key() {
 
-		if( ! isset( $_POST[ 'config_podro_api_key' ] ) ) {
-			return;
-		}
-		update_option('woocommerce_store_city', sanitize_text_field($_POST['podro_store_location']));
-		$pdo_email = sanitize_email( $_POST[ 'pdo_email' ] );
-		$pdo_password = sanitize_text_field( $_POST[ 'pdo_password' ] );
-		if ( $pdo_email == null || $pdo_password == null || ( ! empty( $pdo_email ) && !empty( $pdo_password ) && $pdo_password === "**************" ) ) {
-			add_action( 'admin_notices', function () {
-				echo wp_kses_post('<div class="notice notice-error is-dismissible">
+
+
+		if(  isset( $_POST[ 'config_podro_api_key' ] ) ) {
+			$pdo_email = sanitize_email( $_POST[ 'pdo_email' ] );
+			$pdo_password = sanitize_text_field( $_POST[ 'pdo_password' ] );
+			if ( $pdo_email == null || $pdo_password == null || ( ! empty( $pdo_email ) && !empty( $pdo_password ) && $pdo_password === "**************" ) ) {
+				add_action( 'admin_notices', function () {
+					echo wp_kses_post('<div class="notice notice-error is-dismissible">
 						<p>'. esc_html__( "لطفا موارد موردنیاز را وارد کنید.", 'podro-wp' ) .'</p>
+
 					</div>');
-			} );
-			return false;
-		}
+				} );
+				return false;
+			}
 
-		if ( !$token = self::validate_api_key( $pdo_email, (new Encryption)->encrypt($pdo_password) ) ) {
-			return false;
-		}
+			if ( !$token = self::validate_api_key( $pdo_email, (new Encryption)->encrypt($pdo_password) ) ) {
+				return false;
+			}
 
-		$save_settings = update_option( 'podro_api_key', (new Encryption)->encrypt($token) );
+			$save_settings = update_option( 'podro_api_key', (new Encryption)->encrypt($token) );
 
-		if( $save_settings ) {
-			update_option( 'podro_plugin_status', 'connected');
-			update_option( 'podro_plugin_credentials', [
-				'email' => $pdo_email,
-				'password' => (new Encryption)->encrypt($pdo_password),
-			]);
+			if( $save_settings ) {
+				update_option( 'podro_plugin_status', 'connected');
+				update_option( 'podro_plugin_credentials', [
+					'email' => $pdo_email,
+					'password' => (new Encryption)->encrypt($pdo_password),
+				]);
 
-			wp_redirect( home_url( '/wp-admin/admin.php?page=' . PODRO_SLUG ) );
+				wp_redirect( home_url( '/wp-admin/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG ) );
+
+				add_action( 'admin_notices', function () {
+					echo wp_kses_post('<div class="notice notice-success is-dismissible">
+						<p>'. esc_html__( "تنظیمات ذخیره شد.", 'podro-wp' ) .'</p>
+					</div>');
+				} );
+			}
+		}else if( isset($_POST['config_podro_store_info']) ){
+
+			if( empty($_POST['podro_store_name']) || empty($_POST['podro_store_address']) ){
+				add_action( 'admin_notices', function () {
+					echo wp_kses_post('<div class="notice notice-error is-dismissible">
+						<p>'. esc_html__( "نام فروشگاه، شهرو آدرس نمی تواند خالی باشد", 'podro-wp' ) .'</p>
+					</div>');
+				} );
+				return false;
+			}
+
+			update_option('podro_store_name', sanitize_text_field($_POST['podro_store_name']??''));
+			update_option('podro_store_city', sanitize_text_field($_POST['podro_store_city']??''));
+			update_option('podro_store_address', sanitize_text_field($_POST['podro_store_address']??''));
+
 
 			add_action( 'admin_notices', function () {
 				echo wp_kses_post('<div class="notice notice-success is-dismissible">
 						<p>'. esc_html__( "تنظیمات ذخیره شد.", 'podro-wp' ) .'</p>
 					</div>');
-			} );
+			});
 		}
+
 
 	}
 

@@ -158,15 +158,27 @@ class MetaBox {
 
 		$woo_setting = WooSetting::get_instance();
 
-		$source_city = $woo_setting->get_store_city_code_from_options();
+
 		$order_id = $order->get_id();
 		$destination_city_code = $order->get_shipping_city();
+
+		$method = $order->get_items( 'shipping' );
+		$method_id = reset( $method )->get_method_id();
+		if( 'podro_method' == $method_id &&( function_exists( 'PWS' ) || class_exists('PWS_Core'))){
+
+			$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
+
+		}
 
 		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
 		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
-		$store_address = $woo_setting->get_store_city() . ' ' . get_option( 'woocommerce_store_address' ) . get_option( 'woocommerce_store_address_2' );
+
+
+		$pod_source_city_code = $woo_setting->get_store_city_code_from_options();
+		$pod_store_address =  mb_substr($woo_setting->get_store_city() . ' ' . $woo_setting->get_store_address() , 0 , $this->address_length) ;
+		$pod_store_name =  mb_substr( $woo_setting->get_store_name(), 0, $this->store_name_length );
 
 		$total_weight = 0;
 		$weight_unit = 1;
@@ -205,14 +217,11 @@ class MetaBox {
 		$user_billing_name = $order->get_billing_first_name();
 		$user_billing_family = $order->get_billing_last_name();
 
-		$store_name = $this->get_store_name();
+
 		$customer_note = $order->get_customer_note();
 
-		$option_pod_source_city = get_option('pod_source_city',false);
-		$option_pod_store_name = get_option('pod_store_name',false);
 
-		$option_pod_source_city = ( false == $option_pod_source_city ) ? $store_address : $option_pod_source_city;
-		$option_pod_store_name = ( false == $option_pod_store_name ) ?  $store_name : $option_pod_store_name;
+
 
 
 
@@ -227,17 +236,17 @@ class MetaBox {
 					echo "<p style='color: red;'>پرداخت ناموفق بود</p>";
 				?>
 				<label for="pod_store_name">نام فروشگاه</label>
-				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo esc_attr($option_pod_store_name); ?>"  />
+				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo esc_attr($pod_store_name); ?>"  />
 			</li>
 			<li>
 				<label for="pod_source_city">مبدا</label>
-				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($option_pod_source_city); ?></textarea>
-				<?php if (empty($store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'podro-wp') .'</p>' ; ?>
-				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($source_city); ?>">
+				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($pod_store_address); ?></textarea>
+				<?php if (empty($pod_store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'podro-wp') .'</p>' ; ?>
+				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($pod_source_city_code); ?>">
 			</li>
 			<li>
 				<label for="pod_destination_city">مقصد</label>
-				<?php if( !Location::is_podro_city($destination_city_code) ){ ?>
+				<?php if( !WooSetting::is_podro_city($destination_city_code) ){ ?>
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo esc_attr($destination_address); ?></textarea>
@@ -337,7 +346,7 @@ class MetaBox {
 				( $depth	<=0 || $depth	> 45 )
 		){
 
-			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'wp-podro'), 200 );
+			wp_send_json_error( __('وزن یا ابعاد اشتباه است', 'podro-wp'), 200 );
 			wp_die();
 
 		}
@@ -347,11 +356,7 @@ class MetaBox {
 		$order = \wc_get_order($order_id);
 
 		$store_state = $this->get_store_state();
-		$source_city = Location::get_province_by_code($store_state);
-		$source_city = Location::get_city_by_name($source_city['name']);
 
-		$destination_city = $order->get_shipping_city();
-		$destination_city = Location::get_city_by_name($destination_city);
 
 		$data = [
 			'source_city' => $pod_source_city_code,
@@ -399,8 +404,6 @@ class MetaBox {
 		$order_id = sanitize_text_field($_POST['order_id']);
 		$order = \wc_get_order($order_id);
 
-		$store_state = $this->get_store_state();
-		//$source_city = Location::get_province_by_code($store_state);
 		$source_city = (WooSetting::get_instance())->get_store_city_code_from_options();
 
 		$destination_city_code = get_option('pod_destination_city_code');
