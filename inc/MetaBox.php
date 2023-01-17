@@ -533,11 +533,10 @@ class MetaBox {
 	public function get_products_name_by_order_id( $order_id ) {
 		$order = \wc_get_order($order_id);
 		$items = $order->get_items();
-		$products_name = '';
-		foreach ($items as $item) {
-			$products_name .= $item['name'] . ' ';
-		}
-		return $products_name;
+		$item = reset($items);
+		if(!$item)
+			return '';
+		return $item->get_name();
 	}
 
 	private function get_store_postal_code() {
