@@ -407,7 +407,7 @@ class MetaBox {
 					'id' => $order_id,
 					'weight' => sanitize_text_field( $_POST['weight'] ),
 					'value' => sanitize_text_field( $_POST['totalprice'] ),
-					'content' => $this->get_products_name_by_order_id($order_id),
+					'content' => mb_substr($this->get_products_name_by_order_id($order_id),0,60),
 					'dimension' => [
 						'width' => sanitize_text_field( $_POST['width'] ),
 						'height' => sanitize_text_field( $_POST['height'] ),
