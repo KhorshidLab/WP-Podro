@@ -437,7 +437,7 @@ class MetaBox {
 					'id' => $order_id,
 					'weight' => sanitize_text_field( $_POST['weight'] ),
 					'value' => sanitize_text_field( $_POST['totalprice'] ),
-					'content' => $this->get_products_name_by_order_id($order_id),
+					'content' => mb_substr($this->get_products_name_by_order_id($order_id),0,60),
 					'dimension' => [
 						'width' => sanitize_text_field( $_POST['width'] ),
 						'height' => sanitize_text_field( $_POST['height'] ),
@@ -583,11 +583,10 @@ class MetaBox {
 	public function get_products_name_by_order_id( $order_id ) {
 		$order = \wc_get_order($order_id);
 		$items = $order->get_items();
-		$products_name = '';
-		foreach ($items as $item) {
-			$products_name .= $item['name'] . ' ';
-		}
-		return $products_name;
+		$item = reset($items);
+		if(!$item)
+			return '';
+		return $item->get_name();
 	}
 
 	private function get_store_postal_code() {
