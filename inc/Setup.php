@@ -71,7 +71,7 @@ class Setup {
 		$this->define_admin_hooks();
 
 		(new Enqueue)->initialize();
-
+		new Settings();
 		$this->run();
 
 	}

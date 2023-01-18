@@ -64,10 +64,16 @@ $store_address = get_option('podro_store_address', '');
 					<label for="pdo_address">آدرس</label>
 					<textarea name="podro_store_address" id="podro_store_address" ><?php  echo esc_attr( $store_address ?? '' )  ?></textarea>
 				</div>
+
+
 				<div class="pdo-box">
 
 					<input type="checkbox" name="podro_only_functionality" value="yes" id="podro_only_functionality" <?php echo ( 'yes' == get_option('podro_only_functionality', 'no') )? 'checked="checked"' :'' ?>
 					<label for="podro_only_functionality">هنگامی که فقط پادرو بعنوان روش حمل و نقل فعال بود تنها شهرهای تحت پوشش پادرو نمایش داده شود</label>
+				</div>
+				<div class="pdo-box">
+					<input type="checkbox" name="podro_auto_update" value="yes" id="podro_auto_update" <?php echo ( 'yes' == get_option('podro_auto_update', 'no') )? 'checked="checked"' :'' ?>
+					<label for="podro_auto_update">فعال کردن آپدیت خودکار</label>
 				</div>
 				<p></p>
 				<div class="pdo-box">
