@@ -4,15 +4,15 @@ jQuery(document).ready(function(){
 
 	function reload_for_cities(){
 
-		if(jQuery('#billing_state option').length < 0){
-			setTimeout(reload_for_cities, 1000);
+		if(jQuery('#billing_state option').length > 0){
+			jQuery('#billing_state').trigger('change');
 			return;
 		}
 
-		const city_count = jQuery('#billing_city option').length;
-		if(city_count <= 0){
-			jQuery('#billing_state').trigger('change');
-		}
+		// const city_count = jQuery('#billing_city option').length;
+		// if(city_count >0){
+		// 	jQuery('#billing_state').trigger('change');
+		// }
 	}
 
 	jQuery('body').on('country_to_state_changed', function(p1,country){
@@ -32,7 +32,11 @@ jQuery(document).ready(function(){
 		}
 	});
 
+
+
 	function getCities(){
+
+
 		jQuery('#billing_state').change(function(){
 
 			const province_code = jQuery(this).find('option:selected').text();
@@ -67,6 +71,8 @@ jQuery(document).ready(function(){
 	}
 
 
+	jQuery('div.woocommerce-billing-fields#billing_state').trigger('change');
+	jQuery('div.woocommerce-billing-fields#shipping_state').trigger('change');
 
 
 

@@ -147,7 +147,7 @@ class Setup {
 			$provinces = WooSetting::get_provinces();
 			$province_code = $_POST['province'];
 			foreach ($provinces as $province){
-				if($province['code'] == $province_code)
+				if($province['name'] == $province_code)
 				{
 					wp_send_json( wp_json_encode($province));
 					wp_die();
