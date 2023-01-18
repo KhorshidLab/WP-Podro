@@ -21,16 +21,16 @@ This set of fonts are used in this project under the license: T2P46U
 	font-family: IRANSansX;
 	font-style: normal;
 	font-weight: bold;
-	src: url('../fonts/woff/IRANSansX-bold.woff') format('woff'),
-	url('../fonts/woff2/IRANSansX-bold.woff2') format('woff2');
+	src: url('../fonts/woff/IRANSansX-Bold.woff') format('woff'),
+	url('../fonts/woff2/IRANSansX-Bold.woff2') format('woff2');
 }
 
 @font-face {
 	font-family: IRANSansX;
 	font-style: normal;
 	font-weight: normal;
-	src: url('../fonts/woff/IRANSansX-regular.woff') format('woff'),
-	url('../fonts/woff2/IRANSansX-regular.woff2') format('woff2');
+	src: url('../fonts/woff/IRANSansX-Regular.woff') format('woff'),
+	url('../fonts/woff2/IRANSansX-Regular.woff2') format('woff2');
 }
 
 .pod-wrap,
@@ -134,10 +134,18 @@ This set of fonts are used in this project under the license: T2P46U
 		font-weight: bold;
 	}
 
-	input {
+	input[type=text] {
 		width: 325px;
 		text-align: left;
 		direction: ltr;
+	}
+
+	textarea {
+	  width: 325px;
+	  text-align: left;
+	  direction: ltr;
+	  min-height: 80px;
+
 	}
 
 	.get-api-key {

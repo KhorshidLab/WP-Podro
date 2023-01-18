@@ -71,7 +71,7 @@ class Setup {
 		$this->define_admin_hooks();
 
 		(new Enqueue)->initialize();
-
+		new Settings();
 		$this->run();
 
 	}
@@ -246,7 +246,7 @@ class Setup {
 				__( 'تنظیمات پادرو', 'podro-wp' ),
 				__( 'تنظیمات', 'podro-wp' ),
 				'manage_options',
-				PODRO_SLUG . '-settings',
+				PODRO_SETTINGS_PAGE_SLUG,
 				[$this, 'settings_page'],
 			);
 		} else {
@@ -266,7 +266,7 @@ class Setup {
 				__( 'تنظیمات پادرو', 'podro-wp' ),
 				__( 'تنظیمات', 'podro-wp' ),
 				'manage_options',
-				PODRO_SLUG,
+				PODRO_SETTINGS_PAGE_SLUG,
 				[$this, 'settings_page'],
 			);
 

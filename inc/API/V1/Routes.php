@@ -8,7 +8,7 @@ class Routes
     const LOGIN = '/login';
     const PROVINCES  = '/provinces';
     const CITIES  = '/cities';
-    const DELIVERY_OPTIONS  = '/delivery-options';
+    const DELIVERY_OPTIONS  = '/delivery-options/wordpress';
 
     const ORDER_STATUS  = '/order/order_id/state';
     const ORDER_PDF  = '/orders/order_id/pdf';

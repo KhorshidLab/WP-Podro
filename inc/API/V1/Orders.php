@@ -24,7 +24,7 @@ class Orders {
 		$response = Request_Podro::get( $url, false );
 
 		if (is_wp_error($response) || !isset($response['body'])) {
-            return false;
+            return $response;
         }
 
         $res = json_decode($response['body'], true);

@@ -4,7 +4,7 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.0.4
+Stable tag: 1.0.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,7 +19,7 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 = Using The WordPress Dashboard =
 
 1. Navigate to the Add New in the plugins dashboard
-2. Search for WP Podro
+2. Search for Podro
 3. Click Install Now
 4. Activate the plugin on the Plugin dashboard
 
@@ -27,15 +27,15 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 1. Navigate to the Add New in the plugins dashboard
 2. Navigate to the Upload area
-3. Select wp-podro.zip from your computer
+3. Select podro-wp.zip from your computer
 4. Click Install Now
 5. Activate the plugin in the Plugin dashboard
 
 = Using FTP =
 
-1. Download wp-podro.zip
-2. Extract the wp-podro.zip directory to your computer
-3. Upload the wp-podro.zip directory to the /wp-content/plugins/ directory
+1. Download podro-wp.zip
+2. Extract the podro-wp.zip directory to your computer
+3. Upload the podro-wp.zip directory to the /wp-content/plugins/ directory
 4. Activate the plugin in the Plugin dashboard
 
 == Screenshots ==
@@ -57,6 +57,19 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 
 == Changelog ==
+
+= 1.0.7 - 2023-01-15 =
+* Change API endpoint for delivery-options
+* Change the account activation URL in settings page
+* Some minor improvments
+
+= 1.0.6 - 2023-01-10 =
+* Integration with persian-woocommerce-shipping-pro plugin
+* Disable Podro shipping option if the choosen city is not under Podro coverage
+* Add cancel conditions
+
+= 1.0.5 - 2022-12-25 =
+* Fix the cities js conflict in checkout page
 
 = 1.0.4 - 2022-12-17 =
 * Fix the integration with persian-woocommerce and persian-woocommerce-shipping plugins

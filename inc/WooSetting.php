@@ -441,6 +441,10 @@ class WooSetting
 		);
 	}
 
+	public static function is_podro_city($city_code){
+		return array_key_exists($city_code, (new self())->get_cities());
+	}
+
 	public function get_city_by_name($name){
 		foreach ($this->get_cities() as $code => $city_name){
 			if($city_name == $name)
@@ -449,11 +453,19 @@ class WooSetting
 	}
 	public function get_store_city(){
 		$current_city = $this->get_store_city_code_from_options();
+		$current_city = !empty($current_city)? $current_city : '0001';
 		return $this->get_cities()[$current_city];
 	}
 
 	public function get_store_city_code_from_options(){
-		return get_option('woocommerce_store_city',0);
+		return get_option('podro_store_city','');
+	}
+
+	public function get_store_address(){
+		return get_option('podro_store_address', '');
+	}
+	public function get_store_name(){
+		return get_option('podro_store_name', '');
 	}
 
 }

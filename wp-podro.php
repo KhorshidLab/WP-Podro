@@ -9,7 +9,7 @@
  * Plugin Name:     Podro WP
  * Plugin URI:      https://khorshidlab.com/
  * Description:     پادروپین؛ ‌مارکت‌پلیس خدمات پستی است و به فروشگاه‌های آنلاین کمک می‌کند تا فرآیند ارسال سفارش‌های اینترنتی را مدیریت کنند. در پادروپین، بدون مراجعه و یا ثبت قرارداد با شرکت‌های پستی، می‌توان سفارش‌های اینترنتی را با هر یک از شرکت‌های پستی ارسال کرد
- * Version:         1.0.4
+ * Version:         1.0.7
  * Author:          Khorshid, Podro
  * Author URI:      https://khorshidlab.com/fa/
  * Text Domain:     podro-wp
@@ -36,8 +36,10 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
  * Currently plugin version.
  */
 
-define( 'PODRO_VERSION', '1.0.4' );
+define( 'PODRO_VERSION', '1.0.7' );
 define( 'PODRO_SLUG', 'podro-wp' );
+define( 'PODRO_SETTINGS_PAGE_SLUG', 'podro-wp-settings' );
+
 define( 'PODRO_NAME', 'WP PODRO' );
 define( 'PODRO_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
 define( 'PODRO_PLUGIN_ABSOLUTE', __FILE__ );
@@ -65,7 +67,7 @@ if ( version_compare( PHP_VERSION, PODRO_MIN_PHP_VERSION, '<=' ) ) {
 			echo wp_kses_post(
 				sprintf(
 					'<div class="notice notice-error"><p>%s</p></div>',
-					esc_html__( 'WP-Podro requires PHP 7.2 or newer.', 'podro-wp' )
+					esc_html__( 'Podro requires PHP 7.2 or newer.', 'podro-wp' )
 				)
 			);
 		}
@@ -76,9 +78,7 @@ if ( version_compare( PHP_VERSION, PODRO_MIN_PHP_VERSION, '<=' ) ) {
 }
 
 require_once(PODRO_PLUGIN_ROOT . 'vendor/autoload.php');
-if ( class_exists('WC_Payment_Gateway') ) {
-	$GLOBALS['wc_city_select'] = new WP_PODRO\Engine\WC_City_Select();
-}
+
 $Setup = new WP_PODRO\Engine\Setup;
 add_action('admin_init', function(){
 	\WP_PODRO\Engine\WooSetting::get_instance();
