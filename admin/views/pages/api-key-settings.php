@@ -67,7 +67,7 @@ $store_address = get_option('podro_store_address', '');
 				<div class="pdo-box">
 
 					<input type="checkbox" name="podro_only_functionality" value="yes" id="podro_only_functionality" <?php echo ( 'yes' == get_option('podro_only_functionality', 'no') )? 'checked="checked"' :'' ?>
-					<label for="podro_only_functionality">زمانی که فقط پادرو بعنوان حمل و نقل فعال استُ شهرهای پادرو جایگزین شود</label>
+					<label for="podro_only_functionality">هنگامی که فقط پادرو بعنوان روش حمل و نقل فعال بود تنها شهرهای تحت پوشش پادرو نمایش داده شود</label>
 				</div>
 				<p></p>
 				<div class="pdo-box">
