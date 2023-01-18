@@ -336,6 +336,14 @@
 
 	function _callback_step_4( response ) {
 
+
+
+		if(response.data.payload.payment_link){
+			console.log(response.data.payload.payment_link);
+			window.location.href = response.data.payload.payment_link;
+			return false;
+		}
+
 		$('#woocommerce-order-podro .inside .pod-delivery-step-3-wrapper').remove()
 		$('#woocommerce-order-podro .inside .pod-delivery-step-2-wrapper').remove()
 		$('#woocommerce-order-podro .inside button').remove()
@@ -343,7 +351,7 @@
 		$('#woocommerce-order-podro .inside').prepend('<h3 style="text-align=center;">ثبت سفارش با موفقیت انجام شد.</h3>')
 
 		setTimeout(function() {
-			location.reload();
+			//location.reload();
 		}, 3000);
 
 	}
@@ -383,6 +391,7 @@
 
 
 		delivery_options = response.data
+		console.log(delivery_options);
 		$('.pod-delivery-step-2-wrapper').remove()
 
 		let select_html = '<select name="pod_delivery_option_day">'
@@ -477,7 +486,7 @@
 
 			$('.pod-delivery-step').remove()
 			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('مرحله بعد')
-
+			console.log(response);
 			const delivery_options = response.data.quotes;
 			if(delivery_options.length <= 0 )
 			{

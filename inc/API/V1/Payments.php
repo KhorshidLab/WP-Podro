@@ -6,10 +6,14 @@ class Payments
 {
 	public static $instance;
 
-	public function get_instance(){
+	public static function get_instance(){
 		if(!self::$instance)
 			self::$instance = new Payments();
 		return self::$instance;
+	}
+
+	public function __construct(){
+
 	}
 
 	public function echo_payments(){
@@ -46,5 +50,19 @@ class Payments
 
 	public function request_register_payment_method(){
 
+	}
+
+	public function check_payment_status()
+	{
+		if( !isset($_GET['paymentredirect']) )
+			return false;
+
+		if( !isset($_GET['status']) )
+			return false;
+
+		if( $_GET['status'] != 'success' )
+			return 'payment_failed';
+
+		return true;
 	}
 }
