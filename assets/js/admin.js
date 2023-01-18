@@ -339,7 +339,7 @@
 
 
 		if(response.data.payload.payment_link){
-			console.log(response.data.payload.payment_link);
+
 			window.location.href = response.data.payload.payment_link;
 			return false;
 		}
@@ -391,7 +391,7 @@
 
 
 		delivery_options = response.data
-		console.log(delivery_options);
+
 		$('.pod-delivery-step-2-wrapper').remove()
 
 		let select_html = '<select name="pod_delivery_option_day">'
@@ -470,7 +470,7 @@
 	}
 
 	function _callback_step_1( response ) {
-		console.log(response);
+
 
 		if ( response.success ) {
 
@@ -486,7 +486,7 @@
 
 			$('.pod-delivery-step').remove()
 			$('.pod-delivery-step-button').removeClass('pod-delivery-step-1').addClass('pod-delivery-step-2').html('مرحله بعد')
-			console.log(response);
+
 			const delivery_options = response.data.quotes;
 			if(delivery_options.length <= 0 )
 			{
