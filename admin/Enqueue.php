@@ -34,7 +34,7 @@ class Enqueue {
 
 		add_action('woocommerce_before_checkout_process', function(){
 
-			if(self::check_for_only_podro()){
+			if(self::check_for_only_podro() && class_exists('PWS_Core')){
 				remove_filter('woocommerce_checkout_process', [\PWS_Core::instance(), 'checkout_process'], 20, 1);
 			}
 
