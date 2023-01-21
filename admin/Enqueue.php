@@ -10,7 +10,9 @@
 
 namespace WP_PODRO\Admin;
 
+use WP_PODRO\Engine\Helper;
 use WP_PODRO\Engine\WC_City_Select;
+use WP_PODRO\Engine\WooSetting;
 use WP_PODRO\Engine\WooZones;
 
 /**
@@ -29,7 +31,20 @@ class Enqueue {
 		\add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 		\add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_styles' ) );
+
+		add_action('woocommerce_before_checkout_process', function(){
+
+			if(self::check_for_only_podro()){
+				remove_filter('woocommerce_checkout_process', [\PWS_Core::instance(), 'checkout_process'], 20, 1);
+			}
+
+		},22);
+
 	}
+
+
+
+
 
 
 	/**
@@ -77,32 +92,33 @@ class Enqueue {
 
 		if ( is_cart() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
 
-			$is_it_only_podro = (WooZones::get_instance())->is_podro_only_active_method();
+
 			if ( function_exists( 'PWS' ) || class_exists('PWS_Core') || in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
-				$only_podro_cuntionality_state = get_option('podro_only_functionality');
+				if(  true == self::check_for_only_podro() ){
 
-				if( true == $is_it_only_podro && 'yes' == $only_podro_cuntionality_state){
 					add_action( 'wp_enqueue_scripts',function(){
 
 						wp_dequeue_script('pwsCheckout');
 						wp_deregister_script('pwsCheckout');
 
 					},99999);
+					/*
+					 * Provinces will be loaded by Persian Woocommerce plugin
+					 */
 					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
 				}
-				else
-					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/cities.js';
 			}else{
+
 				$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+				/*
+				 * We seperated the provinces here because we should not
+				 * change provinces when PWS plugin is enabled
+				 * Because woocommerce use another naming system we changed the names to
+				 * sing province name instead of Tehran(تهران)
+				 */
+				$province_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-provinces.js';
 			}
-
-
-
-
-
-
-
 
 			wp_enqueue_script(
 				'wc-city-select',
@@ -112,17 +128,34 @@ class Enqueue {
 				true
 			);
 
-//			$cities = json_encode( (new WC_City_Select)->get_cities() );
-//			wp_localize_script(
-//				'wc-city-select',
-//				'wc_city_select_params',
-//				array(
-//					'cities' => $cities,
-//					'i18n_select_city_text' => esc_attr__( 'Select an option&hellip;', 'woocommerce' )
-//				)
-//			);
+			if(isset($province_select_path)){
+				wp_enqueue_script(
+					'wc-province-select',
+					$province_select_path,
+					array( 'jquery', 'woocommerce' ),
+					PODRO_VERSION,
+					true
+				);
+			}
 		}
 
 	}
+
+	private static function check_for_only_podro(){
+
+
+		$is_it_only_podro = (WooZones::get_instance())->is_podro_only_active_method();
+
+		$only_podro_functionality_state = get_option('podro_only_functionality');
+
+		if( true == $is_it_only_podro && 'yes' == $only_podro_functionality_state){
+			return true;
+		}else{
+			return false;
+		}
+
+
+	}
+
 
 }
