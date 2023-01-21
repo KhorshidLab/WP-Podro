@@ -115,7 +115,7 @@ class WooSetting
 			),
 			array(
 				"id" => 9,
-				"name" => "چهارمحال و بختیاری",
+				"name" => "چهار محال بختیاری",
 				"code" => "CHB",
 				"cities"=>array(
 					'1401'=>'بروجن',
@@ -249,7 +249,7 @@ class WooSetting
 			),
 			array(
 				"id" => 23,
-				"name" => "کهگیلوییه و بویراحمد",
+				"name" => "کهگیلویه و بویراحمد",
 				"code" => "KBD",
 				"cities"=>array(
 					'1703'=>'گچساران',

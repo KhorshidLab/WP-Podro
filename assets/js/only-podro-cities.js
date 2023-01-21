@@ -4,15 +4,15 @@ jQuery(document).ready(function(){
 
 	function reload_for_cities(){
 
-		if(jQuery('#billing_state option').length < 0){
-			setTimeout(reload_for_cities, 1000);
+		if(jQuery('#billing_state option').length > 0){
+			jQuery('#billing_state').trigger('change');
 			return;
 		}
 
-		const city_count = jQuery('#billing_city option').length;
-		if(city_count <= 0){
-			jQuery('#billing_state').trigger('change');
-		}
+		// const city_count = jQuery('#billing_city option').length;
+		// if(city_count >0){
+		// 	jQuery('#billing_state').trigger('change');
+		// }
 	}
 
 	jQuery('body').on('country_to_state_changed', function(p1,country){
@@ -23,6 +23,9 @@ jQuery(document).ready(function(){
 			jQuery('input#shipping_city').replaceWith('<select id="shipping_city" name="shipping_city"></select>');
 			jQuery('select#billing_city').selectWoo();
 			jQuery('select#shipping_city').selectWoo();
+
+			jQuery('select#billing_state').selectWoo();
+			jQuery('select#shipping_state').selectWoo();
 			getCities();
 		}else{
 			jQuery('#billing_city').parent().find('.select2').remove();
@@ -32,17 +35,21 @@ jQuery(document).ready(function(){
 		}
 	});
 
-	function getCities(){
-		jQuery('#billing_state, body').change(function(){
 
-			const province_code = jQuery(this).val();
+
+	function getCities(){
+
+
+		jQuery('#billing_state').change(function(){
+
+			const province_code = jQuery(this).find('option:selected').text();
 			const element = jQuery('#billing_city');
 
 			if(!province_code)
 				return;
 			const data = {
 				action:'get_podro_cities_by_province',
-				//security: wp_podro_ajax_object.security,
+
 				province: province_code
 			};
 
@@ -50,14 +57,14 @@ jQuery(document).ready(function(){
 
 		});
 
-		jQuery('#shipping_state, body').change(function(){
-			const province_code = jQuery(this).val();
+		jQuery('#shipping_state').change(function(){
+			const province_code = jQuery(this).find('option:selected').text();
 			const element = jQuery('#shipping_city');
 			if(!province_code)
 				return;
 			const data = {
 				action:'get_podro_cities_by_province',
-				//security: wp_podro_ajax_object.security,
+
 				province: province_code
 			};
 
@@ -67,6 +74,8 @@ jQuery(document).ready(function(){
 	}
 
 
+	jQuery('div.woocommerce-billing-fields#billing_state').trigger('change');
+	jQuery('div.woocommerce-billing-fields#shipping_state').trigger('change');
 
 
 

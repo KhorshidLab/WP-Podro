@@ -127,6 +127,10 @@ class Api_Key {
 			update_option('podro_store_city', sanitize_text_field($_POST['podro_store_city']??''));
 			update_option('podro_store_address', sanitize_text_field($_POST['podro_store_address']??''));
 			update_option('podro_auto_update', sanitize_text_field($_POST['podro_auto_update']??''));
+			if(isset($_POST['podro_only_functionality']) && $_POST['podro_only_functionality'] == 'yes')
+				update_option('podro_only_functionality', 'yes');
+			else
+				update_option('podro_only_functionality', 'no');
 
 
 			add_action( 'admin_notices', function () {
