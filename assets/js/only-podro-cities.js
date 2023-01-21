@@ -23,6 +23,9 @@ jQuery(document).ready(function(){
 			jQuery('input#shipping_city').replaceWith('<select id="shipping_city" name="shipping_city"></select>');
 			jQuery('select#billing_city').selectWoo();
 			jQuery('select#shipping_city').selectWoo();
+
+			jQuery('select#billing_state').selectWoo();
+			jQuery('select#shipping_state').selectWoo();
 			getCities();
 		}else{
 			jQuery('#billing_city').parent().find('.select2').remove();
@@ -46,7 +49,7 @@ jQuery(document).ready(function(){
 				return;
 			const data = {
 				action:'get_podro_cities_by_province',
-				//security: wp_podro_ajax_object.security,
+
 				province: province_code
 			};
 
@@ -61,7 +64,7 @@ jQuery(document).ready(function(){
 				return;
 			const data = {
 				action:'get_podro_cities_by_province',
-				//security: wp_podro_ajax_object.security,
+
 				province: province_code
 			};
 
