@@ -132,6 +132,10 @@ class Setup {
 		add_action( 'wp_ajax_nopriv_get_podro_cities_by_province', function(){
 
 			$provinces = WooSetting::get_provinces();
+			if(!isset($_POST['province']) || empty($_POST['province'])){
+				wp_send_json( $provinces);
+				wp_die();
+			}
 			$province_code = $_POST['province'];
 			foreach ($provinces as $province){
 				if($province['name'] == $province_code)
@@ -145,6 +149,10 @@ class Setup {
 		add_action( 'wp_ajax_get_podro_cities_by_province', function(){
 
 			$provinces = WooSetting::get_provinces();
+			if(!isset($_POST['province']) || empty($_POST['province'])){
+				wp_send_json( $provinces);
+				wp_die();
+			}
 			$province_code = $_POST['province'];
 			foreach ($provinces as $province){
 				if($province['name'] == $province_code)
