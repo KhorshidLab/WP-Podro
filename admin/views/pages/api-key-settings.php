@@ -74,7 +74,7 @@ $store_address = get_option('podro_store_address', '');
 						</tr>
 						<tr>
 							<th scope="row">
-								<label for="podro_store_address">آدرس</label>
+								<label for="podro_store_address">آدرس فروشگاه</label>
 							</th>
 							<td class="pdo-box">
 								<textarea name="podro_store_address" id="podro_store_address" class="regular_text" required><?php echo esc_attr($store_address ?? '')  ?></textarea>
