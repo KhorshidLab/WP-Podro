@@ -52,5 +52,20 @@ class WooZones
 		return false;
 	}
 
+	public function check_for_only_podro(){
+
+
+		$is_it_only_podro = (WooZones::get_instance())->is_podro_only_active_method();
+
+		$only_podro_functionality_state = get_option('podro_only_functionality');
+
+		if( true == $is_it_only_podro && 'yes' == $only_podro_functionality_state){
+			return true;
+		}else{
+			return false;
+		}
+
+
+	}
 
 }

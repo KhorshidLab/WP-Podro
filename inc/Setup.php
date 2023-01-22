@@ -77,7 +77,10 @@ class Setup {
 		 * This would check if reset password is on progress
 		 */
 		add_action('admin_init', function() use ($setting){
-
+		add_filter( 'woocommerce_formatted_address_replacements', [
+			$this,
+			'change_podro_city_code_to_name',
+		], 10, 2 );
 		$setting->reset_credentials_callback();
 		});
 		$this->run();
@@ -96,6 +99,13 @@ class Setup {
 	 * @access   private
 	 */
 
+	public function change_podro_city_code_to_name($replace, $args){
+		if ( ctype_digit( $args['city'] ) && (new WooZones())->is_podro_only_active_method() ) {
+			$city              =  WooSetting::get_city_by_code($args['city'] ) ;
+			$replace['{city}'] = $city;
+		}
+		return $replace;
+	}
 
 	public function podro_get_cities(){
 		$woosetting = new WooSetting();

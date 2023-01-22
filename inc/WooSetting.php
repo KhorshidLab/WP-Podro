@@ -441,6 +441,12 @@ class WooSetting
 		);
 	}
 
+	public static function get_city_by_code($code){
+		$cities = (new self())->get_cities();
+		if( array_key_exists($code, $cities) )
+			return $cities[$code];
+	}
+
 	public static function is_podro_city($city_code){
 		return array_key_exists($city_code, (new self())->get_cities());
 	}
