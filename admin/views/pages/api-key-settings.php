@@ -22,11 +22,11 @@ $store_address = get_option('podro_store_address', '');
 					<tbody>
 						<tr>
 							<th scope="row"><label for="pdo_email">ایمیل</label></th>
-							<td><input type="email" name="pdo_email" id="pdo_email" class="regular-text ltr" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>"></td>
+							<td><input type="email" name="pdo_email" id="pdo_email" class="regular-text ltr" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>" required></td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="pdo_password">کلمه عبور</label></th>
-							<td><input type="password" name="pdo_password" id="pdo_password" class="regular-text ltr" autocomplete="off"></td>
+							<td><input type="password" name="pdo_password" id="pdo_password" class="regular-text ltr" autocomplete="off" required></td>
 						</tr>
 						<tr>
 							<th scope="row"></th>
@@ -40,7 +40,12 @@ $store_address = get_option('podro_store_address', '');
 					<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php esc_html_e("ذخیره اطلاعات", 'podro-wp') ?></button>
 				</p>
 
+			</form>
+
+
 				<hr />
+
+			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url('/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG)); ?>">
 
 				<h3><?php esc_html_e('تنظیمات فروشگاه', 'podro-wp') ?></h3>
 
