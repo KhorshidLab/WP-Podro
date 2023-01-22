@@ -4,7 +4,7 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.0.7
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,16 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 
 == Changelog ==
+
+= 1.1.0 - 2023-01-22 =
+* Add ability to set "Only Show Podro Cities" feature in settings page
+* Add auto update function in settings page
+* Add Online Payment feature
+* Change Settings page for better UX
+* Fix compatibility issues with persian-woocommerce-shipping-pro plugin
+* Fix compatibility issues with Persian WooCommerce cities
+* Fix product name in Podro API due to limit issue
+* Fix font issue
 
 = 1.0.7 - 2023-01-15 =
 * Change API endpoint for delivery-options
