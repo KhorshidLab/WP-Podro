@@ -107,6 +107,8 @@ class Enqueue {
 					 * Provinces will be loaded by Persian Woocommerce plugin
 					 */
 					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+				}else{
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
 				}
 			}else{
 
