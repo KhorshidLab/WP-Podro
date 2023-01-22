@@ -18,19 +18,31 @@ $store_address = get_option('podro_store_address', '');
 			<h3><?php  esc_html_e( 'پیکربندی اتصال به پادرو پین', 'podro-wp' ) ?></h3>
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url( '/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG )); ?>">
 
-				<div class="pdo-box">
-					<label for="pdo_email">ایمیل</label>
-					<input type="email" name="pdo_email" id="pdo_email" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>">
-				</div>
-				<div class="pdo-box">
-					<label for="pdo_password">کلمه عبور</label>
-					<input type="password" name="pdo_password" id="pdo_password" autocomplete="off">
-				</div>
-				<div class="pdo-box">
-					<a class="get-api-key" href="https://pin.podro.com/signup?source=plugin" target="_blank" rel="noopener noreferrer"><?php  esc_html_e('درخواست فعال‌سازی', 'podro-wp'); ?></a>
-				</div>
-				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php  esc_html_e( "ذخیره", 'podro-wp' ) ?></button>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row"><label for="pdo_email">ایمیل</label></th>
+						<td><input type="email" name="pdo_email" id="pdo_email" class="regular-text ltr" value="<?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="pdo_password">کلمه عبور</label></th>
+						<td><input type="password" name="pdo_password" id="pdo_password" class="regular-text ltr" autocomplete="off"></td>
+					</tr>
+					<tr>
+						<th scope="row"></th>
+						<td>
+						<a class="get-api-key" href="https://pin.podro.com/signup?source=plugin" target="_blank" rel="noopener noreferrer"><?php  esc_html_e('درخواست فعال‌سازی', 'podro-wp'); ?></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p class="submit">
+				<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php  esc_html_e( "ذخیره اطلاعات", 'podro-wp' ) ?></button>
+			</p>
+				
+				
 				<hr/>
+
 				<h3><?php  esc_html_e( 'تنظیمات فروشگاه', 'podro-wp' ) ?></h3>
 				<div class="pdo-box">
 					<label for="pdo_storename">نام فروشگاه</label>
