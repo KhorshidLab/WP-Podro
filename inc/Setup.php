@@ -71,7 +71,15 @@ class Setup {
 		$this->define_admin_hooks();
 
 		(new Enqueue)->initialize();
-		new Settings();
+		$setting = new Settings();
+
+		/*
+		 * This would check if reset password is on progress
+		 */
+		add_action('admin_init', function() use ($setting){
+
+		$setting->reset_credentials_callback();
+		});
 		$this->run();
 
 	}

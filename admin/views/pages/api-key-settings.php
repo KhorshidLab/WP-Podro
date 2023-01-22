@@ -1,4 +1,6 @@
 <?php
+use WP_PODRO\Engine\Setup;
+
 $credentials_status = get_option('podro_plugin_status');
 $credentials = get_option('podro_plugin_credentials', true);
 
@@ -13,7 +15,11 @@ $store_address = get_option('podro_store_address', '');
 
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
-
+			<?php if(Setup::is_plugin_setup_done()){ ?>
+				<p><b>وضعیت اتصال:</b> اتصال به پادروپین با حساب کاربری «ایمیل» برقرار است.</p>
+				<p>  <a class="get-api-key" href="<?php  echo admin_url('/admin.php?page=podro-wp-settings&action=resetpassword') ?>">تغییر حساب کاربری</a></p>
+				<p>توجه داشته باشید با کلیک برروی لینک حساب کاربری قبلی شما حذف خواهد شد</p>
+			<?php }else{ ?>
 			<h1><?php esc_html_e('تنظیمات عمومی پادرو', 'podro-wp') ?></h1>
 			<h3><?php esc_html_e('پیکربندی اتصال به پادرو پین', 'podro-wp') ?></h3>
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url('/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG)); ?>">
@@ -36,10 +42,11 @@ $store_address = get_option('podro_store_address', '');
 						</tr>
 					</tbody>
 				</table>
+
 				<p class="submit">
 					<button type="submit" class="button button-primary" name="config_podro_api_key" value="1"><?php esc_html_e("ذخیره اطلاعات", 'podro-wp') ?></button>
 				</p>
-
+				<?php } ?>
 			</form>
 
 
@@ -90,10 +97,10 @@ $store_address = get_option('podro_store_address', '');
 								<label for="podro_only_functionality">فقط نمایش شهرهای پادرو</label>
 							</th>
 							<td>
-								<input 
-									type="checkbox" 
-									name="podro_only_functionality" 
-									value="yes" 
+								<input
+									type="checkbox"
+									name="podro_only_functionality"
+									value="yes"
 									id="podro_only_functionality" <?php echo ('yes' == get_option('podro_only_functionality', 'no')) ? 'checked="checked"' : '' ?> >
 								هنگامی که فقط پادرو بعنوان روش حمل و نقل فعال بود، تنها شهرهای تحت پوشش پادرو نمایش داده شود.
 							</td>
