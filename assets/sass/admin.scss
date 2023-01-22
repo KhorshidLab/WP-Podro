@@ -135,17 +135,12 @@ This set of fonts are used in this project under the license: T2P46U
 	}
 
 	input[type=text] {
-		width: 325px;
-		text-align: left;
-		direction: ltr;
+		width: 25em;
 	}
 
 	textarea {
-	  width: 325px;
-	  text-align: left;
-	  direction: ltr;
+	  width: 25em;
 	  min-height: 80px;
-
 	}
 
 	.get-api-key {
