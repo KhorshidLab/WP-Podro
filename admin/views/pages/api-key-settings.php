@@ -15,15 +15,38 @@ $store_address = get_option('podro_store_address', '');
 
 	<div class="pdo-wrapper">
 		<div class="pdo-card">
-			<?php if(Setup::is_plugin_setup_done()){ ?>
-				<p><b>وضعیت اتصال:</b> اتصال به پادروپین با حساب کاربری «ایمیل» برقرار است.</p>
-				<p>  <a class="get-api-key" href="<?php  echo admin_url('/admin.php?page=podro-wp-settings&action=resetpassword') ?>">تغییر حساب کاربری</a></p>
-				<p>توجه داشته باشید با کلیک برروی لینک حساب کاربری قبلی شما حذف خواهد شد</p>
-			<?php }else{ ?>
 			<h1><?php esc_html_e('تنظیمات عمومی پادرو', 'podro-wp') ?></h1>
 			<h3><?php esc_html_e('پیکربندی اتصال به پادرو پین', 'podro-wp') ?></h3>
-			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url('/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG)); ?>">
 
+			<?php if(Setup::is_plugin_setup_done()){ ?>
+				<table class="form-table">
+					<tbody>
+						<tr>
+							<th scope="row"><label>وضعیت اتصال</label></th>
+							<td>
+								اتصال به پادروپین با حساب کاربری 
+								&nbsp;<b>« <?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?> »</b>&nbsp;
+								برقرار است.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label></label></th>
+							<td>
+								<a class="get-api-key" href="<?php  echo admin_url('/admin.php?page=podro-wp-settings&action=resetpassword') ?>">تغییر حساب کاربری</a>
+								<p>
+									<span class="dashicons dashicons-info"></span>
+									توجه: با کلیک برروی لینک، اتصال قطع می‌شود و بایستی مجدد اطلاعات حساب کاربری را وارد کنید.
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<p><b></b> </p>
+				<p>  </p>
+				
+			<?php }else{ ?>
+			
+			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url('/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG)); ?>">
 				<table class="form-table" id="pdo-login-form">
 					<tbody>
 						<tr>
