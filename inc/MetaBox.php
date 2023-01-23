@@ -161,7 +161,7 @@ class MetaBox {
 
 		$order_id = $order->get_id();
 		$destination_city_code = $order->get_shipping_city();
-		Helper::log($destination_city_code);
+
 		$method = $order->get_items( 'shipping' );
 		$method_id = reset( $method )->get_method_id();
 		$is_only_podro_active = (new WooZones())->check_for_only_podro();
@@ -219,15 +219,8 @@ class MetaBox {
 		$user_billing_name = $order->get_billing_first_name();
 		$user_billing_family = $order->get_billing_last_name();
 
-
 		$customer_note = $order->get_customer_note();
-
-
-
-
-
-
-			?>
+		?>
 		<ul class="pod-delivery-step">
 			<li>
 				<?php
@@ -588,7 +581,8 @@ class MetaBox {
 		$item = reset($items);
 		if(!$item)
 			return '';
-		return $item->get_name();
+		$title = $item->get_name();
+		return str_replace(array(',',':',';','\'','.','"'), '', $title);
 	}
 
 	private function get_store_postal_code() {
