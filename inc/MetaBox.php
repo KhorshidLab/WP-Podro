@@ -161,16 +161,10 @@ class MetaBox {
 
 		$order_id = $order->get_id();
 		$destination_city_code = $order->get_shipping_city();
-		Helper::log($destination_city_code);
+
 		$method = $order->get_items( 'shipping' );
-		$method_id = reset( $method )->get_method_id();
-		$is_only_podro_active = (new WooZones())->check_for_only_podro();
 
-		if( 'podro_method' == $method_id && (false === $is_only_podro_active)){
-
-			$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
-
-		}
+		$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
 
 		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
 		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();

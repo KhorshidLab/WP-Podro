@@ -89,7 +89,7 @@ jQuery(document).ready(function(){
 
 		Object.keys(cities).forEach(function(key) {
 
-			element.append(`<option value='${key}'>${cities[key]}</option>`);
+			element.append(`<option value='${cities[key]}'>${cities[key]}</option>`);
 
 		});
 
