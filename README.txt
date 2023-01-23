@@ -58,11 +58,12 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 == Changelog ==
 
-= 1.1.0 - 2023-01-22 =
+= 1.1.0 - 2023-01-23 =
 * Add ability to set "Only Show Podro Cities" feature in settings page
 * Add auto update function in settings page
 * Add Online Payment feature
 * Change Settings page for better UX
+* Change Login Process
 * Fix compatibility issues with persian-woocommerce-shipping-pro plugin
 * Fix compatibility issues with Persian WooCommerce cities
 * Fix product name in Podro API due to limit issue
