@@ -12,6 +12,7 @@
 *.lock
 
 assets/css/*.css
+log.txt
 
 # OS or Editor folders
 .DS_Store
