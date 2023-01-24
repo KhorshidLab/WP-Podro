@@ -8,6 +8,7 @@ $store_name = get_option('podro_store_name', '');
 $store_city = get_option('podro_store_city', '');
 $store_address = get_option('podro_store_address', '');
 $store_city = !empty($store_city)? $store_city : get_option('woocommerce_store_city');
+$store_address = !empty($store_address)? $store_address : get_option('woocommerce_store_address') . ' ' . get_option('woocommerce_store_address_2');
 
 ?>
 
