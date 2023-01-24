@@ -7,6 +7,7 @@ $credentials = get_option('podro_plugin_credentials', true);
 $store_name = get_option('podro_store_name', '');
 $store_city = get_option('podro_store_city', '');
 $store_address = get_option('podro_store_address', '');
+$store_city = !empty($store_city)? $store_city : get_option('woocommerce_store_city');
 
 ?>
 
@@ -97,7 +98,7 @@ $store_address = get_option('podro_store_address', '');
 									foreach ($provinces as $province) {
 										echo "<optgroup label='" . esc_attr($province['name']) . "'>";
 										foreach ($province['cities'] as $key => $city)
-											if (get_option('podro_store_city') == $key)
+											if ($store_city == $key)
 												echo "<option selected value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
 											else
 												echo "<option value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
