@@ -85,7 +85,7 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 					<tbody>
 						<tr>
 							<th scope="row"><label for="podro_store_name">نام فروشگاه</label></th>
-							<td><input type="text" name="podro_store_name" id="podro_store_name" class="regular-text" value="<?php echo esc_attr(!empty($store_name) ? $store_name : get_bloginfo('name'))  ?>" required></td>
+							<td><input type="text" name="podro_store_name" id="podro_store_name" class="regular-text" value="<?php echo esc_attr(!empty($store_name) ? $store_name : get_bloginfo('name'))  ?>" required maxlength="60"></td>
 						</tr>
 						<tr>
 							<th scope="row">
@@ -119,7 +119,7 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 								<label for="podro_store_address">آدرس فروشگاه</label>
 							</th>
 							<td class="pdo-box">
-								<textarea name="podro_store_address" id="podro_store_address" class="regular_text" required><?php echo esc_attr($store_address ?? '')  ?></textarea>
+								<textarea name="podro_store_address" id="podro_store_address" class="regular_text" required maxlength="185"><?php echo esc_attr($store_address ?? '')  ?></textarea>
 							</td>
 						</tr>
 						<tr>
