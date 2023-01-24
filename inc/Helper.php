@@ -21,6 +21,12 @@ class Helper
 
 	}
 
+	public static function are_we_in_podro_setting(){
+		if(isset($_GET['page']) && $_GET['page'] == PODRO_SLUG . '-settings')
+			return true;
+		return false;
+}
+
 	public static function log($var){
 		file_put_contents(dirname(__DIR__) . '/log.txt', print_r($var,true),FILE_APPEND);
 	}
