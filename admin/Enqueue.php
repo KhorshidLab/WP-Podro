@@ -110,7 +110,7 @@ class Enqueue {
 				}else{
 					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
 				}
-			}else{
+			}else if(!class_exists('Persian_Woocommerce_Core')) {
 
 				$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
 				/*
@@ -120,6 +120,12 @@ class Enqueue {
 				 * sing province name instead of Tehran(تهران)
 				 */
 				$province_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-provinces.js';
+			}else if(class_exists('Persian_Woocommerce_Core')){
+				if(  true == self::check_for_only_podro() ){
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+				}else{
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
+				}
 			}
 
 			wp_enqueue_script(
