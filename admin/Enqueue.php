@@ -128,13 +128,13 @@ class Enqueue {
 
 				if(!$pwc_options || !is_array($pwc_options))
 					return;
-				if(self::only_podro_shippment_available()){
-					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+				if('yes' == ($pwc_options['enable_iran_cities'] ?? 'no')){
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
 				}else {
-					if ('yes' == ($pwc_options['enable_iran_cities'] ?? 'no')) {
-						$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
-					} else {
+					if (self::only_podro_shippment_available()) {
 						$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+					} else {
+						$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
 					}
 				}
 			}
