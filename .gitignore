@@ -12,6 +12,7 @@
 *.lock
 
 assets/css/*.css
+!assets/css/select2.min.css
 log.txt
 
 # OS or Editor folders

@@ -7,6 +7,8 @@ $credentials = get_option('podro_plugin_credentials', true);
 $store_name = get_option('podro_store_name', '');
 $store_city = get_option('podro_store_city', '');
 $store_address = get_option('podro_store_address', '');
+$store_city = !empty($store_city)? $store_city : get_option('woocommerce_store_city');
+$store_address = !empty($store_address)? $store_address : get_option('woocommerce_store_address') . ' ' . get_option('woocommerce_store_address_2');
 
 ?>
 
@@ -24,7 +26,7 @@ $store_address = get_option('podro_store_address', '');
 						<tr>
 							<th scope="row"><label>وضعیت اتصال</label></th>
 							<td>
-								اتصال به پادروپین با حساب کاربری 
+								اتصال به پادروپین با حساب کاربری
 								&nbsp;<b>« <?php echo isset($credentials['email']) ? esc_html($credentials['email']) : '' ?> »</b>&nbsp;
 								برقرار است.
 							</td>
@@ -43,9 +45,9 @@ $store_address = get_option('podro_store_address', '');
 				</table>
 				<p><b></b> </p>
 				<p>  </p>
-				
+
 			<?php }else{ ?>
-			
+
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url('/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG)); ?>">
 				<table class="form-table" id="pdo-login-form">
 					<tbody>
@@ -83,7 +85,7 @@ $store_address = get_option('podro_store_address', '');
 					<tbody>
 						<tr>
 							<th scope="row"><label for="podro_store_name">نام فروشگاه</label></th>
-							<td><input type="text" name="podro_store_name" id="podro_store_name" class="regular-text" value="<?php echo esc_attr($store_name ?? '')  ?>" required></td>
+							<td><input type="text" name="podro_store_name" id="podro_store_name" class="regular-text" value="<?php echo esc_attr(!empty($store_name) ? $store_name : get_bloginfo('name'))  ?>" required maxlength="60"></td>
 						</tr>
 						<tr>
 							<th scope="row">
@@ -92,12 +94,12 @@ $store_address = get_option('podro_store_address', '');
 							<td>
 								<?php
 									$provinces = \WP_PODRO\Engine\WooSetting::get_provinces();
-									echo "<select aria-label='شهر' class='wc-enhanced-select' id='podro_store_city' name='podro_store_city' style='width: 25em;' required>";
+									echo "<select  id='podro_store_city' name='podro_store_city' style='width: 25em;' required>";
 									echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
 									foreach ($provinces as $province) {
 										echo "<optgroup label='" . esc_attr($province['name']) . "'>";
 										foreach ($province['cities'] as $key => $city)
-											if (get_option('podro_store_city') == $key)
+											if ($store_city == $key)
 												echo "<option selected value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
 											else
 												echo "<option value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
@@ -107,12 +109,17 @@ $store_address = get_option('podro_store_address', '');
 								?>
 							</td>
 						</tr>
+						<script>
+							jQuery(document).ready(function(){
+								jQuery('#podro_store_city').select2();
+							});
+						</script>
 						<tr>
 							<th scope="row">
 								<label for="podro_store_address">آدرس فروشگاه</label>
 							</th>
 							<td class="pdo-box">
-								<textarea name="podro_store_address" id="podro_store_address" class="regular_text" required><?php echo esc_attr($store_address ?? '')  ?></textarea>
+								<textarea name="podro_store_address" id="podro_store_address" class="regular_text" required maxlength="185"><?php echo esc_attr($store_address ?? '')  ?></textarea>
 							</td>
 						</tr>
 						<tr>
