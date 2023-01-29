@@ -19,6 +19,11 @@
 
 	$('#pod-cancel-order, .pod-cancel-order').on('click', function(e) {
 		e.preventDefault();
+		const confirmation = confirm('آیا مطمئن هستید؟');
+
+		if(false === confirmation)
+			return;
+
 		var order_id = $(this).attr('data-order_id');
 
 		const data = {
