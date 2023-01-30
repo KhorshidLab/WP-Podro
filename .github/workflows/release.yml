@@ -27,8 +27,8 @@ jobs:
       run: npm install
 
     - name: Install Sass and Compass
-      run: gem install sass && gem install compass
-
+      run: sudo gem install sass && sudo gem install compass
+  
     - name: Run Grunt
       run: grunt
 
