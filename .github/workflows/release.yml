@@ -1,40 +1,55 @@
-name: Releases
+name: Build and Deploy
 
 on:
   push:
     tags:
-    - 'v*'
+      - 'v*'
+
 jobs:
-  install-dependency:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v1
-      - run: composer install --ansi --no-progress --no-interaction --prefer-dist --no-dev
-      - uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r vendor.zip vendor
-      - uses: actions/upload-artifact@v2
-        with:
-          name: vendor
-          path: ./vendor.zip
-          if-no-files-found: error
-  release:
-    needs: install-dependency
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/download-artifact@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
       with:
-        name: vendor
-    - run: unzip -qq vendor.zip
-    - run: rm vendor.zip
-    - run: zip -qq -X -r release.zip ./ -x "*.git*" .gitignore composer.* LICENSE  node_modules/\* Gruntfile.js package.json yarn.lock .sass-cache/\* assets/sass/\*
-    - name: Upload Release
-      uses: ncipollo/release-action@v1
+        ref: ${{ github.ref }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
       with:
-        artifacts: "release.zip"
-        generateReleaseNotes: true
-        omitPrereleaseDuringUpdate: true
-        token: ${{ secrets.GITHUB_TOKEN }}
+        node-version: 16
+
+    - name: Setup PHP
+      uses: actions/setup-php@v1
+      with:
+        php-version: 7.4
+
+    - name: Install Composer dependencies
+      run: composer install --ansi --no-progress --no-interaction --prefer-dist --no-dev
+
+    - name: Install npm dependencies
+      run: npm install
+
+    - name: Run Grunt
+      run: grunt
+
+    - name: Create zip file
+      run: zip -r wp-podro-${{ github.ref }}.zip . -x "*.git*" ".gitignore" ".distignore" "composer.*" "Gruntfile.js" "node_modules/*" "package.json" "yarn.lock" ".sass-cache/*" "assets/sass/*" ".wordpress-org/*"
+
+    - name: Generate release notes
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Release artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: wp-podro-${{ github.ref }}
+        path: wp-podro-${{ github.ref }}.zip
