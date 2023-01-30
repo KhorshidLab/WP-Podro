@@ -34,7 +34,7 @@ class Enqueue {
 
 		add_action('woocommerce_before_checkout_process', function(){
 
-			if(self::check_for_only_podro() && class_exists('PWS_Core')){
+			if(self::only_podro_shippment_available() && class_exists('PWS_Core')){
 				remove_filter('woocommerce_checkout_process', [\PWS_Core::instance(), 'checkout_process'], 20, 1);
 			}
 
@@ -99,9 +99,11 @@ class Enqueue {
 		if ( is_cart() || is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
 
 
-			if ( function_exists( 'PWS' ) || class_exists('PWS_Core') || in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			if ( function_exists( 'PWS' ) || class_exists('PWS_Core')
+				|| in_array( 'persian-woocommerce-shipping/woocommerce-shipping.php',
+					apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
-				if(  true == self::check_for_only_podro() ){
+				if(  true == self::only_podro_shippment_available() && true == self::check_tick_for_only_podro()){
 
 					add_action( 'wp_enqueue_scripts',function(){
 
@@ -116,16 +118,29 @@ class Enqueue {
 				}else{
 					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
 				}
-			}else{
+			}else if(!class_exists('Persian_Woocommerce_Core')) {
 
 				$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
 				/*
-				 * We seperated the provinces here because we should not
-				 * change provinces when PWS plugin is enabled
+				 * We seperated the provinces here because province names should not
+				 * be changed when PWS plugin is enabled
 				 * Because woocommerce use another naming system we changed the names to
-				 * sing province name instead of Tehran(تهران)
+				 * only province name instead of Tehran(تهران)
 				 */
 				$province_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-provinces.js';
+			}else if(class_exists('Persian_Woocommerce_Core')){
+
+				$pwc_options = get_option('PW_Options', false);
+
+				if(!$pwc_options || !is_array($pwc_options))
+					return;
+				if('yes' == ($pwc_options['enable_iran_cities'] ?? 'no')){
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/disable-podro.js';
+				}else {
+
+					$city_select_path = PODRO_PLUGIN_ROOT_URL . 'assets/js/only-podro-cities.js';
+
+				}
 			}
 
 			wp_enqueue_script(
@@ -149,19 +164,16 @@ class Enqueue {
 
 	}
 
-	private static function check_for_only_podro(){
+	public static function only_podro_shippment_available(){
+		return (WooZones::get_instance())->is_podro_only_active_method();
+	}
 
+	public static function check_tick_for_only_podro(){
 
-		$is_it_only_podro = (WooZones::get_instance())->is_podro_only_active_method();
 
 		$only_podro_functionality_state = get_option('podro_only_functionality');
 
-		if( true == $is_it_only_podro && 'yes' == $only_podro_functionality_state){
-			return true;
-		}else{
-			return false;
-		}
-
+		return ('yes' == $only_podro_functionality_state);
 
 	}
 
