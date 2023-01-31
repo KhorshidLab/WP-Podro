@@ -303,7 +303,7 @@ class MetaBox {
 		$pod_customer_note = mb_substr(sanitize_text_field($_POST['pod_customer_note']), 0, $this->comment_length);
 		$pod_source_city_code = sanitize_text_field($_POST['pod_source_city_code']?? '');
 		$pod_destination_city_code = sanitize_text_field($_POST['pod_destination_city_code']?? '');
-		update_option('pod_store_name', $pod_store_name);
+		update_option('podro_store_name', $pod_store_name);
 		update_option('pod_source_city', $pod_source_city);
 		update_option('pod_destination_city',$pod_destination_city);
 		update_option('pod_user_billing_name',$pod_user_billing_name);
