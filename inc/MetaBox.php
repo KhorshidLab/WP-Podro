@@ -320,6 +320,7 @@ class MetaBox {
 
 		$pod_store_name = mb_substr(sanitize_text_field($_POST['pod_store_name']?? ''), 0, $this->store_name_length);
 		$pod_store_city	= sanitize_text_field($_POST['podro_store_city']??'');
+
 		$pod_source_city = mb_substr(sanitize_text_field($_POST['pod_source_city']?? ''), 0, $this->address_length);
 		$pod_destination_city = mb_substr(sanitize_text_field($_POST['pod_destination_city']?? ''), 0, $this->address_length);
 		$pod_user_billing_name = mb_substr(sanitize_text_field($_POST['pod_user_billing_name']?? ''), 0, $this->name_length);
@@ -327,13 +328,14 @@ class MetaBox {
 		$pod_customer_note = mb_substr(sanitize_text_field($_POST['pod_customer_note']), 0, $this->comment_length);
 		$pod_source_city_code = sanitize_text_field($_POST['pod_source_city_code']?? '');
 		$pod_destination_city_code = sanitize_text_field($_POST['pod_destination_city_code']?? '');
-		update_option('pod_store_name', $pod_store_name);
+		update_option('podro_store_name', $pod_store_name);
 		update_option('podro_store_city', $pod_store_city);
 		update_option('pod_source_city', $pod_source_city);
 		update_option('pod_destination_city',$pod_destination_city);
 		update_option('pod_user_billing_name',$pod_user_billing_name);
 		update_option('pod_user_billing_family',$pod_user_billing_family);
 		update_option('pod_customer_note',$pod_customer_note);
+		update_option('podro_store_address',$pod_source_city);
 
 		update_option('pod_source_city_code', $pod_source_city_code);
 		update_option('pod_destination_city_code',$pod_destination_city_code);
