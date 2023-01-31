@@ -356,7 +356,7 @@
 		$('#woocommerce-order-podro .inside').prepend('<h3 style="text-align=center;">ثبت سفارش با موفقیت انجام شد.</h3>')
 
 		setTimeout(function() {
-			//location.reload();
+			location.reload();
 		}, 3000);
 
 	}
