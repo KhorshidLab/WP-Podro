@@ -173,7 +173,7 @@ class MetaBox {
 
 
 		$pod_source_city_code = $woo_setting->get_store_city_code_from_options();
-		$pod_store_address =  mb_substr($woo_setting->get_store_city() . ' ' . $woo_setting->get_store_address() , 0 , $this->address_length) ;
+		$pod_store_address =  mb_substr( $woo_setting->get_store_address() , 0 , $this->address_length) ;
 		$pod_store_name =  mb_substr( $woo_setting->get_store_name(), 0, $this->store_name_length );
 
 		$total_weight = 0;
@@ -228,7 +228,30 @@ class MetaBox {
 				<input type="text" name="pod_store_name" id="pod_store_name" maxlength="60" value="<?php echo esc_attr($pod_store_name); ?>"  />
 			</li>
 			<li>
-				<label for="pod_source_city">مبدا</label>
+				<label for="podro_store_city">شهر مبدا</label>
+				<?php
+				$provinces = \WP_PODRO\Engine\WooSetting::get_provinces();
+				echo "<select  id='podro_store_city' name='podro_store_city'  required>";
+				echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
+				foreach ($provinces as $province) {
+					echo "<optgroup label='" . esc_attr($province['name']) . "'>";
+					foreach ($province['cities'] as $key => $city)
+						if ($pod_source_city_code == $key)
+							echo "<option selected value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
+						else
+							echo "<option value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
+					echo "</optgroup>";
+				}
+				echo "</select>"
+				?>
+			</li>
+			<script>
+				jQuery(document).ready(function(){
+					jQuery('#podro_store_city').select2();
+				});
+			</script>
+			<li>
+				<label for="pod_source_city">آدرس مبدا</label>
 				<textarea name="pod_source_city" id="pod_source_city" rows="6"><?php echo esc_attr($pod_store_address); ?></textarea>
 				<?php if (empty($pod_store_address)) echo '<p style="color:red">'. esc_html__('لطفا آدرس فروشگاه را از تنظیمات ووکامرس وارد کنید.', 'podro-wp') .'</p>' ; ?>
 				<input type="hidden" id="pod_source_city_code" name="pod_source_city_code" value="<?php echo esc_attr($pod_source_city_code); ?>">
@@ -296,6 +319,7 @@ class MetaBox {
 		$this->validate_nonce( 'pod-options-nonce' );
 
 		$pod_store_name = mb_substr(sanitize_text_field($_POST['pod_store_name']?? ''), 0, $this->store_name_length);
+		$pod_store_city	= sanitize_text_field($_POST['podro_store_city']??'');
 		$pod_source_city = mb_substr(sanitize_text_field($_POST['pod_source_city']?? ''), 0, $this->address_length);
 		$pod_destination_city = mb_substr(sanitize_text_field($_POST['pod_destination_city']?? ''), 0, $this->address_length);
 		$pod_user_billing_name = mb_substr(sanitize_text_field($_POST['pod_user_billing_name']?? ''), 0, $this->name_length);
@@ -304,6 +328,7 @@ class MetaBox {
 		$pod_source_city_code = sanitize_text_field($_POST['pod_source_city_code']?? '');
 		$pod_destination_city_code = sanitize_text_field($_POST['pod_destination_city_code']?? '');
 		update_option('pod_store_name', $pod_store_name);
+		update_option('podro_store_city', $pod_store_city);
 		update_option('pod_source_city', $pod_source_city);
 		update_option('pod_destination_city',$pod_destination_city);
 		update_option('pod_user_billing_name',$pod_user_billing_name);
