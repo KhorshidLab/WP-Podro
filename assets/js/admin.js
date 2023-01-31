@@ -107,7 +107,10 @@
 			pod_user_billing_family: $('input[name=pod_user_billing_family]').val(),
 			pod_customer_note: $('textarea[name=pod_customer_note]').val(),
 			pod_source_city_code: $('#pod_source_city_code').val(),
-			pod_destination_city_code: $('#pod_destination_city_code').val()
+			pod_destination_city_code: $('#pod_destination_city_code').val(),
+			podro_store_city: $('#podro_store_city').val(),
+
+
 
 		};
 
