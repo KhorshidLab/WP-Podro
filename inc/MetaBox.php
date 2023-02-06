@@ -19,7 +19,7 @@ class MetaBox {
 			$order_id = intval( $_GET[ 'post' ] );
 			$order = \wc_get_order($order_id);
 
-			
+
 			if ( $this->has_podro_order( $order_id ) ) {
 				add_meta_box(
 					'woocommerce-order-podro',
