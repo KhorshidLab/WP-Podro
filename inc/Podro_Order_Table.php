@@ -104,6 +104,10 @@ class Podro_Order_Table extends \WP_List_Table {
 		$data = [];
 		foreach ($orders as $order){
 
+			$woo_order_id = $order['parcels'][0]['id'] ?? 0 ;
+			$post = get_post($woo_order_id);
+			if(!$post || 'trash' == get_post_status($woo_order_id))
+				continue;
 			if ( $order['status'] == 'درحال پردازش' ||
 				$order['status'] == 'ثبت اولیه' ||
 				$order['status'] == 'در حال بررسی تاخیر' ) {
