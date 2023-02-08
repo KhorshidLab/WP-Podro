@@ -80,7 +80,7 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url('/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG)); ?>">
 
 				<h3><?php esc_html_e('تنظیمات فروشگاه', 'podro-wp') ?></h3>
-				<h5>تکمیل اطلاعات تنظیمات فروشگاه الزامی است</h5>
+				<p>تکمیل اطلاعات تنظیمات فروشگاه الزامی است.</p>
 				<table class="form-table" id="pdo-other-settings">
 					<tbody>
 						<tr>
