@@ -167,7 +167,7 @@ class MetaBox {
 		$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
 
 		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
-		$destination_address = $destination_city_name . ' ' . $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
+		$destination_address =  $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
 
@@ -261,8 +261,25 @@ class MetaBox {
 				<?php if( !WooSetting::is_podro_city($destination_city_code) ){ ?>
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
+				<?php
+				$provinces = \WP_PODRO\Engine\WooSetting::get_provinces();
+				echo "<select  id='pod_destination_city_code' name='pod_destination_city_code'  required>";
+				echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
+				foreach ($provinces as $province) {
+					echo "<optgroup label='" . esc_attr($province['name']) . "'>";
+					foreach ($province['cities'] as $key => $city)
+						if ($destination_city_code == $key)
+							echo "<option selected value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
+						else
+							echo "<option value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
+					echo "</optgroup>";
+				}
+				echo "</select>"
+				?>
+				<label for="pod_destination_city">آدرس مقصد</label>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo esc_attr($destination_address); ?></textarea>
-				<input type="hidden" id="pod_destination_city_code" name="pod_destination_city_code" value="<?php echo esc_attr($destination_city_code); ?>">
+
+
 			</li>
 			<li>
 				<label for="pod_user_billing_name">نام </label>
@@ -390,7 +407,7 @@ class MetaBox {
 			]
 		];
 
-
+		Helper::log($data);
 		$response = (new Providers)->get_providers($data);
 
 		if (is_wp_error($response)) {
