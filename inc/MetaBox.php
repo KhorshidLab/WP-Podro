@@ -278,7 +278,11 @@ class MetaBox {
 				?>
 				<label for="pod_destination_city">آدرس مقصد</label>
 				<textarea name="pod_destination_city" id="pod_destination_city" rows="6" maxlength="186"><?php echo esc_attr($destination_address); ?></textarea>
-
+				<script>
+					jQuery(document).ready(function(){
+						jQuery('#pod_destination_city_code').select2();
+					});
+				</script>
 
 			</li>
 			<li>
