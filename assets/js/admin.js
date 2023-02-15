@@ -435,7 +435,7 @@
 		$('#woocommerce-order-podro .inside').prepend( html )
 
 		$('.pod-delivery-step-button').removeClass('pod-delivery-step-3').addClass('pod-delivery-step-4').html('تایید نهایی')
-		$('.pod-delivery-cancel').remove()
+
 		} );
 	}
 
@@ -473,7 +473,7 @@
 		$('#woocommerce-order-podro .inside').prepend( html )
 
 		$('.pod-delivery-step-button').removeClass('pod-delivery-step-2').addClass('pod-delivery-step-3').html('تایید سفارش')
-		$('.pod-delivery-step-button').after('<button class="pod-delivery-cancel">لغو</button>')
+
 
 	}
 
@@ -535,7 +535,7 @@
 			<input type="hidden" name="pod_depth" value="${data.depth}">
 			<input type="hidden" name="pod_order_id" value="${data.order_id}">
 			`
-
+			$('.pod-delivery-step-button').after('<button class="pod-delivery-cancel">اصلاح سفارش</button>')
 			$('#woocommerce-order-podro .inside').prepend( html )
 		}
 	}
