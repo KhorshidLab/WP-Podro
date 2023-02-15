@@ -445,3 +445,8 @@ select.pod-error  {
 .pod-cancel-order {
 	cursor: pointer;
 }
+label[for=podro_store_name], label[for=podro_store_city], label[for=podro_store_address]{
+  span{
+  	color: red;
+  }
+}

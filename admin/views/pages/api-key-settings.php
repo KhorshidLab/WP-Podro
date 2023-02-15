@@ -80,16 +80,16 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 			<form class="wp_podro-config-form" method="post" action="<?php echo esc_url(admin_url('/admin.php?page=' . PODRO_SETTINGS_PAGE_SLUG)); ?>">
 
 				<h3><?php esc_html_e('تنظیمات فروشگاه', 'podro-wp') ?></h3>
-
+				<p>تکمیل اطلاعات تنظیمات فروشگاه الزامی است.</p>
 				<table class="form-table" id="pdo-other-settings">
 					<tbody>
 						<tr>
-							<th scope="row"><label for="podro_store_name">نام فروشگاه</label></th>
+							<th scope="row"><label for="podro_store_name">نام فروشگاه<span>*</span></label></th>
 							<td><input type="text" name="podro_store_name" id="podro_store_name" class="regular-text" value="<?php echo esc_attr(!empty($store_name) ? $store_name : get_bloginfo('name'))  ?>" required maxlength="60"></td>
 						</tr>
 						<tr>
 							<th scope="row">
-								<label for="podro_store_city">شهر (مبدا)</label>
+								<label for="podro_store_city">شهر (مبدا)<span>*</span></label>
 							</th>
 							<td>
 								<?php
@@ -116,7 +116,7 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 						</script>
 						<tr>
 							<th scope="row">
-								<label for="podro_store_address">آدرس فروشگاه</label>
+								<label for="podro_store_address">آدرس فروشگاه<span>*</span></label>
 							</th>
 							<td class="pdo-box">
 								<textarea name="podro_store_address" id="podro_store_address" class="regular_text" required maxlength="185"><?php echo esc_attr($store_address ?? '')  ?></textarea>
