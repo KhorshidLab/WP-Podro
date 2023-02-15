@@ -11,7 +11,7 @@
  * Description:     پادروپین؛ ‌مارکت‌پلیس خدمات پستی است و به فروشگاه‌های آنلاین کمک می‌کند تا فرآیند ارسال سفارش‌های اینترنتی را مدیریت کنند. در پادروپین، بدون مراجعه و یا ثبت قرارداد با شرکت‌های پستی، می‌توان سفارش‌های اینترنتی را با هر یک از شرکت‌های پستی ارسال کرد
  * Version:         1.2.0
  * Author:          Khorshid, Podro
- * Author URI:      https://khorshidlab.com/fa/
+ * Author URI:      https://podro.com/shipping-wordpress-plugin/
  * Text Domain:     podro-wp
  * License:         GPL-3.0+
  * License URI:     http://www.gnu.org/licenses/gpl-3.0.txt

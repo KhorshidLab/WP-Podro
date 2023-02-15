@@ -124,7 +124,7 @@ class Setup {
 
 		add_action( 'wp_ajax_nopriv_get_podro_cities', [$this, 'podro_get_cities'] );
 		add_action( 'wp_ajax_get_podro_cities', [$this, 'podro_get_cities'] );
-
+		add_filter( 'plugin_row_meta', [$this,'add_podro_link_to_plugin_action_row'], 99, 4 );
 
 
 		$this->loader->add_action( 'admin_init', $Api_Key, 'set_pdo_api_key' );
@@ -370,6 +370,21 @@ class Setup {
 			];
 			update_option( 'podro_delivery_options', $delivery_options );
 		}
+	}
+
+
+	function add_podro_link_to_plugin_action_row( $plugin_meta, $plugin_file, $plugin_data, $status ) {
+
+		if ( strpos( $plugin_file, basename(PODRO_PLUGIN_ABSOLUTE) ) !== false ) {
+
+			$new_links = array(
+				'plugin-dev' => '<a href="https://khorshidlab.com/fa/?utm_source=podro&utm_medium=link&utm_campaign=by" target="_blank">توسعه فنی افزونه توسط خورشید</a>',
+
+			);
+			$plugin_meta = array_merge( $plugin_meta, $new_links );
+		}
+
+		return $plugin_meta;
 	}
 
 }
