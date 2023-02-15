@@ -104,6 +104,10 @@ class Podro_Order_Table extends \WP_List_Table {
 		$data = [];
 		foreach ($orders as $order){
 
+			$woo_order_id = $order['parcels'][0]['id'] ?? 0 ;
+			$post = get_post($woo_order_id);
+
+
 			if ( $order['status'] == 'درحال پردازش' ||
 				$order['status'] == 'ثبت اولیه' ||
 				$order['status'] == 'در حال بررسی تاخیر' ) {
@@ -113,16 +117,18 @@ class Podro_Order_Table extends \WP_List_Table {
 			}
 
 			$created_at = new \DateTime( date('Y-m-d' , $order['created_at']), new \DateTimeZone( wp_timezone_string() ) );
+			$order_link = (!$post || 'trash' == get_post_status($woo_order_id)) ? '#'.$woo_order_id :
+				'<a href="'. esc_url(get_edit_post_link( $order['parcels'][0]['id'] )) .'">#'. esc_html($order['parcels'][0]['id']) . ' '  .'</a>';
 
 			$data['items'][] = array(
 				'id'          	=> esc_html($order['order_id']),
 				'tracking_id'   => esc_html($order['tracking_id'] ?? ''),
 				'provider'      => esc_html($order['provider_code']),
 				'order_status' 	=> '<mark class="order-status status-processing"><span>'. esc_html($order['status']) .'</span></mark>',
-				'created_at'	=>esc_html( $jalali_date->gregorian_to_jalali($created_at->format('Y-m-d'))),
+				'created_at'	=> esc_html( $jalali_date->gregorian_to_jalali($created_at->format('Y-m-d'))),
 				'pickup_in'     => esc_html($order['pickup_time']),
 				'pickup_to'    	=> ' از ' .esc_html($order['from_time'])  . ' تا ' . esc_html($order['to_time']),
-				'order'      	=> '<a href="'. esc_url(get_edit_post_link( $order['parcels'][0]['id'] )) .'">#'. esc_html($order['parcels'][0]['id']) . ' '  .'</a>',
+				'order'      	=> $order_link,
 				'pdf'			=> '<a class="get_order_pdf" data-order_id="' . esc_attr($order['id']) . '">دانلود بارنامه</a>',
 				'cancel'		=> $cancel_order,
 
