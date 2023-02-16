@@ -4,7 +4,7 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,13 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 
 == Changelog ==
+
+= 1.3.0 - 2013-02-16 =
+* Add the ability to place a Podro order in all WooCommerce orders
+* Unlink orders that deleted in Podro orders list page
+* Add edit button to Podro order metabox without refresh
+* Add source city and destination city fields to Podro order metabox
+* Some minor improvements in Podro settings page
 
 = 1.2.0 - 2013-02-05 =
 * Remove special characters due to JSON validation issue
