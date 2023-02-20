@@ -134,7 +134,7 @@ This set of fonts are used in this project under the license: T2P46U
 		font-weight: bold;
 	}
 
-	input[type=text] {
+	input,select[type=text] {
 		width: 25em;
 	}
 
@@ -449,4 +449,8 @@ label[for=podro_store_name], label[for=podro_store_city], label[for=podro_store_
   span{
   	color: red;
   }
+}
+
+select#pod_dimension{
+  width: 100%;
 }
