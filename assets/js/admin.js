@@ -87,6 +87,71 @@
 		});
 	}
 
+	jQuery('#pod_dimension').on('change', function(){
+
+
+		const dimension= $('select[name=pod_dimension]').val();
+		let width =0, height =0, depth = 0;
+		switch (dimension){
+			case 'size0':
+				width = 31;
+				depth = 23;
+				height = 1;
+				break;
+			case 'size1':
+				width = 20;
+				depth = 14;
+				height = 10;
+				break;
+			case 'size2':
+				width = 27;
+				depth = 20;
+				height = 16;
+				break;
+			case 'size3':
+				width = 30;
+				depth = 20;
+				height = 19;
+				break;
+			case 'size4':
+				width = 40;
+				depth = 26;
+				height = 20;
+				break;
+			case 'size5':
+				width = 50;
+				depth = 25;
+				height = 25;
+				break;
+			case 'size6':
+				width = 60;
+				depth = 35;
+				height = 32;
+				break;
+			case 'size7':
+				width = 60;
+				depth = 40;
+				height = 36;
+				break;
+			case 'size8':
+				width = 45;
+				depth = 40;
+				height = 30;
+				break;
+			case 'size9':
+				width = 55;
+				depth = 45;
+				height = 35;
+				break;
+
+		}
+
+		jQuery('input[name=pod_width]').val(width);
+		jQuery('input[name=pod_depth]').val(depth);
+		jQuery('input[name=pod_height]').val(height);
+
+	});
+
 	$(document).on('click', '.pod-delivery-step-1', function(e) {
 		e.preventDefault()
 
@@ -96,7 +161,9 @@
 			security: wp_podro_ajax_object.security,
 			weight: $('input[name=pod_weight]').val(),
 			totalprice: $('input[name=pod_totalprice]').val(),
-			dimension: $('select[name=pod_dimension]').val(),
+			width: jQuery('input[name=pod_width]').val(),
+			depth: jQuery('input[name=pod_depth]').val(),
+			height: jQuery('input[name=pod_height]').val(),
 			order_id: $('input[name=pod_order_id]').val(),
 			pod_store_name: $('input[name=pod_store_name]').val(),
 			pod_source_city: $('textarea[name=pod_source_city]').val(),
