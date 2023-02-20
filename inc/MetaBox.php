@@ -305,18 +305,10 @@ class MetaBox {
 			</li>
 			<li class="pod-dimension">
 				<p>ابعاد به سانتی‌متر</p>
-				<!--<div>
-					<label for="pod_width">طول</label>
-					<input type="number" name="pod_width" id="pod_width" min="1" value="<?php echo esc_attr($length); ?>" />
-				</div>
-				<div>
-					<label for="pod_depth">عرض</label>
-					<input type="number" name="pod_depth" id="pod_depth" min="1" value="<?php echo esc_attr($width); ?>" />
-				</div>
-				<div>
-					<label for="pod_height">ارتفاع</label>
-					<input type="number" name="pod_height" id="pod_height" min="1" value="<?php echo esc_attr($height); ?>" />
-				</div>-->
+				<input type="hidden" name="pod_width" id="pod_width" min="1" value="<?php echo esc_attr($length); ?>" />
+				<input type="hidden" name="pod_depth" id="pod_depth" min="1" value="<?php echo esc_attr($width); ?>" />
+				<input type="hidden" name="pod_height" id="pod_height" min="1" value="<?php echo esc_attr($height); ?>" />
+
 				<select name="pod_dimension" id="pod_dimension">
 					<option value="size0" title="31x23x1" dir="rtl">بسته سایز A4</option>
 					<option value="size1" title="20x14x10" dir="rtl">بسته سایز 1</option>
@@ -381,60 +373,9 @@ class MetaBox {
 		}
 
 		$weight = 	$_POST['weight'] ?? 0;
-		$dimension = $_POST['dimension']??0;
-		switch ($dimension){
-			case 'size0':
-				$width = 31;
-				$depth = 23;
-				$height = 1;
-			break;
-			case 'size1':
-				$width = 20;
-				$depth = 14;
-				$height = 10;
-			break;
-			case 'size2':
-				$width = 27;
-				$depth = 20;
-				$height = 16;
-			break;
-			case 'size3':
-				$width = 30;
-				$depth = 20;
-				$height = 19;
-			break;
-			case 'size4':
-				$width = 40;
-				$depth = 26;
-				$height = 20;
-			break;
-			case 'size5':
-				$width = 50;
-				$depth = 25;
-				$height = 25;
-			break;
-			case 'size6':
-				$width = 60;
-				$depth = 35;
-				$height = 32;
-			break;
-			case 'size7':
-				$width = 60;
-				$depth = 40;
-				$height = 36;
-			break;
-			case 'size8':
-				$width = 45;
-				$depth = 40;
-				$height = 30;
-			break;
-			case 'size9':
-				$width = 55;
-				$depth = 45;
-				$height = 35;
-			break;
-
-		}
+		$width =	$_POST['width'] ?? 0;
+		$height =	$_POST['height'] ?? 0;
+		$depth =	$_POST['depth'] ?? 0;
 
 
 
@@ -473,7 +414,7 @@ class MetaBox {
 			]
 		];
 
-		Helper::log($data);
+
 		$response = (new Providers)->get_providers($data);
 
 		if (is_wp_error($response)) {
