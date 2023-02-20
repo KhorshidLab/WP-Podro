@@ -96,9 +96,7 @@
 			security: wp_podro_ajax_object.security,
 			weight: $('input[name=pod_weight]').val(),
 			totalprice: $('input[name=pod_totalprice]').val(),
-			width: $('input[name=pod_width]').val(),
-			height: $('input[name=pod_height]').val(),
-			depth: $('input[name=pod_depth]').val(),
+			dimension: $('select[name=pod_dimension]').val(),
 			order_id: $('input[name=pod_order_id]').val(),
 			pod_store_name: $('input[name=pod_store_name]').val(),
 			pod_source_city: $('textarea[name=pod_source_city]').val(),
@@ -113,7 +111,7 @@
 
 
 		};
-
+		console.log(data);
 		if( (data.weight <= 0) || (data.weight > (40 * 1000)) ){
 			alert('وزن نامعتبر');
 			return;

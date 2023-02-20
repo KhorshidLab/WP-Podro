@@ -305,7 +305,7 @@ class MetaBox {
 			</li>
 			<li class="pod-dimension">
 				<p>ابعاد به سانتی‌متر</p>
-				<div>
+				<!--<div>
 					<label for="pod_width">طول</label>
 					<input type="number" name="pod_width" id="pod_width" min="1" value="<?php echo esc_attr($length); ?>" />
 				</div>
@@ -316,7 +316,19 @@ class MetaBox {
 				<div>
 					<label for="pod_height">ارتفاع</label>
 					<input type="number" name="pod_height" id="pod_height" min="1" value="<?php echo esc_attr($height); ?>" />
-				</div>
+				</div>-->
+				<select name="pod_dimension" id="pod_dimension">
+					<option value="size0" title="31x23x1" dir="rtl">بسته سایز A4</option>
+					<option value="size1" title="20x14x10" dir="rtl">بسته سایز 1</option>
+					<option value="size2" title="27x20x16" dir="rtl">بسته سایز 2</option>
+					<option value="size3" title="30x20x19" dir="rtl">بسته سایز 3</option>
+					<option value="size4" title="40x26x20" dir="rtl">بسته سایز 4</option>
+					<option value="size5" title="50x25x25" dir="rtl">بسته سایز 5</option>
+					<option value="size6" title="60x35x32" dir="rtl">بسته سایز 6</option>
+					<option value="size7" title="60x40x36" dir="rtl">بسته سایز 7</option>
+					<option value="size8" title="45x40x30" dir="rtl">بسته سایز 8</option>
+					<option value="size9" title="55x45x35" dir="rtl">بسته سایز 9</option>
+				</select>
 			</li>
 
 		</ul>
@@ -369,9 +381,61 @@ class MetaBox {
 		}
 
 		$weight = 	$_POST['weight'] ?? 0;
-		$width =	$_POST['width'] ?? 0;
-		$height =	$_POST['height'] ?? 0;
-		$depth =	$_POST['depth'] ?? 0;
+		$dimension = $_POST['dimension']??0;
+		switch ($dimension){
+			case 'size0':
+				$width = 31;
+				$depth = 23;
+				$height = 1;
+			break;
+			case 'size1':
+				$width = 20;
+				$depth = 14;
+				$height = 10;
+			break;
+			case 'size2':
+				$width = 27;
+				$depth = 20;
+				$height = 16;
+			break;
+			case 'size3':
+				$width = 30;
+				$depth = 20;
+				$height = 19;
+			break;
+			case 'size4':
+				$width = 40;
+				$depth = 26;
+				$height = 20;
+			break;
+			case 'size5':
+				$width = 50;
+				$depth = 25;
+				$height = 25;
+			break;
+			case 'size6':
+				$width = 60;
+				$depth = 35;
+				$height = 32;
+			break;
+			case 'size7':
+				$width = 60;
+				$depth = 40;
+				$height = 36;
+			break;
+			case 'size8':
+				$width = 45;
+				$depth = 40;
+				$height = 30;
+			break;
+			case 'size9':
+				$width = 55;
+				$depth = 45;
+				$height = 35;
+			break;
+
+		}
+
 
 
 		if(empty($weight) || empty($width) || empty($height) || empty($depth) ||
@@ -401,9 +465,9 @@ class MetaBox {
 					'weight' => sanitize_text_field( $_POST['weight'] ),
 					'value' => sanitize_text_field( $_POST['totalprice'] ),
 					'dimension' => [
-						'width' => sanitize_text_field( $_POST['width'] ),
-						'height' => sanitize_text_field( $_POST['height'] ),
-						'depth' => sanitize_text_field( $_POST['depth'] )
+						'width' => sanitize_text_field( $width ),
+						'height' => sanitize_text_field( $height ),
+						'depth' => sanitize_text_field( $depth )
 					]
 				]
 			]
