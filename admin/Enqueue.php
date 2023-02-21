@@ -31,7 +31,11 @@ class Enqueue {
 		\add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 		\add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_styles' ) );
-
+		if('yes' == get_option('podro_province_position', 'no')) {
+			\add_action('wp_enqueue_scripts', function () {
+				\wp_enqueue_script(PODRO_SLUG . '-admin-scripts', \plugins_url('assets/js/province-first.js', PODRO_PLUGIN_ABSOLUTE), array('jquery'), PODRO_VERSION, true);
+			});
+		}
 		add_action('woocommerce_before_checkout_process', function(){
 
 			if(self::only_podro_shippment_available() && class_exists('PWS_Core')){
