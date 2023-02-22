@@ -22,4 +22,16 @@ $wp_list_table->prepare_items();
 	<div id="ajax-response"></div>
 	<?php find_posts_div(); ?>
 	</form>
+	<table class="form-table">
+		<tbody>
+		<tr>
+			<th scope="row">
+				<label>شماره پشتیبانی: </label>
+			</th>
+			<td>
+				۰۲۱-۹۱۰۳۲۲۲۲ - داخلی ۲۲۲
+			</td>
+		</tr>
+		</tbody>
+	</table>
 </div>
