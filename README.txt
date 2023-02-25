@@ -4,7 +4,7 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,10 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 
 == Changelog ==
+
+= 1.3.1 - 2013-02-25 =
+* Add support phone in Podro orders page
+* Add a new feature to change position of province and city fileds
 
 = 1.3.0 - 2013-02-16 =
 * Add the ability to place a Podro order in all WooCommerce orders
