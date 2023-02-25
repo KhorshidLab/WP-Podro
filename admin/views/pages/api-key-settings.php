@@ -144,6 +144,15 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 								زمانی که به‌روزرسانی جدیدی برای افزونه در دسترس بود، به صورت خودکار به‌روزرسانی را انجام شود.
 							</td>
 						</tr>
+						<tr>
+							<th scope="row">
+								<label for="podro_auto_update">جابه‌جایی فیلد استان و شهر</label>
+							</th>
+							<td>
+								<input type="checkbox" name="podro_province_position" value="yes" id="podro_province_position" <?php echo ('yes' == get_option('podro_province_position', 'no')) ? 'checked="checked"' : '' ?> >
+								در صفحه‌ی تسویه حساب، فیلد استان بالای فیلد شهر قرار بگیرد.
+							</td>
+						</tr>
 					</tbody>
 				</table>
 
