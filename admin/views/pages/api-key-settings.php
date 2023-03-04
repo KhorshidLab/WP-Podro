@@ -93,7 +93,7 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 							</th>
 							<td>
 								<?php
-									$provinces = \WP_PODRO\Engine\WooSetting::get_provinces();
+									$provinces = \WP_PODRO\Engine\WooSetting::get_extended_provinces();
 									echo "<select  id='podro_store_city' name='podro_store_city' style='width: 25em;' required>";
 									echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
 									foreach ($provinces as $province) {
