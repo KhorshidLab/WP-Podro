@@ -350,6 +350,74 @@ class WooSetting
 		);
 	}
 
+	public static function get_extended_provinces(){
+		$provinces_list = [
+			'EAZ'=>'آذربایجان شرقی',
+			'WAZ'=>"آذربایجان غربی",
+			'ADL'=>"اردبیل",
+			'ESF'=>"اصفهان",
+			'ABZ'=>"البرز",
+			'ILM'=>"ایلام",
+			'BHR'=>"بوشهر",
+			'THR'=>"تهران",
+			'CHB'=>"چهار محال بختیاری",
+			'SKH'=>"خراسان جنوبی",
+			'RKH'=>"خراسان رضوی",
+			'NKH'=>"خراسان شمالی",
+			'KHZ'=>"خوزستان",
+			'ZJN'=>"زنجان",
+			'SMN'=>"سمنان",
+			'SBN'=>"سیستان و بلوچستان",
+			'FRS'=>"فارس",
+			'GZN'=>"قزوین",
+			'QHM'=>"قم",
+			'KRD'=>"کردستان",
+			'KRN'=>"کرمان",
+			'KRH'=>"کرمانشاه",
+			'KBD'=>"کهگیلویه و بویراحمد",
+			'GLS'=>"گلستان",
+			'GIL'=>"گیلان",
+			'LRS'=>"لرستان",
+			'MZN'=>"مازندران",
+			'MKZ'=>"مرکزی",
+			'HRZ'=>"هرمزگان",
+			'HDN'=>"همدان",
+			'YZD'=>"یزد",
+		];
+
+		$lines = file(dirname(dirname(__FILE__)) . '/cities/pership.csv' );
+
+		$provinces = [];
+		foreach($provinces_list as $province_key => $value){
+
+			$provinces[$province_key] = [];
+		}
+		/*
+		 * Each line consist array[
+		 * '3741','0001', 'arak-podro' , '28', 'arak-persianwoo', 'markazi'
+		 * ]
+		 */
+		foreach($lines as $line){
+			$city = explode(',', $line);
+			$provinces[trim($city[6])]['name'] = $city[5];
+			$provinces[trim($city[6])]['cities'][$city[1]] = $city[2];
+			/*
+			 * ['EAZ'] = [
+			 *
+			 * 	'name'=>'EAST Azerbayjan',
+			 * 	'cities' => [
+			 * 		'0001'=>'x1',
+			 * 		'0002'=>'x2'
+			 * 	]
+			 *
+			 * ]
+			 */
+		}
+
+
+		return $provinces;
+	}
+
 	public function get_cities(){
 		return array(
 			'0001'=>'اراک',
@@ -441,18 +509,29 @@ class WooSetting
 		);
 	}
 
+	public function get_extended_cities(){
+		$lines = file(dirname(dirname(__FILE__)) . '/cities/pership.csv' );
+		$cities = [];
+		foreach($lines as $line){
+			$citiy = explode(',', $line);
+			$cities[$citiy[1]] =  $citiy[4];
+		}
+		return $cities;
+	}
+
 	public static function get_city_by_code($code){
-		$cities = (new self())->get_cities();
+		$cities = (new self())->get_extended_cities();
 		if( array_key_exists($code, $cities) )
 			return $cities[$code];
 	}
 
 	public static function is_podro_city($city_code){
-		return array_key_exists($city_code, (new self())->get_cities());
+
+		return array_key_exists($city_code, (new self())->get_extended_cities());
 	}
 
 	public function get_city_by_name($name){
-		foreach ($this->get_cities() as $code => $city_name){
+		foreach ($this->get_extended_cities() as $code => $city_name){
 			if($city_name == $name)
 				return $code;
 		}
