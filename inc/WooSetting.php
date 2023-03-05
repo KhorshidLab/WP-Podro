@@ -2,6 +2,8 @@
 
 namespace WP_PODRO\Engine;
 
+use WP_PODRO\Engine\API\V1\Request_Podro;
+
 class WooSetting
 {
 	private static $instance;
@@ -13,7 +15,10 @@ class WooSetting
 		if( null == self::$instance ){
 			self::$instance = new WooSetting();
 		}
+		//self::generate_cities();
+		//self::generate_source_cities();
 		return self::$instance;
+
 	}
 	public function change_default_city_filed($general_fields){
 
@@ -350,7 +355,49 @@ class WooSetting
 		);
 	}
 
-	public static function get_extended_provinces(){
+
+	public static function generate_source_cities(){
+		$provinces = self::get_provinces();
+		$lines = file(dirname(dirname(__FILE__)) . '/cities/podro-source.csv' );
+		//$lines = Request_Podro::get('/provinces/1/cities');
+		$cities_code = [];
+		foreach($lines as $line){
+			$cities_code[] = trim(explode(',',$line)[1]);
+		}
+
+		$row = '';
+		foreach($provinces as $province){
+			$lines = Request_Podro::get("/provinces/{$province['id']}/cities");
+			foreach($lines as $line){
+
+				if(!$line['code'] == false && (!$line['name'] == false) && in_array($line['code'], $cities_code))
+					$row .= "{$line['code']},{$line['name']},{$province['id']},{$province['code']},{$province['name']}\n";
+			}
+		}
+
+
+		file_put_contents((dirname(__FILE__,2)) . '/cities/source_temp.txt', $row);
+	}
+
+	public static function generate_destination_cities(){
+		$provinces = self::get_provinces();
+
+		//$lines = Request_Podro::get('/provinces/1/cities');
+		$row = '';
+		foreach($provinces as $province){
+			$lines = Request_Podro::get("/provinces/{$province['id']}/cities");
+			foreach($lines as $line){
+
+				if(!$line['code'] == false && (!$line['name'] == false))
+					$row .= "{$line['code']},{$line['name']},{$province['id']},{$province['code']},{$province['name']}\n";
+			}
+		}
+
+
+		file_put_contents((dirname(__FILE__,2)) . '/cities/temp.txt', $row);
+	}
+
+	public static function get_extended_woocommerce_shipping_provinces(){
 		$provinces_list = [
 			'EAZ'=>'آذربایجان شرقی',
 			'WAZ'=>"آذربایجان غربی",
@@ -385,7 +432,7 @@ class WooSetting
 			'YZD'=>"یزد",
 		];
 
-		$lines = file(dirname(dirname(__FILE__)) . '/cities/pership.csv' );
+		$lines = file(dirname(dirname(__FILE__)) . '/cities/persian-woocommerce-shipping.csv' );
 
 		$provinces = [];
 		foreach($provinces_list as $province_key => $value){
@@ -510,11 +557,35 @@ class WooSetting
 	}
 
 	public function get_extended_cities(){
-		$lines = file(dirname(dirname(__FILE__)) . '/cities/pership.csv' );
+		$lines = file(dirname(dirname(__FILE__)) . '/cities/persian-woocommerce-shipping.csv' );
 		$cities = [];
 		foreach($lines as $line){
 			$citiy = explode(',', $line);
 			$cities[$citiy[1]] =  $citiy[4];
+		}
+		return $cities;
+	}
+
+	public static function get_podro_source_cities_from_file(){
+		$lines = file(dirname(dirname(__FILE__)) . '/cities/podro-source.csv' );
+
+		$cities = [];
+		foreach($lines as $line){
+			$city = explode(',', $line);
+			$cities[trim($city[3])]['name'] =  trim($city[4]);
+			$cities[trim($city[3])]['cities'][$city[0]] =  trim($city[1]);
+		}
+		return $cities;
+	}
+
+	public static function get_podro_destination_cities_from_file(){
+		$lines = file(dirname(dirname(__FILE__)) . '/cities/podro-destination.csv' );
+
+		$cities = [];
+		foreach($lines as $line){
+			$city = explode(',', $line);
+			$cities[trim($city[3])]['name'] =  trim($city[4]);
+			$cities[trim($city[3])]['cities'][$city[0]] =  trim($city[1]);
 		}
 		return $cities;
 	}
