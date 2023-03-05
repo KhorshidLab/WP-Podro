@@ -228,7 +228,7 @@ class MetaBox {
 			<li>
 				<label for="podro_store_city">شهر مبدا</label>
 				<?php
-				$provinces = \WP_PODRO\Engine\WooSetting::get_extended_provinces();
+				$provinces = \WP_PODRO\Engine\WooSetting::get_podro_source_cities_from_file();
 				echo "<select  id='podro_store_city' name='podro_store_city'  required>";
 				echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
 				foreach ($provinces as $province) {
@@ -260,7 +260,7 @@ class MetaBox {
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
 				<?php
-				$provinces = \WP_PODRO\Engine\WooSetting::get_extended_provinces();
+				$provinces = \WP_PODRO\Engine\WooSetting::get_podro_destination_cities_from_file();
 				echo "<select  id='pod_destination_city_code' name='pod_destination_city_code'  required>";
 				echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
 				foreach ($provinces as $province) {

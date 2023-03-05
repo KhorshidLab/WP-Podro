@@ -93,19 +93,19 @@ $store_address = !empty($store_address)? $store_address : get_option('woocommerc
 							</th>
 							<td>
 								<?php
-									$provinces = \WP_PODRO\Engine\WooSetting::get_extended_provinces();
-									echo "<select  id='podro_store_city' name='podro_store_city' style='width: 25em;' required>";
-									echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
-									foreach ($provinces as $province) {
-										echo "<optgroup label='" . esc_attr($province['name']) . "'>";
-										foreach ($province['cities'] as $key => $city)
-											if ($store_city == $key)
-												echo "<option selected value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
-											else
-												echo "<option value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
-										echo "</optgroup>";
-									}
-									echo "</select>"
+								$provinces = \WP_PODRO\Engine\WooSetting::get_podro_source_cities_from_file();
+								echo "<select  id='podro_store_city' name='podro_store_city'  required>";
+								echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
+								foreach ($provinces as $province) {
+									echo "<optgroup label='" . esc_attr($province['name']) . "'>";
+									foreach ($province['cities'] as $key => $city)
+										if ($store_city == $key)
+											echo "<option selected value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
+										else
+											echo "<option value='" . esc_attr($key) . "'>" . esc_attr($city) . "</option>";
+									echo "</optgroup>";
+								}
+								echo "</select>"
 								?>
 							</td>
 						</tr>
