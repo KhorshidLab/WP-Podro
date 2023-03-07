@@ -12,7 +12,7 @@ jQuery(document).ready(function(){
 		shipping_element.find('option').remove();
 
 		Object.keys(response).forEach(function(key) {
-			console.log('Key : ' + key + ', Value : ' + response[key])
+			
 			billing_element.append(`<option value='${key}'>${response[key].name}</option>`);
 			shipping_element.append(`<option value='${key}'>${response[key].name}</option>`);
 		})
