@@ -409,7 +409,7 @@ class MetaBox {
 			]
 		];
 
-		Helper::log($data);
+
 		$response = (new Providers)->get_providers($data);
 
 		if (is_wp_error($response)) {
@@ -443,7 +443,7 @@ class MetaBox {
 
 		$destination_city_code = get_option('pod_destination_city_code');
 
-		$pod_store_name = get_option('pod_store_name');
+		$pod_store_name = get_option('podro_store_name')?? 'فروشگاه';
 		$pod_user_billing_name = get_option('pod_user_billing_name') . ' ' . get_option('pod_user_billing_family');
 		$pod_customer_note = get_option('pod_customer_note');
 		$pod_source_city = get_option('pod_source_city');
