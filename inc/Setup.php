@@ -109,7 +109,7 @@ class Setup {
 
 	public function podro_get_cities(){
 		$woosetting = new WooSetting();
-		$cities = $woosetting->get_extended_cities();
+		$cities = $woosetting->get_cities();
 		//$cities = $woosetting->get_cities();
 
 		wp_send_json($cities);
