@@ -4,8 +4,21 @@ jQuery(document).ready(function(){
 
 	function reload_for_cities(){
 
+		let country_field = jQuery('#billing_country').length;
+		if(country_field <= 0){
+			jQuery('input#billing_city').replaceWith('<select id="billing_city" name="billing_city"></select>');
+			jQuery('input#shipping_city').replaceWith('<select id="shipping_city" name="shipping_city"></select>');
+			jQuery('select#billing_city').selectWoo();
+			jQuery('select#shipping_city').selectWoo();
+
+			jQuery('select#billing_state').selectWoo();
+			jQuery('select#shipping_state').selectWoo();
+			getCities();
+		}
+
+
 		if(jQuery('#billing_state option').length > 0){
-			jQuery('#billing_state').trigger('change');
+			jQuery('#billing_state').trigger('change', 'IR');
 			return;
 		}
 
