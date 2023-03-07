@@ -13,7 +13,7 @@
 
 assets/css/*.css
 !assets/css/select2.min.css
-log.txt
+**/log.txt
 
 # OS or Editor folders
 .DS_Store

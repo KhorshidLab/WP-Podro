@@ -110,6 +110,7 @@ class Setup {
 	public function podro_get_cities(){
 		$woosetting = new WooSetting();
 		$cities = $woosetting->get_cities();
+		//$cities = $woosetting->get_cities();
 
 		wp_send_json($cities);
 		wp_die();
@@ -149,7 +150,7 @@ class Setup {
 
 		add_action( 'wp_ajax_nopriv_get_podro_cities_by_province', function(){
 
-			$provinces = WooSetting::get_provinces();
+			$provinces = WooSetting::get_podro_destination_cities_from_file();
 			if(!isset($_POST['province']) || empty($_POST['province'])){
 				wp_send_json( $provinces);
 				wp_die();
@@ -166,7 +167,7 @@ class Setup {
 		} );
 		add_action( 'wp_ajax_get_podro_cities_by_province', function(){
 
-			$provinces = WooSetting::get_provinces();
+			$provinces = WooSetting::get_podro_destination_cities_from_file();
 			if(!isset($_POST['province']) || empty($_POST['province'])){
 				wp_send_json( $provinces);
 				wp_die();

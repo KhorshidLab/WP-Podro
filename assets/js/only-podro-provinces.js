@@ -10,12 +10,12 @@ jQuery(document).ready(function(){
 
 		billing_element.find('option').remove();
 		shipping_element.find('option').remove();
-		for(let i=0; i< response.length; i++){
 
-			billing_element.append(`<option value='${response[i].code}'>${response[i].name}</option>`);
-			shipping_element.append(`<option value='${response[i].code}'>${response[i].name}</option>`);
-
-		}
+		Object.keys(response).forEach(function(key) {
+			
+			billing_element.append(`<option value='${key}'>${response[key].name}</option>`);
+			shipping_element.append(`<option value='${key}'>${response[key].name}</option>`);
+		})
 
 	});
 
