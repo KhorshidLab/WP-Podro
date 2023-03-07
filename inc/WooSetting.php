@@ -446,6 +446,8 @@ class WooSetting
 		 */
 		foreach($lines as $line){
 			$city = explode(',', $line);
+
+			$provinces[trim($city[6])]['code'] = $city[6];
 			$provinces[trim($city[6])]['name'] = $city[5];
 			$provinces[trim($city[6])]['cities'][$city[1]] = $city[2];
 			/*
@@ -584,6 +586,8 @@ class WooSetting
 		$cities = [];
 		foreach($lines as $line){
 			$city = explode(',', $line);
+
+			$cities[trim($city[3])]['code'] =  trim($city[3]);
 			$cities[trim($city[3])]['name'] =  trim($city[4]);
 			$cities[trim($city[3])]['cities'][$city[0]] =  trim($city[1]);
 		}
