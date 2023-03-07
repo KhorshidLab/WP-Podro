@@ -598,11 +598,11 @@ class WooSetting
 
 	public static function is_podro_city($city_code){
 
-		return array_key_exists($city_code, (new self())->get_extended_cities());
+		return array_key_exists($city_code, (new self())->get_cities());
 	}
 
 	public function get_city_by_name($name){
-		foreach ($this->get_extended_cities() as $code => $city_name){
+		foreach ($this->get_cities() as $code => $city_name){
 			if($city_name == $name)
 				return $code;
 		}
