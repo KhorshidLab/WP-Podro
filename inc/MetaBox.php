@@ -164,7 +164,7 @@ class MetaBox {
 
 		$destination_city_code = $woo_setting->get_city_by_name($destination_city_code);
 
-		$destination_city_name = (WooSetting::get_instance())->get_cities()[$destination_city_code];
+		$destination_city_name = WooSetting::get_podro_destination_only_cities_from_file()[$destination_city_code];
 		$destination_address =  $order->get_billing_address_1() . ' ' . $order->get_billing_address_2();
 		if( mb_strlen($destination_address) > $this->address_length )
 			$destination_address = mb_substr($destination_address, 0, $this->address_length);
@@ -260,7 +260,7 @@ class MetaBox {
 				<span style="color:red">این شهر پادرویی نیست</span>
 				<?php } ?>
 				<?php
-				$provinces = \WP_PODRO\Engine\WooSetting::get_podro_destination_cities_from_file();
+				$provinces = \WP_PODRO\Engine\WooSetting::get_podro_destination_province_and_cities_from_file();
 				echo "<select  id='pod_destination_city_code' name='pod_destination_city_code'  >";
 				echo "<option value='' selected disabled hidden>لطفا شهر فروشگاه را انتخاب کنید.</option>";
 				foreach ($provinces as $province) {

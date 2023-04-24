@@ -55,10 +55,18 @@ jQuery(document).ready(function(){
 		let result = false;
 		Object.keys(city_list).forEach(key => {
 
-			if(  city_list[key] === name ){
-				result = true;
-				return result;
-			}
+			const current_cities = city_list[key].cities;
+			if(!current_cities)
+				return;
+			Object.keys(current_cities).forEach(city_code => {
+				if(  city_code === name ){
+				//if(  current_cities[city_code] === name ){
+					result = true;
+					return result;
+				}
+			});
+
+
 
 
 		});
