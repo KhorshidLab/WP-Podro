@@ -114,6 +114,14 @@
 
 		};
 
+		if(!data.podro_store_city){
+			alert('لطفا شهر مبدا را انتخاب نمایید');
+			return;
+		}
+		if(!data.pod_destination_city_code){
+			alert('لطفا شهر مقصد را انتخاب نمایید');
+			return;
+		}
 		if( (data.weight <= 0) || (data.weight > (40 * 1000)) ){
 			alert('وزن نامعتبر');
 			return;
