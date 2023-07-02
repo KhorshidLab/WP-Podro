@@ -4,7 +4,7 @@ Tags: Podro, shipping, woocommerce
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,9 @@ Podro Pin integration with WooCommerce. Using this plugin, you will be able to p
 
 
 == Changelog ==
+= 1.4.1 - 2023-07-2 =
+* Remove some meta and comments including Khorshid and <a href="https://khorshidlab.com/fa/">Khorshid</a> links
+
 = 1.4.0 - 2023-04-24 =
 * Update Podro cities for all methods
 * Fix metabox validation in Order Page
